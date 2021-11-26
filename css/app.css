@@ -1,0 +1,45 @@
+body {
+  font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+#error-screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #f47521;
+  background: linear-gradient(180deg, #f47521 0%, #f8af18 100%);
+}
+
+#error-screen .content {
+  display: flex;
+}
+
+#error-screen .content .logo {
+  width: 265px;
+  height: 255px;
+  background: url(../img/error.png) no-repeat;
+  margin-right: 30px;
+}
+
+#error-screen .content .details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#error-screen .content .details .code {
+  font-size: 70px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+#error-screen .content .details .text {
+  font-size: 40px;
+  color: #ffffff;
+}
