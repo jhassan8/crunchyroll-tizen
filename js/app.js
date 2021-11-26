@@ -3,7 +3,12 @@ var app = {
 };
 
 window.onload = function () {
-  app.initError();
+  if (typeof main != "undefined") {
+    app.state = true;
+    main.init();
+  } else {
+    app.initError();
+  }
 };
 
 app.initError = function () {
@@ -11,13 +16,18 @@ app.initError = function () {
   document.getElementById("error-screen").style.display = "flex";
 };
 
-window.onunload = function () {};
+window.onunload = function () {
+  if (app.state) main.destroy();
+};
 
 app.keyDown = function (e) {
-  switch (e.keyCode) {
-    case tvKey.KEY_RETURN:
-    case tvKey.KEY_EXIT:
-      tizen.application.getCurrentApplication().hide();
-      break;
+  if (app.state) main.keyDown(e);
+  else {
+    switch (e.keyCode) {
+      case tvKey.KEY_RETURN:
+      case tvKey.KEY_EXIT:
+        tizen.application.getCurrentApplication().hide();
+        break;
+    }
   }
 };
