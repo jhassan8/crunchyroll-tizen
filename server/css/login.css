@@ -1,0 +1,83 @@
+#login-screen {
+  width: 100%;
+  height: 100%;
+  background: #f78c24;
+  background: -moz-linear-gradient(top, #f78c24 0%, #f8af18 100%);
+  background: -webkit-linear-gradient(top, #f78c24 0%, #f8af18 100%);
+  background: linear-gradient(to bottom, #f78c24 0%, #f8af18 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f78c24', endColorstr='#f8af18',GradientType=0 );
+  background: linear-gradient(to bottom, #f78c24 0%, #f8af18 100%);
+  padding: 30px;
+}
+
+#login-screen .logo {
+  position: absolute;
+  top: -400px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-image: url(../img/logo-big.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 40px;
+}
+
+#login-screen .person-1 {
+  background-image: url(../img/login-person-1.png);
+  background-size: contain;
+  width: 481px;
+  height: 594px;
+  position: absolute;
+  left: 58rem;
+  top: 10rem;
+}
+
+#login-screen .legend {
+  display: none;
+  position: absolute;
+  top: 200px;
+  left: 30px;
+  color: #fff;
+  font-size: 30px;
+}
+
+#login-screen .window {
+  position: absolute;
+  width: 300px;
+  height: 250px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+#login-screen input {
+  width: 260px;
+  border-radius: 50px;
+  border: 1px solid rgb(160, 160, 160);
+  height: 50px;
+  padding: 5px 20px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+#login-screen a {
+  margin-left: 70px;
+  text-align: center;
+  display: block;
+  width: 150px;
+  border-radius: 50px;
+  border: 1px solid rgba(160, 160, 160);
+  background-color: #fff;
+  padding: 10px 30px;
+  font-size: 20px;
+}
+
+#login-screen .selected {
+  opacity: 1;
+  border: 2px solid rgb(0, 0, 0);
+}
