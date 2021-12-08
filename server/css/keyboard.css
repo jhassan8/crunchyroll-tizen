@@ -1,0 +1,56 @@
+#keyboard-screen {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px 20px;
+  width: 600px;
+  left: 340px;
+  bottom: 0;
+}
+
+#keyboard-screen .row {
+  margin: 5px 0;
+  height: 50px;
+}
+
+#keyboard-screen .padding {
+  padding: 0 25px;
+}
+
+#keyboard-screen .col {
+  padding: 0 5px;
+  height: 50px;
+  color: rgba(255, 255, 255, 0.5);
+  float: left;
+  font-size: 20px;
+  text-align: center;
+  line-height: 55px;
+  border-bottom: 5px solid transparent;
+  font-weight: bold;
+}
+
+#keyboard-screen .size-a {
+  width: 50px;
+  background: url(../img/key-backspace.png) no-repeat;
+  background-size: 25px;
+  background-position: center;
+  opacity: 0.5;
+}
+
+#keyboard-screen .size-1 {
+  width: 50px;
+}
+
+#keyboard-screen .size-2 {
+  width: 130px;
+}
+
+#keyboard-screen .size-5 {
+  width: 240px;
+  line-height: 50px !important;
+}
+
+#keyboard-screen .col.selected {
+  border-bottom: 3px solid #f78c24 !important;
+  color: rgba(255, 255, 255, 1) !important;
+  opacity: 1 !important;
+}
