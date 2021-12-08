@@ -1,0 +1,43 @@
+#menu-screen {
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 300px;
+  width: 330px;
+  height: 140px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+#menu-screen .item {
+  float: left;
+  padding: 0 10px;
+  width: 90px;
+  height: 90px;
+  background-size: 65px;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+}
+
+#menu-screen .selected {
+  opacity: 1;
+}
+
+#menu-screen .item.search {
+  background-image: url(../img/search.png);
+}
+
+#menu-screen .item.list {
+  background-image: url(../img/list.png);
+}
+
+#menu-screen .title {
+  padding: 10px 0;
+  bottom: 0;
+  position: absolute;
+  width: 330px;
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+}

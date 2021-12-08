@@ -1,0 +1,151 @@
+#home-screen {
+  top: 0px;
+  left: 0px;
+  width: 1280px;
+  height: 720px;
+  background: #494949;
+  background: -moz-linear-gradient(top, #494949 0%, #585858 100%);
+  background: -webkit-linear-gradient(top, #494949 0%, #585858 100%);
+  background: linear-gradient(to bottom, #494949 0%, #585858 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#494949', endColorstr='#585858',GradientType=0 );
+  background: linear-gradient(to bottom, #494949 0%, #585858 100%);
+  position: absolute;
+}
+
+#home-screen .menu {
+  height: 720px;
+  width: 250px;
+  position: absolute;
+  left: 50px;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+#home-screen .menu .header {
+  margin-top: 40px;
+  width: 100%;
+  height: 60px;
+  background-color: #f78c24;
+  background-image: url(../img/logo-big.png);
+  background-size: 160px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#home-screen .menu-list {
+  margin-top: 40px;
+  width: 100%;
+}
+
+#home-screen .menu-list div {
+  width: 190px;
+  color: #fff;
+  font-size: 25px;
+  padding: 10px 30px;
+  position: relative;
+  opacity: 0.7;
+}
+
+#home-screen .menu-list .selected {
+  opacity: 1;
+}
+
+#home-screen .menu-list .selected::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #f78c24;
+  clear: both;
+}
+
+#home-screen .list {
+  left: -38%;
+  width: 200%;
+  margin: auto;
+  position: absolute;
+  top: 145px;
+}
+
+#home-screen .poster {
+  width: 180px;
+  height: 250px;
+  background-color: rgba(172, 172, 172, 0.2);
+  margin: 50px 12px;
+  float: left;
+  opacity: 0.7;
+}
+
+#home-screen .poster img {
+  width: 100%;
+  height: 100%;
+}
+
+#home-screen .poster.principal {
+  margin: 0 12px;
+  width: 230px;
+  height: 350px;
+  opacity: 1;
+}
+
+#home-screen .poster.hide {
+  opacity: 0;
+}
+
+#home-screen-title-category {
+  color: #fff;
+  font-size: 30px;
+  top: 57px;
+  position: absolute;
+  left: 340px;
+}
+
+#home-screen .details {
+  position: absolute;
+  bottom: 35px;
+  height: 165px;
+  width: 900px;
+  left: 343px;
+  overflow: hidden;
+}
+
+#home-screen-title {
+  color: #fff;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+#home-screen-description {
+  color: #fff;
+  font-size: 20px;
+}
+
+#home-screen .list.episodes {
+  left: -81.6%;
+  width: 300%;
+  top: 190px;
+}
+
+#home-screen .list.episodes .poster {
+  width: 320px;
+  height: 200px;
+  background-color: rgba(172, 172, 172, 0.2);
+  margin: 35px 12px;
+  float: left;
+  opacity: 0.7;
+}
+
+#home-screen .list.episodes .poster.principal {
+  margin: 0 12px;
+  width: 440px;
+  height: 270px;
+  opacity: 1;
+}
+
+#home-screen .list.episodes .poster.hide {
+  opacity: 0;
+}
