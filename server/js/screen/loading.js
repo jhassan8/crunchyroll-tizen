@@ -8,35 +8,22 @@ loading.init = function () {
   loading_element.id = loading.id;
 
   loading_element.innerHTML =
-    '<div class="content"><div class="logo"></div>' +
-    '<img id="' +
-    loading.id +
-    '-progress"/></div>';
+    '<div class="content"><div class="logo"><img src="server/img/logo.png" alt=""></div>' +
+    '<div class="loading"><span></span><span></span><span></span><span></span></div>';
   document.body.appendChild(loading_element);
-  loading.animate(1);
 
   main.state = loading.id;
 };
 
 loading.destroy = function () {
-  clearTimeout(loading.timer);
   document.body.removeChild(document.getElementById(this.id));
 };
 
 loading.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_RETURN:
-    case tvKey.KEY_PANEL_RETURN:
-      widgetAPI.blockNavigation(event);
-      exit.init();
+    case tvKey.KEY_EXIT:
+      tizen.application.getCurrentApplication().hide();
       break;
   }
-};
-
-loading.animate = function (index) {
-  document.getElementById(loading.id + "-progress").src =
-    main.urls.src + "loading/frame_" + index + ".png";
-  index++;
-  if (index > 18) index = 1;
-  loading.timer = setTimeout("loading.animate(" + index + ");", 50);
 };
