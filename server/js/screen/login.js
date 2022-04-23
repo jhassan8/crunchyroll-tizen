@@ -1,6 +1,5 @@
 var login = {
   id: "login-screen",
-  timer: null,
   selected: 0,
 };
 
@@ -8,21 +7,23 @@ login.init = function () {
   var login_element = document.createElement("div");
   login_element.id = login.id;
 
-  login_element.innerHTML =
-    '<div class="person-1"></div>' +
-    '<div class="logo"></div>' +
-    '<div class="legend">Inicia sesion para disfrutar de todo<br/>el contenido.</div>' +
-    '<div class="window">' +
-    '<input class="' +
-    login.id +
-    '-option" type="text" placeholder="Usuario"/>' +
-    '<input class="' +
-    login.id +
-    '-option" type="password" placeholder="Contraseña"/>' +
-    '<a class="' +
-    login.id +
-    '-option">ENTRAR</a>' +
-    "</div>";
+  login_element.innerHTML = `
+  <div class="content">
+    <div class="box">
+      <div class="logo">
+        <img src="server/img/logo-big.png" alt="">
+      </div>
+      <div class="form">
+        <div class="input ${login.id}-option">
+          <input type="text" placeholder="Enter user...">
+        </div>
+        <div class="input ${login.id}-option">
+          <input type="text" type="password" placeholder="Enter password...">
+        </div>
+        <a class="button ${login.id}-option">LOGIN</a>
+      </div>
+    </div>
+  </div>`;
   document.body.appendChild(login_element);
 
   login.move(login.selected);
@@ -52,10 +53,9 @@ login.move = function (selected) {
   login.selected = selected;
   var options = document.getElementsByClassName(login.id + "-option");
   for (var i = 0; i < options.length; i++) {
+    options[i].className = options[i].className.replace(" focus", "");
     if (i == selected) {
-      options[i].className = login.id + "-option selected";
-    } else {
-      options[i].className = login.id + "-option";
+      options[i].className = options[i].className + " focus";
     }
   }
 };
@@ -64,7 +64,7 @@ login.action = function (selected) {
   var options = document.getElementsByClassName(login.id + "-option");
   if (selected == 2) {
     if (options[0].value.length < 3 || options[1].value.length < 3) {
-      console.log("ingrese username and passwornd");
+      console.log("Enter valid credentials...");
     } else {
       var username = options[0].value;
       var password = options[1].value;

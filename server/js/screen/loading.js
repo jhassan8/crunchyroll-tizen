@@ -1,15 +1,23 @@
 var loading = {
   id: "loading-screen",
-  timer: null,
 };
 
 loading.init = function () {
   var loading_element = document.createElement("div");
   loading_element.id = loading.id;
 
-  loading_element.innerHTML =
-    '<div class="content"><div class="logo"><img src="server/img/logo.png" alt=""></div>' +
-    '<div class="loading"><span></span><span></span><span></span><span></span></div>';
+  loading_element.innerHTML = `
+  <div class="content">
+    <div class="logo">
+      <img src="server/img/logo.png" alt="">
+    </div>
+    <div class="loading">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>`;
   document.body.appendChild(loading_element);
 
   main.state = loading.id;

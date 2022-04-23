@@ -35,7 +35,7 @@ main.init = function () {
   //widgetAPI.sendReadyEvent();
 
   //main.setToken('');
-  loading.init();
+  login.init();
   //audio.init();
   //player.init();
   //main.events.isLogged();

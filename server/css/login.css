@@ -1,83 +1,79 @@
 #login-screen {
   width: 100%;
   height: 100%;
-  background: #f78c24;
-  background: -moz-linear-gradient(top, #f78c24 0%, #f8af18 100%);
-  background: -webkit-linear-gradient(top, #f78c24 0%, #f8af18 100%);
-  background: linear-gradient(to bottom, #f78c24 0%, #f8af18 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f78c24', endColorstr='#f8af18',GradientType=0 );
-  background: linear-gradient(to bottom, #f78c24 0%, #f8af18 100%);
-  padding: 30px;
+  background: #000;
+  padding: 2rem;
 }
 
-#login-screen .logo {
-  position: absolute;
-  top: -400px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  background-image: url(../img/logo-big.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 40px;
+#login-screen .content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
-#login-screen .person-1 {
-  background-image: url(../img/login-person-1.png);
-  background-size: contain;
-  width: 481px;
-  height: 594px;
-  position: absolute;
-  left: 58rem;
-  top: 10rem;
+#login-screen .content .box {
+  padding: 5rem;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-#login-screen .legend {
-  display: none;
-  position: absolute;
-  top: 200px;
-  left: 30px;
+#login-screen .content .box .logo {
+  width: 70vh;
+  margin-bottom: 20vh;
+}
+
+#login-screen .content .box .logo img {
+  width: 100%;
+}
+
+#login-screen .content .box .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login-screen .content .box .form .input {
+  border-bottom: 0.3rem solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  margin: 0 auto;
+  transition: border-color 0.2s cubic-bezier(0.5, 0, 0.25, 1);
+  padding: 5px 15px;
+  margin: 20px 0;
+}
+
+#login-screen .content .box .form .input.focus {
+  border-color: #f47521;
+}
+
+#login-screen .content .box .form .input input {
+  border: none;
   color: #fff;
-  font-size: 30px;
-}
-
-#login-screen .window {
-  position: absolute;
-  width: 300px;
-  height: 250px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-#login-screen input {
-  width: 260px;
-  border-radius: 50px;
-  border: 1px solid rgb(160, 160, 160);
-  height: 50px;
-  padding: 5px 20px;
-  font-size: 20px;
-  margin-bottom: 20px;
-  opacity: 0.8;
-}
-
-#login-screen a {
-  margin-left: 70px;
-  text-align: center;
   display: block;
-  width: 150px;
-  border-radius: 50px;
-  border: 1px solid rgba(160, 160, 160);
-  background-color: #fff;
-  padding: 10px 30px;
-  font-size: 20px;
+  flex: 1 1 auto;
+  font-size: 2rem;
+  padding-bottom: 0.25rem;
+  padding-top: 0;
+  width: 100%;
+  background: transparent;
 }
 
-#login-screen .selected {
-  opacity: 1;
-  border: 2px solid rgb(0, 0, 0);
+#login-screen .content .box .form .button {
+  display: block;
+  width: 80%;
+  color: #000;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 80px;
+}
+
+#login-screen .content .box .form .button.focus {
+  background: #f47521;
 }
