@@ -15,10 +15,10 @@ login.init = function () {
       </div>
       <div class="form">
         <div class="input ${login.id}-option">
-          <input type="text" placeholder="Enter user...">
+          <input type="text" placeholder="Enter user..." value="djjoc">
         </div>
         <div class="input ${login.id}-option">
-          <input type="text" type="password" placeholder="Enter password...">
+          <input type="password" placeholder="Enter password..." value="eduardoteodiamos">
         </div>
         <a class="button ${login.id}-option">LOGIN</a>
       </div>
@@ -63,11 +63,11 @@ login.move = function (selected) {
 login.action = function (selected) {
   var options = document.getElementsByClassName(login.id + "-option");
   if (selected == 2) {
-    if (options[0].value.length < 3 || options[1].value.length < 3) {
+    var username = options[0].firstElementChild.value;
+    var password = options[1].firstElementChild.value;
+    if (username.length < 3 || password.length < 3) {
       console.log("Enter valid credentials...");
     } else {
-      var username = options[0].value;
-      var password = options[1].value;
       loading.init();
       this.destroy();
       service.login({
@@ -87,6 +87,6 @@ login.action = function (selected) {
       });
     }
   } else {
-    keyboard.init(options[selected]);
+    keyboard.init(options[selected].firstElementChild);
   }
 };

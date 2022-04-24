@@ -21,7 +21,6 @@ keyboard.init = function (element) {
         { value: "O", number: "9", size: 1 },
         { value: "P", number: "0", size: 1 },
       ],
-      padding: false,
     },
     {
       keys: [
@@ -35,10 +34,10 @@ keyboard.init = function (element) {
         { value: "K", number: "(", size: 1 },
         { value: "L", number: ")", size: 1 },
       ],
-      padding: true,
     },
     {
       keys: [
+        { value: "", number: "", size: "alpha" },
         { value: "Z", number: ".", size: 1 },
         { value: "X", number: "¿", size: 1 },
         { value: "C", number: "?", size: 1 },
@@ -47,21 +46,15 @@ keyboard.init = function (element) {
         { value: "N", number: ";", size: 1 },
         { value: "M", number: ":", size: 1 },
         { value: "Ñ", number: ",", size: 1 },
-        { value: "", number: "", size: "a" },
+        { value: "", number: "", size: "backspace" },
       ],
-      padding: true,
     },
     {
       keys: [
         { value: "1 2 3", number: "A B C", size: 2 },
-        {
-          value: "__________________________",
-          number: "__________________________",
-          size: 5,
-        },
-        { value: "HECHO", number: "HECHO", size: 2 },
+        { value: "", number: "", size: 5 },
+        { value: "", number: "", size: "ok" },
       ],
-      padding: true,
     },
   ];
 
@@ -70,24 +63,20 @@ keyboard.init = function (element) {
 
   var htmlString = "";
 
-  for (var i = 0; i < values.length; i++) {
-    htmlString +=
-      '<div class="' +
-      this.id +
-      "-option row" +
-      (values[i].padding ? " padding" : "") +
-      '">';
-    for (var a = 0; a < values[i].keys.length; a++) {
-      htmlString +=
-        '<div class="col size-' +
-        values[i].keys[a].size +
-        '" alter="' +
-        values[i].keys[a].number +
-        '">' +
-        values[i].keys[a].value +
-        "</div>";
+  for (const item of values) {
+    htmlString += `
+    <div class="${this.id}-option row">
+    `;
+
+    for (const key of item.keys) {
+      htmlString += `
+      <div class="col size-${key.size}" alter="${key.number}">
+        ${key.value.toLocaleLowerCase()}
+      </div>`;
     }
-    htmlString += "</div>";
+
+    htmlString += `
+    </div>`;
   }
 
   keyboard_element.innerHTML = htmlString;
@@ -105,9 +94,7 @@ keyboard.destroy = function () {
 
 keyboard.keyDown = function (event) {
   switch (event.keyCode) {
-    case tvKey.KEY_RETURN:
-    case tvKey.KEY_PANEL_RETURN:
-      widgetAPI.blockNavigation(event);
+    case tvKey.KEY_BACK:
       this.destroy();
       break;
     case tvKey.KEY_UP:
@@ -117,7 +104,7 @@ keyboard.keyDown = function (event) {
       break;
     case tvKey.KEY_DOWN:
       var max =
-        this.selected[0] + 1 == 0 ? 9 : this.selected[0] + 1 == 3 ? 2 : 8;
+        this.selected[0] + 1 == 1 ? 8 : this.selected[0] + 1 == 3 ? 2 : 9;
       if (this.selected[0] < 3) {
         this.move([
           this.selected[0] + 1,
@@ -131,13 +118,12 @@ keyboard.keyDown = function (event) {
       }
       break;
     case tvKey.KEY_RIGHT:
-      var max = this.selected[0] == 0 ? 9 : this.selected[0] == 3 ? 2 : 8;
+      var max = this.selected[0] == 1 ? 8 : this.selected[0] == 3 ? 2 : 9;
       if (this.selected[1] < max) {
         this.move([this.selected[0], this.selected[1] + 1]);
       }
       break;
     case tvKey.KEY_ENTER:
-    case tvKey.KEY_PANEL_ENTER:
       this.action(this.selected);
       break;
   }
@@ -160,6 +146,9 @@ keyboard.move = function (selected) {
 
 keyboard.action = function (selected) {
   switch (selected[0] + "" + selected[1]) {
+    case "20":
+      this.upperCase();
+      break;
     case "30":
       this.change();
       break;
@@ -169,10 +158,11 @@ keyboard.action = function (selected) {
     case "32":
       this.destroy();
       break;
-    case "28":
+    case "29":
       this.input.value = this.input.value.slice(0, -1);
       break;
     default:
+      console.log(this.input);
       this.input.value =
         this.input.value +
         document.getElementsByClassName(this.id + "-option")[selected[0]]
@@ -181,14 +171,27 @@ keyboard.action = function (selected) {
   }
 };
 
+keyboard.upperCase = function () {
+  var options = document.getElementsByClassName(this.id + "-option");
+  var type =
+    options[0].children[0].innerText.toUpperCase() ==
+    options[0].children[0].innerText;
+  for (const option of options) {
+    for (const child of option.children) {
+      child.innerText = type
+        ? child.innerText.toLowerCase()
+        : child.innerText.toUpperCase();
+    }
+  }
+};
+
 keyboard.change = function () {
   var options = document.getElementsByClassName(this.id + "-option");
-  for (var i = 0; i < options.length; i++) {
-    var cols = options[i].children;
-    for (var a = 0; a < cols.length; a++) {
-      var newAlter = cols[a].innerText;
-      cols[a].innerText = cols[a].getAttribute("alter");
-      cols[a].setAttribute("alter", newAlter);
+  for (const option of options) {
+    for (const child of option.children) {
+      var newAlter = child.innerText;
+      child.innerText = child.getAttribute("alter");
+      child.setAttribute("alter", newAlter);
     }
   }
 };

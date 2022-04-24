@@ -1,7 +1,6 @@
 var main = {
   urls: {
     src: "server/img/",
-    api: "http://192.168.1.114:8010/api/",
   },
   events: {},
   mac: null,
@@ -35,10 +34,10 @@ main.init = function () {
   //widgetAPI.sendReadyEvent();
 
   //main.setToken('');
-  login.init();
+  loading.init();
   //audio.init();
   //player.init();
-  //main.events.isLogged();
+  main.events.isLogged();
 };
 
 main.events.isLogged = function () {

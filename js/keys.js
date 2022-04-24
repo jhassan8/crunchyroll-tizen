@@ -27,11 +27,11 @@ window.tvKey = {
   KEY_UP: 38,
   KEY_DOWN: 40,
   KEY_ENTER: 13,
-  KEY_BACK: 0,
+  KEY_BACK: 10009,
   KEY_RED: 403,
   KEY_GREEN: 404,
   KEY_YELLOW: 405,
   KEY_BLUE: 406,
   KEY_MENU: 18,
-  KEY_EXIT: 10009,
+  KEY_EXIT: 0,
 };
