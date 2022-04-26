@@ -70,21 +70,7 @@ login.action = function (selected) {
     } else {
       loading.init();
       this.destroy();
-      service.login({
-        data: {
-          username: username,
-          password: password,
-          mac: main.mac,
-        },
-        success: function (data) {
-          main.setToken(data.token);
-          main.events.home();
-        },
-        error: function () {
-          loading.destroy();
-          login.init();
-        },
-      });
+      session.start(username, password);
     }
   } else {
     keyboard.init(options[selected].firstElementChild);

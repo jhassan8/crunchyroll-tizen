@@ -10,70 +10,67 @@ var main = {
 
 /* on init app */
 main.init = function () {
-  console.log("====================== " + window.navigator.userAgent);
-  console.log("main.init");
-  var mac = null;
-  try {
-    mac = webapis.network.getMac();
-  } catch (e) {
-    console.log(
-      "getMAC exception [" +
-        e.code +
-        "] name: " +
-        e.name +
-        " message: " +
-        e.message
-    );
-  }
+  // console.log("====================== " + window.navigator.userAgent);
+  // console.log("main.init");
+  // var mac = null;
+  // try {
+  //   mac = webapis.network.getMac();
+  // } catch (e) {
+  //   console.log(
+  //     "getMAC exception [" +
+  //       e.code +
+  //       "] name: " +
+  //       e.name +
+  //       " message: " +
+  //       e.message
+  //   );
+  // }
 
-  if (null != mac) {
-    console.log("[getMAC] mac: " + mac);
-  }
+  // if (null != mac) {
+  //   console.log("[getMAC] mac: " + mac);
+  // }
 
   //main.mac = document.getElementById("pluginNetwork").GetMAC();
   //widgetAPI.sendReadyEvent();
 
   //main.setToken('');
-  loading.init();
-  //audio.init();
-  //player.init();
-  main.events.isLogged();
+  //file.init(function() {
+    loading.init();
+    main.events.isLogged();
+  //});
 };
 
 main.events.isLogged = function () {
-  session.get().then((token) => {
-    console.log("obtuvo token");
-    console.log(token);
-    if (token) {
-      console.log("main.events.home()");
-    } else {
-      console.log("loading.destroy()");
-      loading.destroy();
-      login.init();
-    }
-  });
+  //session.get().then((token) => {
+    //console.log("obtuvo token");
+    //console.log(token);
+    //if (token) {
+      main.events.home();
+    //} else {
+    //  console.log("loading.destroy()");
+    //  loading.destroy();
+    //  login.init();
+    //}
+  //});
 };
 
-// main.events.home = function () {
-//   service.list({
-//     data: {
-//       mac: main.mac,
-//       token: main.token,
-//       type: home.type,
-//       filter: home.filter,
-//     },
-//     success: function (data) {
-//       main.setToken(data.token);
-//       loading.destroy();
-//       home.data.series = data.data;
-//       home.init();
-//     },
-//     error: function () {
-//       loading.destroy();
-//       login.init();
-//     },
-//   });
-// };
+main.events.home = function () {
+  service.list({
+    data: {
+      type: home.type,
+      filter: home.filter,
+    },
+    success: function (response) {
+      loading.destroy();
+      home.data.series = response.data;
+      home.init();
+    },
+    error: function () {
+      loading.destroy();
+      login.init();
+    },
+  });
+};
 
 /* on exit app */
 main.destroy = function () {
