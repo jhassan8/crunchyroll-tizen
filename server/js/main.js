@@ -45,6 +45,7 @@ main.events.isLogged = function () {
     //console.log("obtuvo token");
     //console.log(token);
     //if (token) {
+
       main.events.home();
     //} else {
     //  console.log("loading.destroy()");
@@ -64,6 +65,7 @@ main.events.home = function () {
       loading.destroy();
       home.data.series = response.data;
       home.init();
+      video.init()
     },
     error: function () {
       loading.destroy();

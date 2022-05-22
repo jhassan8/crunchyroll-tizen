@@ -1,0 +1,164 @@
+#video-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: relative;
+}
+
+#video-screen #background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#video-screen .osd {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 30%,
+    rgba(0, 0, 0, 0) 50%
+  );
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  left: 0;
+  top: 0;
+}
+
+#video-screen .osd .details {
+  width: 100%;
+  padding: 2rem 4rem;
+}
+
+#video-screen .osd .details #title {
+  padding: 1rem 0;
+  font-size: 10vh;
+  font-weight: bold;
+  color: #fff;
+}
+
+#video-screen .osd .details #subtitle {
+  padding: 0.3rem 0;
+  font-size: 4vh;
+  font-weight: bold;
+  color: #fff;
+}
+
+#video-screen .osd .details #description {
+  padding: 0.3rem;
+  font-size: 2vh;
+  font-weight: bold;
+  color: #fff;
+}
+
+#video-screen .osd .icon {
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 8vw;
+  height: 10vw;
+}
+
+#video-screen .osd .icon.forward,
+#video-screen .osd .icon.rewind {
+  display: flex;
+  align-items: center;
+}
+
+#video-screen .osd .icon.rewind {
+  transform: rotate(180deg);
+}
+
+#video-screen .osd .icon:before,
+#video-screen .osd .icon:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-left-color: #fff;
+  border-style: solid;
+  display: inline-block;
+  vertical-align: middle;
+  transition: all 0.25s;
+}
+
+#video-screen .osd .icon.play:before {
+  border-width: 2.5vw 0 2.5vw 4vw;
+  height: 5vw;
+}
+
+#video-screen .osd .icon.play:after {
+  border-width: 2.5vw 0 2.5vw 4vw;
+}
+
+#video-screen .osd .icon.forward:before,
+#video-screen .osd .icon.rewind:before {
+  border-width: 2.5vw 0 2.5vw 4vw;
+  height: 0vw;
+}
+
+#video-screen .osd .icon.forward:after,
+#video-screen .osd .icon.rewind:after {
+  border-width: 2.5vw 0 2.5vw 4vw;
+}
+
+#video-screen .osd .icon.pause:before,
+#video-screen .osd .icon.pause:after {
+  border-width: 0 0 0 3vw;
+  height: 10vw;
+}
+
+#video-screen .osd .icon.pause:after {
+  margin-left: 2vw;
+}
+
+#video-screen .osd .progress {
+  padding: 4rem 4rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#video-screen .osd .progress #total,
+#video-screen .osd .progress #time {
+  font-size: 1.5rem;
+  color: #fff;
+  padding: 0 1rem;
+}
+
+#video-screen .osd .progress .bar {
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.4);
+  width: 100%;
+  height: 1.5rem;
+}
+
+#video-screen .osd .progress .bar #played {
+  border-radius: 50px;
+  background-color: #fff;
+  width: 32%;
+  height: 1.5rem;
+  position: relative;
+  max-width: 100%;
+}
+
+
+#video-screen .osd .progress .bar .preview {
+  position: absolute;
+  right: -9vw;
+  width: 18vw;
+  top: -11vw;
+}
+
+
+#video-screen .osd .progress .bar .preview #preview {
+  width: 100%;
+}
