@@ -35,8 +35,8 @@ main.init = function () {
 
   //main.setToken('');
   //file.init(function() {
-    loading.init();
-    main.events.isLogged();
+    //loading.init();
+    //main.events.isLogged();
   //});
 };
 
@@ -65,7 +65,7 @@ main.events.home = function () {
       loading.destroy();
       home.data.series = response.data;
       home.init();
-      video.init()
+      //video.init()
     },
     error: function () {
       loading.destroy();

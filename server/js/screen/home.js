@@ -1,6 +1,13 @@
 var home = {
   id: "home-screen",
   type: "anime",
+  filters:  [
+    { label: "Alphabetical", value: "alpha" },
+    { label: "Popular", value: "popular" },
+    { label: "Newest", value: "newest" },
+    { label: "Updated", value: "updated" },
+    { label: "Simulcast", value: "simulcast" },
+  ],
   filter: "alpha",
   move: {},
   event: {},
@@ -26,34 +33,26 @@ home.init = function () {
   home_element.id = home.id;
 
   var menu_items = "";
-  var filters = [
-    { label: "Alphabetical", value: "alpha" },
-    { label: "Popular", value: "popular" },
-    { label: "Newest", value: "newest" },
-    { label: "Updated", value: "updated" },
-    { label: "Simulcast", value: "simulcast" },
-  ];
-  for (var i = 0; i < filters.length; i++) {
-    menu_items +=
-      '<div class="' +
-      home.id +
-      "-menu-option" +
-      '" data="' +
-      filters[i].value +
-      '">' +
-      filters[i].label +
-      "</div>";
-  }
+  this.filters.forEach(e => {
+    menu_items += `
+    <div class="${home.id}-menu-option">
+      ${e.label}
+    </div>`
+  });
 
   var posters = "";
-  for (var i = 0; i <= 10; i++) {
-    posters +=
-      '<div class="' +
-      home.id +
-      "-poster-option poster " +
-      (i == 4 ? " principal" : "") +
-      '"><img/></div>';
-  }
+  // for (var i = 0; i <= 10; i++) {
+  //   posters += `
+  //   <div class="${home,id}-poster-option poster ${(i == 4 ? " principal" : "")
+  //   '"><img/></div>'}>
+
+  //   posters +=
+  //     '<div class="' +
+  //     home.id +
+  //     "-poster-option poster " +
+  //     (i == 4 ? " principal" : "") +
+  //     '"><img/></div>';
+  // }
 
   home_element.innerHTML =
     '<div id="' +
