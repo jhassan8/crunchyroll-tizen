@@ -32,58 +32,44 @@ home.init = function () {
   var home_element = document.createElement("div");
   home_element.id = home.id;
 
-  var menu_items = "";
-  this.filters.forEach(e => {
-    menu_items += `
-    <div class="${home.id}-menu-option">
-      ${e.label}
-    </div>`
+  let menu_items = ``;
+  home.filters.forEach(filter => {
+    menu_items += `<li class="${home.id}-menu-option">${filter.label}</li>`
   });
 
-  var posters = "";
-  // for (var i = 0; i <= 10; i++) {
-  //   posters += `
-  //   <div class="${home,id}-poster-option poster ${(i == 4 ? " principal" : "")
-  //   '"><img/></div>'}>
+  let poster_items = ``;
+  for (let index = 0; index < 20; index++) {
+    poster_items += `<div class="${home.id}-item ${index === 11 ? 'selected' : ''}"><img alt=""></div>`;
+  }
 
-  //   posters +=
-  //     '<div class="' +
-  //     home.id +
-  //     "-poster-option poster " +
-  //     (i == 4 ? " principal" : "") +
-  //     '"><img/></div>';
-  // }
-
-  home_element.innerHTML =
-    '<div id="' +
-    home.id +
-    '-title-category">Animes</div>' +
-    '<div id="' +
-    home.id +
-    '-list" class="list">' +
-    posters +
-    "</div>" +
-    '<div class="details">' +
-    '  <div id="' +
-    home.id +
-    '-title"></div>' +
-    '  <div id="' +
-    home.id +
-    '-description"></div>' +
-    "</div>" +
-    '<div class="menu">' +
-    '  <div class="header"></div>' +
-    '  <div class="menu-list">' +
-    menu_items +
-    "  </div>" +
-    "</div>";
+  home_element.innerHTML = `
+  <div class="content">
+    <div id="${home.id}-title"></div>
+    <div class="menu">
+      <div class="logo">
+        <img src="${main.urls.src}/logo-big.png" alt="">
+      </div>
+      <ul>
+        ${menu_items}
+      </ul>
+    </div>
+    <div class="header"></div>
+    <div class="list">
+      <div class="content-list">
+        ${poster_items}
+      </div>
+    </div>
+    <div id="${home.id}-description"></div>
+    <div class="tools"></div>
+  </div>`;
+  
   document.body.appendChild(home_element);
 
   home.move.menu(home.selected.menu);
   home.move.item(home.selected.serie);
   main.state = home.id;
 };
-
+ 
 home.destroy = function () {
   document.body.removeChild(document.getElementById(home.id));
 };
@@ -172,7 +158,7 @@ home.move.item = function (selected) {
   home.selected[
     home.state == 0 ? "serie" : home.state == 1 ? "season" : "episode"
   ] = selected;
-  var options = document.getElementsByClassName(home.id + "-poster-option");
+  var options = document.getElementsByClassName(`${home.id}-item`);
   for (var i = 0; i < options.length; i++) {
     var value = selected - 4 + i;
     options[i].className = options[i].className.replace(" hide", "");
@@ -193,6 +179,7 @@ home.move.item = function (selected) {
           ? home.data.seasons
           : home.data.episodes
       )[value];
+      console.log(element);
       if (home.state == 2) {
         options[i].firstChild.setAttribute(
           "src",

@@ -1,6 +1,6 @@
 var main = {
   urls: {
-    src: "server/img/",
+    src: "server/img",
   },
   events: {},
   mac: null,
@@ -34,10 +34,10 @@ main.init = function () {
   //widgetAPI.sendReadyEvent();
 
   //main.setToken('');
-  //file.init(function() {
-    //loading.init();
-    //main.events.isLogged();
-  //});
+  // file.init(function() {
+    loading.init();
+    main.events.isLogged();
+  // });
 };
 
 main.events.isLogged = function () {

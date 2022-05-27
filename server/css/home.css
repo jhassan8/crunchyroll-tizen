@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-#home-screen .title {
+#home-screen #home-screen-title {
   background-color: blueviolet;
 }
 
@@ -86,22 +86,22 @@
   padding-left: 60px;
 }
 
-#home-screen .list .item{
+#home-screen .list .home-screen-item{
   height: 80%;
   margin: 0 20px;
 }
 
-#home-screen .list .item.selected{
+#home-screen .list .home-screen-item.selected{
   height: 100%;
 
 }
 
-#home-screen .list .item img{
+#home-screen .list .home-screen-item img{
   height: 100%;
 
 }
 
-#home-screen .description {
+#home-screen #home-screen-description {
   background-color: beige;
   width: 100vw;
   height: 25vh;
