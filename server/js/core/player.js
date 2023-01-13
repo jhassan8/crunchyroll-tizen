@@ -1,100 +1,87 @@
 var player = {
-  plugin: null,
-  audio: null,
+  states: {
+    STOPPED: 0,
+    PLAYING: 1,
+    PAUSED: 2,
+    FORWARD: 3,
+    REWIND: 4,
+  },
   state: -1,
-  skipState: -1,
-  stopCallback: null,
-  originalSource: null,
-  reload: true,
-  STOPPED: 0,
-  PLAYING: 1,
-  PAUSED: 2,
-  FORWARD: 3,
-  REWIND: 4,
-  TOTAL_BUFFER_SIZE_IN_BYTES: 100 * 1024 * 1024,
-  INITIAL_BUFFERPER_CENT: 50,
-  PENDING_BUFFER_PERCENT: 60,
-  buff: 0,
+  plugin: null
 };
 
 player.init = function () {
-  var success = true;
-  this.state = this.STOPPED;
-  this.plugin = document.getElementById("pluginPlayer");
-  this.audio = document.getElementById("pluginAudio");
-  if (!this.plugin) success = false;
-  else {
-    var mwPlugin = document.getElementById("pluginTVMW");
-    if (!mwPlugin) success = false;
-    else {
-      try {
-        this.originalSource = mwPlugin.GetSource();
-      } catch (e) {
-        alert("Error= " + e);
-      }
-      try {
-        mwPlugin.SetMediaSource();
-      } catch (e) {
-        alert("Error= " + e);
-      }
-    }
-  }
-  this.setFullscreen();
-  this.plugin.OnBufferingComplete = "player.onBufferingComplete";
-  return success;
-};
+  player.state = this.STOPPED;
+  player.plugin = document.getElementById('videoplayer');
 
-player.setRelativeVolume = function (value) {
-  this.audio.SetVolumeWithKey(value);
-};
-
-player.getVolume = function () {
-  return this.audio.GetVolume();
-};
-
-player.deinitialize = function () {
-  var mwPlugin = document.getElementById("pluginTVMW");
-  this.stopVideo();
-  if (mwPlugin && this.originalSource !== null)
-    mwPlugin.SetSource(this.originalSource);
+  webapis.avplay.setListener({
+    onbufferingstart: player.onbufferingstart,
+    onbufferingprogress: player.onbufferingprogress,
+    onbufferingcomplete: player.onbufferingcomplete,
+    oncurrentplaytime: player.oncurrentplaytime,
+    onstreamcompleted: player.onstreamcompleted,
+    onevent: player.onevent,
+    onerror: player.onerror,
+    ondrmevent: player.ondrmevent,
+    onsubtitlechange: player.onsubtitlechange
+  });
 };
 
 player.setFullscreen = function () {
   try {
-    this.plugin.SetDisplayArea(0, 0, 960, 540);
+    webapis.avplay.setDisplayRect(0, 0, 1920, 1080);
   } catch (e) {
-    alert("Error= " + e);
+    console.log(e);
   }
 };
 
 player.play = function (url) {
-  if (this.url === null) alert("No videos to play");
-  else {
-    console.log(url);
-    this.state = this.PLAYING;
-    this.plugin.Play(url);
-    this.audio.SetSystemMute(false);
-  }
+  webapis.avplay.open(url);
+  player.setFullscreen();
+
+  webapis.avplay.prepareAsync(() => {
+    player.state = player.states.PLAYING;
+    webapis.avplay.play();
+  }, (error) => {
+    loggertest('PrepareErrorCallback ' + error);
+  });
 };
 
 player.pause = function () {
-  this.state = this.PAUSED;
-  this.plugin.Pause();
-};
-
-player.stop = function () {
-  if (this.state != this.STOPPED) {
-    this.state = this.STOPPED;
-    this.plugin.Stop();
-  }
+  player.state = player.states.PAUSED;
+  webapis.avplay.pause();
 };
 
 player.resume = function () {
-  this.state = this.PLAYING;
-  this.plugin.Resume();
+  player.state = player.states.PLAYING;
+  webapis.avplay.play();
 };
 
-player.onBufferingComplete = function () {
+player.stop = function () {
+  if (player.state != player.states.STOPPED) {
+    player.state = player.states.STOPPED;
+    webapis.avplay.stop();
+  }
+};
+
+player.getDuration = function() {
+  return webapis.avplay.getDuration();
+}
+
+player.destroy = function () {
+  player.stop();
+};
+
+player.onbufferingstart = function () {
+  loggertest('onbufferingstart');
+}
+
+player.onbufferingprogress = function (percent) {
+  //loggertest('onbufferingprogress ' + percent);
+}
+
+player.onbufferingcomplete = function () {
+  loggertest('onbufferingcomplete');
   document.getElementById("pluginPlayer").visibility == "visible";
   switch (this.skipState) {
     case this.FORWARD:
@@ -102,4 +89,30 @@ player.onBufferingComplete = function () {
     case this.REWIND:
       break;
   }
-};
+}
+
+player.oncurrentplaytime = function (currentTime) {
+  //loggertest('oncurrentplaytime ' + currentTime);
+}
+
+player.onstreamcompleted = function () {
+  loggertest('onstreamcompleted');
+  app.stop();
+}
+
+player.onevent = function (eventType, eventData) {
+  loggertest('onevent ' + eventType + ' - ' + eventData);
+  console.log("eventType: " + eventType + ", " + eventData);
+}
+
+player.onerror = function (eventType) {
+  loggertest('onerror ' + eventType);
+}
+
+player.ondrmevent = function (drmEvent, drmData) {
+  loggertest('ondrmevent ' + drmEvent + ' - ' + drmData);
+}
+
+player.onsubtitlechange = function (duration, text, type, attriCount, attributes) {
+  loggertest('onsubtitlechange');
+}

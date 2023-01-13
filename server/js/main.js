@@ -8,8 +8,18 @@ var main = {
   state: null,
 };
 
+loggertest = function(text) {
+  let timer = new Date();
+  let linelog = document.createElement('p');
+  linelog.innerText = timer.toLocaleTimeString() + '- ' + text;
+  let consolelog = document.getElementById('console');
+  consolelog.appendChild(linelog);
+}
+
 /* on init app */
 main.init = function () {
+  loggertest('init');
+  player.init();
   // console.log("====================== " + window.navigator.userAgent);
   // console.log("main.init");
   // var mac = null;
@@ -36,6 +46,7 @@ main.init = function () {
   //main.setToken('');
   // file.init(function() {
     loading.init();
+    video.init('test');
     main.events.isLogged();
   // });
 };
