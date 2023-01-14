@@ -21,6 +21,7 @@ loading.init = function () {
   document.body.appendChild(loading_element);
 
   main.state = loading.id;
+  translate.init();
 };
 
 loading.destroy = function () {

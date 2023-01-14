@@ -21,6 +21,7 @@ exit.init = function () {
   exit.previus = main.state;
   main.state = exit.id;
   exit.move(false);
+  translate.init();
 };
 
 exit.destroy = function () {

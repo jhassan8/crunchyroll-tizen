@@ -85,6 +85,7 @@ keyboard.init = function (element) {
   this.move(this.selected);
   this.previus = main.state;
   main.state = this.id;
+  translate.init();
 };
 
 keyboard.destroy = function () {

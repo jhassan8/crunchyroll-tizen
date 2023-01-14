@@ -20,7 +20,7 @@ login.init = function () {
         <div class="input ${login.id}-option">
           <input type="password" placeholder="Enter password..." value="eduardoteodiamos">
         </div>
-        <a class="button ${login.id}-option">LOGIN</a>
+        <a class="button ${login.id}-option" translate>LOGIN</a>
       </div>
     </div>
   </div>`;
@@ -28,7 +28,8 @@ login.init = function () {
 
   login.move(login.selected);
   main.state = login.id;
-};
+  translate.init();
+}
 
 login.destroy = function () {
   document.body.removeChild(document.getElementById(this.id));

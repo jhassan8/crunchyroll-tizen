@@ -26,6 +26,7 @@ menu.init = function () {
   this.move(this.selected);
   this.previus = main.state;
   main.state = this.id;
+  translate.init();
 };
 
 menu.destroy = function () {
