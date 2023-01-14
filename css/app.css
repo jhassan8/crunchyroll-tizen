@@ -71,3 +71,19 @@ body {
   color: #fff;
   text-align: center;
 }
+
+#console {
+  width: 50%;
+  height: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  padding: 15px;
+  overflow-y: scroll;
+  z-index: 2000;
+}
+
+#console p {
+  color: #fff;
+  font-size: 19px;
+  margin: 5px 0;
+}

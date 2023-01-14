@@ -1,5 +1,6 @@
 var home = {
   id: "home-screen",
+  types: [ "anime", "drama" ],
   type: "anime",
   filters:  [
     { label: "Alphabetical", value: "alpha" },
@@ -34,17 +35,16 @@ home.init = function () {
 
   let menu_items = ``;
   home.filters.forEach(filter => {
-    menu_items += `<li class="${home.id}-menu-option">${filter.label}</li>`
+    menu_items += `<li class="${home.id}-menu-option" translate>${filter.label}</li>`
   });
 
   let poster_items = ``;
-  for (let index = 0; index < 20; index++) {
-    poster_items += `<div class="${home.id}-item ${index === 11 ? 'selected' : ''}"><img alt=""></div>`;
+  for (let index = 0; index <= 20; index++) {
+    poster_items += `<div class="${home.id}-item ${index === 10 ? 'selected' : ''}"><img alt=""></div>`;
   }
 
   home_element.innerHTML = `
   <div class="content">
-    <div id="${home.id}-title"></div>
     <div class="menu">
       <div class="logo">
         <img src="${main.urls.src}/logo-big.png" alt="">
@@ -53,8 +53,14 @@ home.init = function () {
         ${menu_items}
       </ul>
     </div>
-    <div class="header"></div>
-    <div class="list">
+    <div class="header">
+      <div class="header-title">
+        <em class="title-icon"></em>
+        <div id="${home.id}-header-title">${home.type}</div>
+      </div>
+    </div>
+    <div id="${home.id}-title"></div>
+    <div class="list" id="${home.id}-list">
       <div class="content-list">
         ${poster_items}
       </div>
@@ -68,6 +74,7 @@ home.init = function () {
   home.move.menu(home.selected.menu);
   home.move.item(home.selected.serie);
   main.state = home.id;
+  translate.init();
 };
  
 home.destroy = function () {
@@ -75,6 +82,7 @@ home.destroy = function () {
 };
 
 home.keyDown = function (event) {
+  console.log(event.keyCode);
   switch (event.keyCode) {
     case tvKey.KEY_RETURN:
     case tvKey.KEY_PANEL_RETURN:
@@ -139,7 +147,7 @@ home.keyDown = function (event) {
 
 home.move.menu = function (selected) {
   home.selected.menu = selected;
-  var options = document.getElementsByClassName(home.id + "-menu-option");
+  let options = document.getElementsByClassName(home.id + "-menu-option");
   for (var i = 0; i < options.length; i++) {
     if (i == selected) {
       options[i].className = home.id + "-menu-option selected";
@@ -147,21 +155,34 @@ home.move.menu = function (selected) {
       options[i].className = home.id + "-menu-option";
     }
   }
+  home.data.series = [];
+  home.move.item(home.selected.serie);
+  service.list({
+    data: {
+      type: home.type,
+      filter: home.filters[selected].value,
+    },
+    success: function (response) {
+      home.data.series = response.data;
+      home.selected.serie = 0;
+      home.move.item(home.selected.serie);
+      console.log('cargo');
+    },
+    error: function () {
+      home.data.series = [];
+    },
+  });
 };
 
 home.move.item = function (selected) {
-  console.log(
-    (home.state == 0 ? "serie" : home.state == 1 ? "season" : "episode") +
-      " to " +
-      selected
-  );
   home.selected[
     home.state == 0 ? "serie" : home.state == 1 ? "season" : "episode"
   ] = selected;
   var options = document.getElementsByClassName(`${home.id}-item`);
   for (var i = 0; i < options.length; i++) {
-    var value = selected - 4 + i;
+    var value = selected - 10 + i;
     options[i].className = options[i].className.replace(" hide", "");
+    options[i].firstChild.setAttribute('src', main.urls.src + '/empty.png');
     if (
       value > -1 &&
       value <
@@ -179,7 +200,6 @@ home.move.item = function (selected) {
           ? home.data.seasons
           : home.data.episodes
       )[value];
-      console.log(element);
       if (home.state == 2) {
         options[i].firstChild.setAttribute(
           "src",
@@ -193,7 +213,7 @@ home.move.item = function (selected) {
             : home.data.series[home.selected.serie].portrait_image.thumb_url
         );
       }
-      if (i == 4) {
+      if (i == 10) {
         if (home.state == 0) {
           document.getElementById(home.id + "-title").innerText =
             home.data.series[value].name;
@@ -216,6 +236,7 @@ home.move.item = function (selected) {
       }
     } else {
       options[i].className = options[i].className + " hide";
+      options[i].firstChild.setAttribute('src', main.urls.src + '/empty.png');
     }
   }
 };
@@ -225,9 +246,7 @@ home.send = function () {
     case 0:
       service.season({
         data: {
-          mac: main.mac,
-          token: main.token,
-          id: home.data.series[home.selected.serie].series_id,
+          series_id: home.data.series[home.selected.serie].series_id,
         },
         success: function (data) {
           home.selected.season = 0;
@@ -262,9 +281,7 @@ home.event.episodes = function () {
   home.state = 2;
   service.episode({
     data: {
-      mac: main.mac,
-      token: main.token,
-      id: home.data.seasons[home.selected.season].collection_id,
+      collection_id: home.data.seasons[home.selected.season].collection_id,
     },
     success: function (data) {
       home.data.episodes = data.data;

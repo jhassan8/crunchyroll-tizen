@@ -12,32 +12,67 @@ var video = {
   data: null,
 };
 
+var playbackListener = {
+  onbufferingstart: function () {
+    loggertest('onbufferingstart');
+  },
+
+  onbufferingprogress: function (percent) {
+    //loggertest('onbufferingprogress ' + percent);
+  },
+
+  onbufferingcomplete: function () {
+    loggertest('onbufferingcomplete');
+  },
+
+  oncurrentplaytime: function (currentTime) {
+    //loggertest('oncurrentplaytime ' + currentTime);
+    //console.log("Current playtime: " + currentTime);
+  },
+
+  onstreamcompleted: function () {
+    loggertest('onstreamcompleted');
+    app.stop();
+  },
+
+  onevent: function (eventType, eventData) {
+    loggertest('onevent ' + eventType + ' - ' + eventData);
+    console.log("eventType: " + eventType + ", " + eventData);
+  },
+
+  onerror: function (eventType) {
+    loggertest('onerror ' + eventType);
+  },
+
+  ondrmevent: function (drmEvent, drmData) {
+    loggertest('ondrmevent ' + drmEvent + ' - ' + drmData);
+  },
+
+  onsubtitlechange: function (duration, text, type, attriCount, attributes) {
+    loggertest('onsubtitlechange');
+  }
+}
+
 video.init = function (id) {
-  console.log('LLEGO');
   var video_element = document.createElement("div");
   video_element.id = video.id;
 
-  // service.video({
-  //   data: {
-  //     mac: main.mac,
-  //     token: main.token,
-  //     id: id,
-  //   },
-  //   success: function (data) {
-  //     video.data = data.data;
-  //     console.log(
-  //       video.data.stream_data.streams[2].quality +
-  //         " - " +
-  //         video.data.stream_data.streams[2].url
-  //     );
-  //     player.play(
-  //       "https://difix-cdn.cfapps.io/crunchyroll/test.m3u8|COMPONENT=HLS"
-  //     );
-  //   },
-  //   error: function () {
-  //     console.log("error");
-  //   },
-  // });
+  //service.video({
+  //  data: {
+  //    media_id: id,
+  //  },
+  //  success: function (data) {
+  //    video.data = data.data;
+  //    console.log(data.data);
+  //    //player.play(
+  //    //  "https://difix-cdn.cfapps.io/crunchyroll/test.m3u8|COMPONENT=HLS"
+  //    //);
+  //  },
+  //  error: function () {
+  //    console.log("error");
+  //  },
+  //});
+  // <img src="https://img1.ak.crunchyroll.com/i/spire1-tmb/80d3a6cec53672bcab64ea224422cfd91651974248_fwide.jpg" id="background">
 
   video_element.innerHTML = `
   <div class="content">
@@ -64,9 +99,12 @@ video.init = function (id) {
   </div>`;
   document.body.appendChild(video_element);
 
-  home.destroy();
+  loading.destroy();
   video.previus = main.state;
   main.state = video.id;
+
+  player.play('https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4');
+  translate.init();
 };
 
 video.destroy = function () {
