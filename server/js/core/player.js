@@ -7,7 +7,8 @@ var player = {
     REWIND: 4,
   },
   state: -1,
-  plugin: null
+  plugin: null,
+  duration: 0
 };
 
 player.init = function () {
@@ -41,6 +42,7 @@ player.play = function (url) {
 
   webapis.avplay.prepareAsync(() => {
     player.state = player.states.PLAYING;
+    player.duration = webapis.avplay.getDuration();
     webapis.avplay.play();
   }, (error) => {
     loggertest('PrepareErrorCallback ' + error);
@@ -65,7 +67,7 @@ player.stop = function () {
 };
 
 player.getDuration = function() {
-  return webapis.avplay.getDuration();
+  return player.duration;
 }
 
 player.destroy = function () {
@@ -92,6 +94,7 @@ player.onbufferingcomplete = function () {
 }
 
 player.oncurrentplaytime = function (currentTime) {
+  video.setPlayingTime(currentTime);
   //loggertest('oncurrentplaytime ' + currentTime);
 }
 

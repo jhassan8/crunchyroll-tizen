@@ -77,6 +77,7 @@ video.init = function (id) {
   video_element.innerHTML = `
   <div class="content">
     <img src="https://img1.ak.crunchyroll.com/i/spire1-tmb/80d3a6cec53672bcab64ea224422cfd91651974248_fwide.jpg" id="background">
+    <object id="videoplayer" type="application/avplayer" style="width:100%; height:100%;"></object>
     <div class="osd">
       <div class="details">
         <div id="title">One Piece</div>
@@ -85,7 +86,7 @@ video.init = function (id) {
       </div>
       <div class="icon rewind"></div>
       <div class="progress">
-        <div id="time">1:23:44</div>
+        <div id="time">00:00:00</div>
         <div class="bar">
           <div id="played">
             <div class="preview">
@@ -93,7 +94,7 @@ video.init = function (id) {
             </div>
           </div>
         </div>
-        <div id="total">2:32:43</div>
+        <div id="total">00:00:00</div>
       </div>
     </div>
   </div>`;
@@ -115,6 +116,7 @@ video.destroy = function () {
 };
 
 video.keyDown = function (event) {
+  loggertest(event.keyCode);
   switch (event.keyCode) {
     case tvKey.KEY_RETURN:
     case tvKey.KEY_PANEL_RETURN:
@@ -130,10 +132,39 @@ video.keyDown = function (event) {
       audio.setRelativeVolume(1);
       break;
     case tvKey.KEY_PLAY:
+      loggertest('KEY_PLAY');
       player.resume();
       break;
     case tvKey.KEY_PAUSE:
+      loggertest('KEY_PLAY');
       player.pause();
+      break;
+    case tvKey.KEY_STOP:
+      loggertest('KEY_STOP');
+      player.stop();
       break;
   }
 };
+
+video.setPlayingTime = function(time) {
+  let totalTime = player.getDuration();
+  let timePercent = (100 * time) / totalTime;
+
+  let totalSeconds = Math.floor((totalTime / 1000) % 60);
+  let totalMinutes = Math.floor((totalTime / (1000 * 60)) % 60);
+  let totalHours = Math.floor((totalTime / (1000 * 60 * 60)) % 24);
+  totalHours = (totalHours < 10) ? "0" + totalHours : totalHours;
+  totalMinutes = (totalMinutes < 10) ? "0" + totalMinutes : totalMinutes;
+  totalSeconds = (totalSeconds < 10) ? "0" + totalSeconds : totalSeconds;
+
+  let timeSeconds = Math.floor((time / 1000) % 60);
+  let timeMinutes = Math.floor((time / (1000 * 60)) % 60);
+  let timeHours = Math.floor((time / (1000 * 60 * 60)) % 24);
+  timeHours = (timeHours < 10) ? "0" + timeHours : timeHours;
+  timeMinutes = (timeMinutes < 10) ? "0" + timeMinutes : timeMinutes;
+  timeSeconds = (timeSeconds < 10) ? "0" + timeSeconds : timeSeconds;
+
+  document.getElementById("time").innerText = `${timeHours}:${timeMinutes}:${timeSeconds}`;
+  document.getElementById("total").innerText = `${totalHours}:${totalMinutes}:${totalSeconds}`;
+  document.getElementById("played").style.width = timePercent + "%";
+}

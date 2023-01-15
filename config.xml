@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="http://yourdomain/tizenPlayer" version="1.0.0" viewmodes="maximized">
-    <tizen:application id="qXuEoRvlCp.tizenPlayer" package="qXuEoRvlCp" required_version="3.0"/>
+<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="http://yourdomain/Crunchyroll" version="1.0.0" viewmodes="maximized">
+    <tizen:application id="qXuEoRvlCp.Crunchyroll" package="qXuEoRvlCp" required_version="3.0"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
-    <name>tizenPlayer</name>
+    <name>Crunchyroll</name>
     <tizen:privilege name="http://developer.samsung.com/privilege/productinfo"/>
     <tizen:privilege name="http://tizen.org/privilege/application.info"/>
     <tizen:privilege name="http://tizen.org/privilege/fullscreen"/>
