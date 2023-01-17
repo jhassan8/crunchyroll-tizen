@@ -80,6 +80,7 @@ body {
   padding: 15px;
   overflow-y: scroll;
   z-index: 2000;
+  display: none;
 }
 
 #console p {

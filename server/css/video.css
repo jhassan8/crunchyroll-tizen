@@ -83,6 +83,10 @@
   height: 10vw;
 }
 
+#video-screen .icon-status .percent {
+  display: none;
+}
+
 #video-screen .icon-status.forward .icon,
 #video-screen .icon-status.rewind .icon {
   display: flex;

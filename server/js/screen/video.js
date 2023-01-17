@@ -22,39 +22,37 @@ video.init = function (id) {
   var video_element = document.createElement("div");
   video_element.id = video.id;
 
-  //service.video({
-  //  data: {
-  //    media_id: id,
-  //  },
-  //  success: function (data) {
-  //    video.data = data.data;
-  //    console.log(data.data);
-  //    //player.play(
-  //    //  "https://difix-cdn.cfapps.io/crunchyroll/test.m3u8|COMPONENT=HLS"
-  //    //);
-  //  },
-  //  error: function () {
-  //    console.log("error");
-  //  },
-  //});
-  // <img src="https://img1.ak.crunchyroll.com/i/spire1-tmb/80d3a6cec53672bcab64ea224422cfd91651974248_fwide.jpg" id="background">
+  service.video({
+    data: {
+      media_id: id,
+    },
+    success: function (data) {
+      console.log(data);
+      video.data = data.data;
+      player.play(video.data.stream_data.streams[0].url);
+      video.showOSD();
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
 
   video_element.innerHTML = `
   <div class="content">
-    <img src="https://img1.ak.crunchyroll.com/i/spire1-tmb/80d3a6cec53672bcab64ea224422cfd91651974248_fwide.jpg" id="background">
+    <img id="background">
     <object id="videoplayer" type="application/avplayer" style="width:100%; height:100%;"></object>
     <div class="osd" id="osd">
       <div class="details">
-        <div id="title">One Piece</div>
-        <div id="subtitle">¡No estoy bien! La araña atrae a Sanji</div>
-        <div id="description">Season 1, Episode 157</div>
+        <div id="title">${home.data.series[home.selected.serie].name}</div>
+        <div id="subtitle">${home.data.episodes[home.selected.episode].name}</div>
+        <div id="description">Episode ${home.data.episodes[home.selected.episode].episode_number}</div>
       </div>
       <div class="progress">
         <div id="time">00:00:00</div>
         <div class="bar">
           <div id="played">
             <div class="preview">
-              <img src="https://img1.ak.crunchyroll.com/i/spire1-tmb/80d3a6cec53672bcab64ea224422cfd91651974248_fwide.jpg" id="preview">
+              <img id="preview">
             </div>
           </div>
         </div>
@@ -68,12 +66,10 @@ video.init = function (id) {
   </div>`;
   document.body.appendChild(video_element);
 
-  loading.destroy();
+  home.destroy();
   video.previus = main.state;
   main.state = video.id;
 
-  player.play('https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4');
-  video.showOSD();
   translate.init();
 };
 

@@ -20,33 +20,10 @@ loggertest = function(text) {
 main.init = function () {
   loggertest('init');
   player.init();
-  // console.log("====================== " + window.navigator.userAgent);
-  // console.log("main.init");
-  // var mac = null;
-  // try {
-  //   mac = webapis.network.getMac();
-  // } catch (e) {
-  //   console.log(
-  //     "getMAC exception [" +
-  //       e.code +
-  //       "] name: " +
-  //       e.name +
-  //       " message: " +
-  //       e.message
-  //   );
-  // }
-
-  // if (null != mac) {
-  //   console.log("[getMAC] mac: " + mac);
-  // }
-
-  //main.mac = document.getElementById("pluginNetwork").GetMAC();
-  //widgetAPI.sendReadyEvent();
 
   //main.setToken('');
   // file.init(function() {
     loading.init();
-    video.init('test');
     main.events.isLogged();
   // });
 };
@@ -139,19 +116,6 @@ main.setToken = function (token) {
   main.writeFile([token], "token.dat");
 };
 
-// var c = new FileSystem();
-// var b = c.openCommonFile(curWidget.id + "/" + e, "r");
-// if (!b) b = c.openCommonFile(e, "r");
-// if (b) {
-//   while (1) {
-//     var a = b.readLine();
-//     if (a == null) break;
-//     d.push(a);
-//   }
-//   c.closeCommonFile(b);
-// }
-//};
-
 main.writeFile = function (content, fileName) {
   var fileHandleWrite = tizen.filesystem.openFile(fileName, "w");
   console.log("File opened for writing");
@@ -172,12 +136,4 @@ main.writeFile = function (content, fileName) {
       console.log(error);
     }
   );
-
-  // var c = new FileSystem();
-  // if (!c.isValidCommonPath(curWidget.id)) c.createCommonDir(curWidget.id);
-  // var b = c.openCommonFile(curWidget.id + "/" + e, "w");
-  // if (b) {
-  //   for (var a = 0; a < d.length; a++) b.writeLine(d[a]);
-  //   c.closeCommonFile(b);
-  // }
 };

@@ -7,6 +7,7 @@
   background: linear-gradient(to bottom, #494949 0%, #585858 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#494949', endColorstr='#585858', GradientType=0);
   background: linear-gradient(to bottom, #494949 0%, #585858 100%);
+  overflow: hidden;
 }
 
 #home-screen .content {
