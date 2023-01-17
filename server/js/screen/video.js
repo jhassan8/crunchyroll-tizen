@@ -10,48 +10,13 @@ var video = {
     rewind: 4,
   },
   data: null,
-};
-
-var playbackListener = {
-  onbufferingstart: function () {
-    loggertest('onbufferingstart');
-  },
-
-  onbufferingprogress: function (percent) {
-    //loggertest('onbufferingprogress ' + percent);
-  },
-
-  onbufferingcomplete: function () {
-    loggertest('onbufferingcomplete');
-  },
-
-  oncurrentplaytime: function (currentTime) {
-    //loggertest('oncurrentplaytime ' + currentTime);
-    //console.log("Current playtime: " + currentTime);
-  },
-
-  onstreamcompleted: function () {
-    loggertest('onstreamcompleted');
-    app.stop();
-  },
-
-  onevent: function (eventType, eventData) {
-    loggertest('onevent ' + eventType + ' - ' + eventData);
-    console.log("eventType: " + eventType + ", " + eventData);
-  },
-
-  onerror: function (eventType) {
-    loggertest('onerror ' + eventType);
-  },
-
-  ondrmevent: function (drmEvent, drmData) {
-    loggertest('ondrmevent ' + drmEvent + ' - ' + drmData);
-  },
-
-  onsubtitlechange: function (duration, text, type, attriCount, attributes) {
-    loggertest('onsubtitlechange');
+  timers: {
+    osd: {
+      object: null,
+      duration: 4000,
+    }
   }
-}
+};
 
 video.init = function (id) {
   var video_element = document.createElement("div");
@@ -78,13 +43,12 @@ video.init = function (id) {
   <div class="content">
     <img src="https://img1.ak.crunchyroll.com/i/spire1-tmb/80d3a6cec53672bcab64ea224422cfd91651974248_fwide.jpg" id="background">
     <object id="videoplayer" type="application/avplayer" style="width:100%; height:100%;"></object>
-    <div class="osd">
+    <div class="osd" id="osd">
       <div class="details">
         <div id="title">One Piece</div>
         <div id="subtitle">¡No estoy bien! La araña atrae a Sanji</div>
         <div id="description">Season 1, Episode 157</div>
       </div>
-      <div class="icon rewind"></div>
       <div class="progress">
         <div id="time">00:00:00</div>
         <div class="bar">
@@ -97,6 +61,10 @@ video.init = function (id) {
         <div id="total">00:00:00</div>
       </div>
     </div>
+    <div id="osd-icon" class="icon-status">
+      <div class="icon"></div>
+      <div id="osd-icon-data" class="percent"></div>
+    </div>
   </div>`;
   document.body.appendChild(video_element);
 
@@ -105,6 +73,7 @@ video.init = function (id) {
   main.state = video.id;
 
   player.play('https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4');
+  video.showOSD();
   translate.init();
 };
 
@@ -117,6 +86,7 @@ video.destroy = function () {
 
 video.keyDown = function (event) {
   loggertest(event.keyCode);
+  video.showOSD();
   switch (event.keyCode) {
     case tvKey.KEY_RETURN:
     case tvKey.KEY_PANEL_RETURN:
@@ -145,6 +115,33 @@ video.keyDown = function (event) {
       break;
   }
 };
+
+video.showOSD = function() {
+  clearTimeout(video.timers.osd.object);
+  let osd = document.getElementById("osd");
+  osd.style.opacity = 1;
+  video.timers.osd.object = setTimeout(() => {
+    video.hideOSD()
+  }, video.timers.osd.duration);
+}
+
+video.hideOSD = function() {
+  video.timers.osd.object = null;
+  let osd = document.getElementById("osd");
+  osd.style.opacity = 0;
+}
+
+video.showBTN = function(state, data) {
+  let button = document.getElementById("osd-icon");
+  button.style.opacity = 1;
+  button.className = `icon-status ${state}`;
+  document.getElementById("osd-icon-data").innerText = data;
+}
+
+video.hideBTN = function() {
+  let button = document.getElementById("osd-icon");
+  button.style.opacity = 0;
+}
 
 video.setPlayingTime = function(time) {
   let totalTime = player.getDuration();

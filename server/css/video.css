@@ -24,7 +24,10 @@
     180deg,
     rgba(0, 0, 0, 0.6) 0%,
     rgba(0, 0, 0, 0.3) 30%,
-    rgba(0, 0, 0, 0) 50%
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0) 80%,
+    rgba(0, 0, 0, 0.3) 90%,
+    rgba(0, 0, 0, 0.6) 100%
   );
   position: absolute;
   display: flex;
@@ -32,6 +35,8 @@
   justify-content: space-between;
   left: 0;
   top: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
 #video-screen .osd .details {
@@ -60,9 +65,7 @@
   color: #fff;
 }
 
-#video-screen .osd .icon {
-  display: inline-block;
-  vertical-align: middle;
+#video-screen .icon-status {
   position: absolute;
   left: 0;
   right: 0;
@@ -71,20 +74,27 @@
   margin: auto;
   width: 8vw;
   height: 10vw;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-#video-screen .osd .icon.forward,
-#video-screen .osd .icon.rewind {
+#video-screen .icon-status .icon {
+  width: 8vw;
+  height: 10vw;
+}
+
+#video-screen .icon-status.forward .icon,
+#video-screen .icon-status.rewind .icon {
   display: flex;
   align-items: center;
 }
 
-#video-screen .osd .icon.rewind {
+#video-screen .icon-status.rewind .icon {
   transform: rotate(180deg);
 }
 
-#video-screen .osd .icon:before,
-#video-screen .osd .icon:after {
+#video-screen .icon-status .icon:before,
+#video-screen .icon-status .icon:after {
   content: "";
   width: 0;
   height: 0;
@@ -96,34 +106,74 @@
   transition: all 0.25s;
 }
 
-#video-screen .osd .icon.play:before {
+#video-screen .icon-status.play .icon:before {
   border-width: 2.5vw 0 2.5vw 4vw;
   height: 5vw;
 }
 
-#video-screen .osd .icon.play:after {
+#video-screen .icon-status.play .icon:after {
   border-width: 2.5vw 0 2.5vw 4vw;
 }
 
-#video-screen .osd .icon.forward:before,
-#video-screen .osd .icon.rewind:before {
+#video-screen .icon-status.forward .icon:before,
+#video-screen .icon-status.rewind .icon:before {
   border-width: 2.5vw 0 2.5vw 4vw;
   height: 0vw;
 }
 
-#video-screen .osd .icon.forward:after,
-#video-screen .osd .icon.rewind:after {
+#video-screen .icon-status.forward .icon:after,
+#video-screen .icon-status.rewind .icon:after {
   border-width: 2.5vw 0 2.5vw 4vw;
 }
 
-#video-screen .osd .icon.pause:before,
-#video-screen .osd .icon.pause:after {
+#video-screen .icon-status.pause .icon:before,
+#video-screen .icon-status.pause .icon:after {
   border-width: 0 0 0 3vw;
   height: 10vw;
 }
 
-#video-screen .osd .icon.pause:after {
+#video-screen .icon-status.pause .icon:after {
   margin-left: 2vw;
+}
+
+#video-screen .icon-status.loading {
+  height: 8vw;
+}
+
+#video-screen .icon-status.loading .icon {
+  content: "12%";
+  box-sizing: border-box;
+  width: 8vw;
+  height: 8vw;
+  border-radius: 100%;
+  border: 1.5rem solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  animation: spin 0.7s infinite linear;
+}
+
+#video-screen .icon-status.loading .percent {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: absolute;
+}
+
+#video-screen .icon-status.loading .icon:after,
+#video-screen .icon-status.loading .icon:before {
+  display: none;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 #video-screen .osd .progress {
@@ -156,14 +206,13 @@
   max-width: 100%;
 }
 
-
 #video-screen .osd .progress .bar .preview {
   position: absolute;
   right: -9vw;
   width: 18vw;
   top: -11vw;
+  display: none;
 }
-
 
 #video-screen .osd .progress .bar .preview #preview {
   width: 100%;

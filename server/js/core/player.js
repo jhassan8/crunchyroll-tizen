@@ -47,16 +47,19 @@ player.play = function (url) {
   }, (error) => {
     loggertest('PrepareErrorCallback ' + error);
   });
+  video.hideBTN();
 };
 
 player.pause = function () {
   player.state = player.states.PAUSED;
   webapis.avplay.pause();
+  video.showBTN('pause');
 };
 
 player.resume = function () {
   player.state = player.states.PLAYING;
   webapis.avplay.play();
+  video.hideBTN();
 };
 
 player.stop = function () {
@@ -64,6 +67,7 @@ player.stop = function () {
     player.state = player.states.STOPPED;
     webapis.avplay.stop();
   }
+  video.hideBTN();
 };
 
 player.getDuration = function() {
@@ -75,27 +79,19 @@ player.destroy = function () {
 };
 
 player.onbufferingstart = function () {
-  loggertest('onbufferingstart');
+  video.showBTN('loading');
 }
 
 player.onbufferingprogress = function (percent) {
-  //loggertest('onbufferingprogress ' + percent);
+  video.showBTN('loading', `${percent} %`);
 }
 
 player.onbufferingcomplete = function () {
-  loggertest('onbufferingcomplete');
-  document.getElementById("pluginPlayer").visibility == "visible";
-  switch (this.skipState) {
-    case this.FORWARD:
-      break;
-    case this.REWIND:
-      break;
-  }
+  video.hideBTN()
 }
 
 player.oncurrentplaytime = function (currentTime) {
   video.setPlayingTime(currentTime);
-  //loggertest('oncurrentplaytime ' + currentTime);
 }
 
 player.onstreamcompleted = function () {
