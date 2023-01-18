@@ -3,11 +3,15 @@ var file = {
 };
 
 file.init = function () {
-  tizen.filesystem.createDirectory(`documents/${file.path}`, function(newPath) {
-    console.log('New directory has been created: ' + newPath);
-  }, function(error) {
-    console.log(error);
-  });
+  tizen.filesystem.createDirectory(
+    `documents/${file.path}`,
+    function (newPath) {
+      console.log("New directory has been created: " + newPath);
+    },
+    function (error) {
+      console.log(error);
+    }
+  );
   /*tizen.filesystem.resolve(
     "documents",
     function (directory) {

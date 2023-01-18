@@ -24,7 +24,7 @@ app.keyDown = function (e) {
   if (app.state) main.keyDown(e);
   else {
     switch (e.keyCode) {
-      case tvKey.KEY_RETURN:
+      case tvKey.KEY_BACK:
       case tvKey.KEY_EXIT:
         tizen.application.getCurrentApplication().hide();
         break;

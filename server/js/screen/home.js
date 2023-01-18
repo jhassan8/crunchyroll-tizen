@@ -60,7 +60,7 @@ home.init = function () {
       </div>
     </div>
     <div id="${home.id}-title"></div>
-    <div class="list" id="${home.id}-list">
+    <div class="list ${ home.state === 2 ? 'episodes' : '' }" id="${home.id}-list">
       <div class="content-list">
         ${poster_items}
       </div>
@@ -84,9 +84,8 @@ home.destroy = function () {
 home.keyDown = function (event) {
   console.log(event.keyCode);
   switch (event.keyCode) {
-    case tvKey.KEY_RETURN:
-    case tvKey.KEY_PANEL_RETURN:
-      widgetAPI.blockNavigation(event);
+    case tvKey.KEY_BACK:
+      //widgetAPI.blockNavigation(event);
       if (home.state == 0) {
         exit.init();
       } else {
@@ -105,7 +104,7 @@ home.keyDown = function (event) {
       break;
     case tvKey.KEY_PANEL_MENU:
     case tvKey.KEY_MENU:
-      widgetAPI.blockNavigation(event);
+      //widgetAPI.blockNavigation(event);
       menu.init();
       break;
     case tvKey.KEY_UP:
@@ -182,7 +181,7 @@ home.move.item = function (selected) {
   for (var i = 0; i < options.length; i++) {
     var value = selected - 10 + i;
     options[i].className = options[i].className.replace(" hide", "");
-    options[i].firstChild.setAttribute('src', main.urls.src + '/empty.png');
+    options[i].firstChild.setAttribute('src', main.urls.src + `/empty_${home.state == 2 ? '640x360' : '160x240'}.png`);
     if (
       value > -1 &&
       value <
@@ -236,7 +235,7 @@ home.move.item = function (selected) {
       }
     } else {
       options[i].className = options[i].className + " hide";
-      options[i].firstChild.setAttribute('src', main.urls.src + '/empty.png');
+      options[i].firstChild.setAttribute('src', main.urls.src + `/empty_${home.state == 2 ? '640x360' : '160x240'}.png`);
     }
   }
 };

@@ -90,7 +90,7 @@ service.episode = function (request) {
   var params = `session_id=${session.info.id}&collection_id=${request.data.collection_id}&limit=100000&fields=media.media_id,media.episode_number,media.name,media.description,media.screenshot_image,image.fwide_url,media.available,media.free_available`;
 
   var http = new XMLHttpRequest();
-  http.open("POST", this.api.url  + "list_media.0.json", true);
+  http.open("POST", this.api.url + "list_media.0.json", true);
   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   http.onreadystatechange = function () {
@@ -110,7 +110,7 @@ service.video = function (request) {
   var params = `session_id=${session.info.id}&media_id=${request.data.media_id}&limit=100000&fields=media.stream_data,media.name,media.episode_number`;
 
   var http = new XMLHttpRequest();
-  http.open("POST", this.api.url  + "info.0.json", true);
+  http.open("POST", this.api.url + "info.0.json", true);
   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   http.onreadystatechange = function () {

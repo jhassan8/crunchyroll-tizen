@@ -75,18 +75,17 @@ video.init = function (id) {
 
 video.destroy = function () {
   player.stop();
-  main.state = this.previus;
-  document.getElementById(home.id).style.display = "block";
+  main.state = video.previus;
   document.body.removeChild(document.getElementById(video.id));
+  home.init();
 };
 
 video.keyDown = function (event) {
   loggertest(event.keyCode);
   video.showOSD();
   switch (event.keyCode) {
-    case tvKey.KEY_RETURN:
-    case tvKey.KEY_PANEL_RETURN:
-      widgetAPI.blockNavigation(event);
+    case tvKey.KEY_BACK:
+      //widgetAPI.blockNavigation(event);
       video.destroy();
       break;
     case tvKey.KEY_VOL_UP:

@@ -26,7 +26,7 @@
   left: 5vw;
 }
 
-#home-screen .menu .logo{
+#home-screen .menu .logo {
   background-color: #f47521;
   width: 100;
   height: 8vh;
@@ -34,18 +34,18 @@
   padding: 10px 30px;
 }
 
-#home-screen .menu .logo img{
+#home-screen .menu .logo img {
   width: 100%;
 }
 
-#home-screen .menu ul{
+#home-screen .menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  margin-top:5vh ;
+  margin-top: 5vh;
 }
 
-#home-screen .menu ul li{
+#home-screen .menu ul li {
   color: #fff;
   font-size: 4vh;
   font-weight: bold;
@@ -77,7 +77,7 @@
   height: 12vh;
 }
 
-#home-screen .header .header-title{
+#home-screen .header .header-title {
   color: white;
   font-size: 32px;
   display: flex;
@@ -113,7 +113,7 @@
   height: 50vh;
 }
 
-#home-screen .list .content-list{
+#home-screen .list .content-list {
   display: flex;
   align-items: center;
   height: 100%;
@@ -121,19 +121,21 @@
   padding-left: 60px;
 }
 
-#home-screen .list .home-screen-item{
+#home-screen .list.episodes .content-list {
+  margin-left: -399%;
+}
+
+#home-screen .list .home-screen-item {
   height: 80%;
   margin: 0 20px;
 }
 
-#home-screen .list .home-screen-item.selected{
+#home-screen .list .home-screen-item.selected {
   height: 100%;
-
 }
 
-#home-screen .list .home-screen-item img{
+#home-screen .list .home-screen-item img {
   height: 100%;
-
 }
 
 #home-screen #home-screen-description {
@@ -153,7 +155,6 @@
   padding-left: 26vw;
   height: 5vh;
 }
-
 
 /* #home-screen .menu {
   height: 720px;

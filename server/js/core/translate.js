@@ -4,7 +4,7 @@ var translate = {
 };
 
 translate.init = function (lang) {
-  console.log('traduce...');
+  console.log("traduce...");
   translate.langs.forEach((langFile) => {
     fetch(`server/translate/${langFile}.json`)
       .then((response) => response.json())
@@ -12,8 +12,10 @@ translate.init = function (lang) {
         translate.add(langFile, json);
         translate.lang = lang || translate.lang;
         let elements = document.querySelectorAll("[translate]");
-        elements.forEach((element) => element.innerText = translate.go(element.innerText));
-      })
+        elements.forEach(
+          (element) => (element.innerText = translate.go(element.innerText))
+        );
+      });
   });
 };
 
@@ -25,4 +27,4 @@ translate.go = function (key) {
 
 translate.add = function (lang, dictonary) {
   translate[lang] = translate[lang] || dictonary;
-}; 
+};

@@ -30,7 +30,7 @@ loading.destroy = function () {
 
 loading.keyDown = function (event) {
   switch (event.keyCode) {
-    case tvKey.KEY_RETURN:
+    case tvKey.KEY_BACK:
     case tvKey.KEY_EXIT:
       tizen.application.getCurrentApplication().hide();
       break;

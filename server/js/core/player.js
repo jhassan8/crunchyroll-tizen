@@ -8,12 +8,12 @@ var player = {
   },
   state: -1,
   plugin: null,
-  duration: 0
+  duration: 0,
 };
 
 player.init = function () {
   player.state = this.STOPPED;
-  player.plugin = document.getElementById('videoplayer');
+  player.plugin = document.getElementById("videoplayer");
 
   webapis.avplay.setListener({
     onbufferingstart: player.onbufferingstart,
@@ -24,7 +24,7 @@ player.init = function () {
     onevent: player.onevent,
     onerror: player.onerror,
     ondrmevent: player.ondrmevent,
-    onsubtitlechange: player.onsubtitlechange
+    onsubtitlechange: player.onsubtitlechange,
   });
 };
 
@@ -40,20 +40,23 @@ player.play = function (url) {
   webapis.avplay.open(url);
   player.setFullscreen();
 
-  webapis.avplay.prepareAsync(() => {
-    player.state = player.states.PLAYING;
-    player.duration = webapis.avplay.getDuration();
-    webapis.avplay.play();
-  }, (error) => {
-    loggertest('PrepareErrorCallback ' + error);
-  });
+  webapis.avplay.prepareAsync(
+    () => {
+      player.state = player.states.PLAYING;
+      player.duration = webapis.avplay.getDuration();
+      webapis.avplay.play();
+    },
+    (error) => {
+      loggertest("PrepareErrorCallback " + error);
+    }
+  );
   video.hideBTN();
 };
 
 player.pause = function () {
   player.state = player.states.PAUSED;
   webapis.avplay.pause();
-  video.showBTN('pause');
+  video.showBTN("pause");
 };
 
 player.resume = function () {
@@ -70,48 +73,54 @@ player.stop = function () {
   video.hideBTN();
 };
 
-player.getDuration = function() {
+player.getDuration = function () {
   return player.duration;
-}
+};
 
 player.destroy = function () {
   player.stop();
 };
 
 player.onbufferingstart = function () {
-  video.showBTN('loading');
-}
+  video.showBTN("loading");
+};
 
 player.onbufferingprogress = function (percent) {
-  video.showBTN('loading', `${percent} %`);
-}
+  video.showBTN("loading", `${percent} %`);
+};
 
 player.onbufferingcomplete = function () {
-  video.hideBTN()
-}
+  video.hideBTN();
+};
 
 player.oncurrentplaytime = function (currentTime) {
   video.setPlayingTime(currentTime);
-}
+};
 
 player.onstreamcompleted = function () {
-  loggertest('onstreamcompleted');
+  loggertest("onstreamcompleted");
   app.stop();
-}
+};
 
 player.onevent = function (eventType, eventData) {
-  loggertest('onevent ' + eventType + ' - ' + eventData);
+  loggertest("onevent " + eventType + " - " + eventData);
   console.log("eventType: " + eventType + ", " + eventData);
-}
+};
 
 player.onerror = function (eventType) {
-  loggertest('onerror ' + eventType);
-}
+  loggertest("onerror " + eventType);
+};
 
 player.ondrmevent = function (drmEvent, drmData) {
-  loggertest('ondrmevent ' + drmEvent + ' - ' + drmData);
-}
+  loggertest("ondrmevent " + drmEvent + " - " + drmData);
+};
 
-player.onsubtitlechange = function (duration, text, type, attriCount, attributes) {
-  loggertest('onsubtitlechange');
-}
+player.onsubtitlechange = function (
+  duration,
+  text,
+  type,
+  attriCount,
+  attributes
+) {
+  loggertest("onsubtitlechange");
+};

@@ -36,9 +36,8 @@ menu.destroy = function () {
 
 menu.keyDown = function (event) {
   switch (event.keyCode) {
-    case tvKey.KEY_RETURN:
-    case tvKey.KEY_PANEL_RETURN:
-      widgetAPI.blockNavigation(event);
+    case tvKey.KEY_BACK:
+      //widgetAPI.blockNavigation(event);
       this.destroy();
       break;
     case tvKey.KEY_LEFT:

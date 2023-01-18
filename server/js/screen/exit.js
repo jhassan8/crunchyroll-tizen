@@ -31,13 +31,12 @@ exit.destroy = function () {
 
 exit.keyDown = function (event) {
   switch (event.keyCode) {
-    case tvKey.KEY_RETURN:
-    case tvKey.KEY_PANEL_RETURN:
-      widgetAPI.blockNavigation(event);
+    case tvKey.KEY_BACK:
+      //widgetAPI.blockNavigation(event);
       exit.destroy();
       break;
     case tvKey.KEY_EXIT:
-      widgetAPI.blockNavigation(event);
+      //widgetAPI.blockNavigation(event);
       exit.destroy();
       break;
     case tvKey.KEY_LEFT:
@@ -64,7 +63,8 @@ exit.move = function (selected) {
 
 exit.action = function (selected) {
   if (selected) {
-    widgetAPI.sendExitEvent();
+    tizen.application.getCurrentApplication().exit();
+    //widgetAPI.sendExitEvent();
   } else {
     exit.destroy();
   }
