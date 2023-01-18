@@ -9,13 +9,15 @@ exit.init = function () {
   exit_element.id = exit.id;
 
   exit_element.innerHTML =
-    '<div class="window">' +
-    '  <div class="text">¿Queres salir de la aplicación?</div>' +
-    '  <div class="buttons">' +
-    '    <div class="button" id="exit-screen-yes">SI</div>' +
-    '    <div class="button" id="exit-screen-no">NO</div>' +
+    '<div class="content">' +
+    '  <div class="window">' +
+    '    <div class="text">¿Queres salir de la aplicación?</div>' +
+    '    <div class="buttons">' +
+    '      <div class="button" id="exit-screen-yes">SI</div>' +
+    '      <div class="button" id="exit-screen-no">NO</div>' +
+    "    </div>" +
     "  </div>" +
-    "</div>";
+    '</div>';
   document.body.appendChild(exit_element);
 
   exit.previus = main.state;
