@@ -47,7 +47,7 @@ player.play = function (url) {
       webapis.avplay.play();
     },
     (error) => {
-      loggertest("PrepareErrorCallback " + error);
+      console.log("PrepareErrorCallback " + error);
     }
   );
   video.hideBTN();
@@ -98,21 +98,20 @@ player.oncurrentplaytime = function (currentTime) {
 };
 
 player.onstreamcompleted = function () {
-  loggertest("onstreamcompleted");
+  console.log("onstreamcompleted");
   app.stop();
 };
 
 player.onevent = function (eventType, eventData) {
-  loggertest("onevent " + eventType + " - " + eventData);
-  console.log("eventType: " + eventType + ", " + eventData);
+  console.log("onevent " + eventType + " - " + eventData);
 };
 
 player.onerror = function (eventType) {
-  loggertest("onerror " + eventType);
+  console.log("onerror " + eventType);
 };
 
 player.ondrmevent = function (drmEvent, drmData) {
-  loggertest("ondrmevent " + drmEvent + " - " + drmData);
+  console.log("ondrmevent " + drmEvent + " - " + drmData);
 };
 
 player.onsubtitlechange = function (
@@ -122,5 +121,5 @@ player.onsubtitlechange = function (
   attriCount,
   attributes
 ) {
-  loggertest("onsubtitlechange");
+  console.log("onsubtitlechange");
 };

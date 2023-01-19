@@ -81,7 +81,6 @@ video.destroy = function () {
 };
 
 video.keyDown = function (event) {
-  loggertest(event.keyCode);
   video.showOSD();
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
@@ -97,15 +96,12 @@ video.keyDown = function (event) {
       audio.setRelativeVolume(1);
       break;
     case tvKey.KEY_PLAY:
-      loggertest('KEY_PLAY');
       player.resume();
       break;
     case tvKey.KEY_PAUSE:
-      loggertest('KEY_PLAY');
       player.pause();
       break;
     case tvKey.KEY_STOP:
-      loggertest('KEY_STOP');
       player.stop();
       break;
   }
