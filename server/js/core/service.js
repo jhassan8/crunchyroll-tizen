@@ -5,6 +5,9 @@ var service = {
     device_type: "com.crunchyroll.windows.desktop",
     access_token: "LNDJgOit5yaRIWN",
   },
+  requests: {
+    list: null
+  }
 };
 
 service.device = function (request) {
@@ -47,23 +50,25 @@ service.login = function (request) {
 };
 
 service.list = function (request) {
+  service.abort(service.requests.list);
   var params = `session_id=${session.info.id}&media_type=${request.data.type}&filter=${request.data.filter}&limit=100000&fields=series.name,series.description,series.series_id,series.portrait_image,image.thumb_url`;
 
-  var http = new XMLHttpRequest();
-  http.open("POST", this.api.url + "list_series.0.json", true);
-  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  service.requests.list = new XMLHttpRequest();
+  service.requests.list.open("POST", this.api.url + "list_series.0.json", true);
+  service.requests.list.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-  http.onreadystatechange = function () {
-    if (http.readyState == 4) {
-      if (http.status == 200) {
-        request.success(new Function("return " + http.responseText + ";")());
+  service.requests.list.onreadystatechange = function () {
+    if (service.requests.list.readyState == 4) {
+      if (service.requests.list.status == 200) {
+        let response = service.requests.list.responseText;
+        request.success(new Function("return " + response + ";")());
       } else {
         request.error();
       }
     }
   };
 
-  http.send(params);
+  service.requests.list.send(params);
 };
 
 service.season = function (request) {
@@ -87,7 +92,7 @@ service.season = function (request) {
 };
 
 service.episode = function (request) {
-  var params = `session_id=${session.info.id}&collection_id=${request.data.collection_id}&limit=100000&fields=media.media_id,media.episode_number,media.name,media.description,media.screenshot_image,image.fwide_url,media.available,media.free_available`;
+  var params = `session_id=${session.info.id}&collection_id=${request.data.collection_id}&limit=100000&fields=media.media_id,media.episode_number,media.name,media.description,media.screenshot_image,image.fwide_url,image.fwidestar_url,media.available,media.free_available`;
 
   var http = new XMLHttpRequest();
   http.open("POST", this.api.url + "list_media.0.json", true);
@@ -125,3 +130,9 @@ service.video = function (request) {
 
   http.send(params);
 };
+
+service.abort = function(request) {
+  if(request) {
+    request.abort();
+  }
+}
