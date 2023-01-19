@@ -201,8 +201,7 @@ home.move.item = function (selected) {
       )[value];
       if (home.state == 2) {
         options[i].firstChild.setAttribute(
-          "src",
-          element.screenshot_image.fwide_url
+          "src", home.getEpisodeImage(element)
         );
       } else {
         options[i].firstChild.setAttribute(
@@ -238,6 +237,14 @@ home.move.item = function (selected) {
       options[i].firstChild.setAttribute('src', main.urls.src + `/empty_${home.state == 2 ? '640x360' : '160x240'}.png`);
     }
   }
+};
+
+home.getEpisodeImage = function (element) {
+  return element.available
+    ? element.free_available
+      ? element.screenshot_image.fwide_url
+      : element.screenshot_image.fwidestar_url
+    : "static.ak.crunchyroll.com/i/coming_soon_beta_fwide.jpg";
 };
 
 home.send = function () {
