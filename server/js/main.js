@@ -10,28 +10,23 @@ var main = {
 
 /* on init app */
 main.init = function () {
+  loggertest(localStorage.getItem("session"));
+  loading.init();
   player.init();
-
-  //main.setToken('');
-  // file.init(function() {
-    loading.init();
-    main.events.isLogged();
-  // });
+  session.init();
+  main.events.isLogged();
 };
 
 main.events.isLogged = function () {
-  //session.get().then((token) => {
-    //console.log("obtuvo token");
-    //console.log(token);
-    //if (token) {
-
+  session.valid({
+    success: function () {
       main.events.home();
-    //} else {
-    //  console.log("loading.destroy()");
-    //  loading.destroy();
-    //  login.init();
-    //}
-  //});
+    },
+    error: function () {
+      loading.destroy();
+      login.init();
+    },
+  });
 };
 
 main.events.home = function () {
@@ -44,7 +39,6 @@ main.events.home = function () {
       loading.destroy();
       home.data.series = response.data;
       home.init();
-      //video.init()
     },
     error: function () {
       loading.destroy();
@@ -55,13 +49,12 @@ main.events.home = function () {
 
 /* on exit app */
 main.destroy = function () {
-  player.deinit();
+  player.destroy();
 };
 
 /* on key press */
 main.keyDown = function (event) {
   if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
-    //widgetAPI.blockNavigation(event);
     exit.init();
   } else {
     switch (main.state) {
@@ -91,40 +84,4 @@ main.keyDown = function (event) {
         break;
     }
   }
-};
-
-/* read token from file and set in app var */
-main.getToken = function () {
-  var res = [];
-  res = main.readFile("token.dat");
-  main.token = res.length > 0 ? res[0] : null;
-  return main.token;
-};
-
-/* save file token and set in app var */
-main.setToken = function (token) {
-  main.token = token;
-  main.writeFile([token], "token.dat");
-};
-
-main.writeFile = function (content, fileName) {
-  var fileHandleWrite = tizen.filesystem.openFile(fileName, "w");
-  console.log("File opened for writing");
-  fileHandleWrite.writeStringNonBlocking(
-    content,
-    function (bytesCount) {
-      console.log("Number of bytes written: " + bytesCount);
-    },
-    function (error) {
-      console.log(error);
-    }
-  );
-  fileHandleWrite.closeNonBlocking(
-    function () {
-      console.log("File handle closed");
-    },
-    function (error) {
-      console.log(error);
-    }
-  );
 };

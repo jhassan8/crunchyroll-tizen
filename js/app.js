@@ -2,6 +2,14 @@ var app = {
   state: false,
 };
 
+window.loggertest = function (text) {
+  let timer = new Date();
+  let linelog = document.createElement("p");
+  linelog.innerText = timer.toLocaleTimeString() + "- " + text;
+  let consolelog = document.getElementById("console");
+  consolelog.appendChild(linelog);
+};
+
 window.onload = function () {
   if (typeof main != "undefined") {
     app.state = true;

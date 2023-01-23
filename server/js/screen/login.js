@@ -28,8 +28,8 @@ login.init = function () {
 
   login.move(login.selected);
   main.state = login.id;
-  translate.init();
-}
+  //translate.init();
+};
 
 login.destroy = function () {
   document.body.removeChild(document.getElementById(this.id));
@@ -69,9 +69,17 @@ login.action = function (selected) {
     if (username.length < 3 || password.length < 3) {
       console.log("Enter valid credentials...");
     } else {
+      login.destroy();
       loading.init();
-      this.destroy();
-      session.start(username, password);
+      session.start(username, password, {
+        success: function () {
+          main.events.isLogged();
+        },
+        error: function () {
+          loading.destroy();
+          login.init();
+        },
+      });
     }
   } else {
     keyboard.init(options[selected].firstElementChild);

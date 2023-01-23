@@ -85,7 +85,7 @@ keyboard.init = function (element) {
   this.move(this.selected);
   this.previus = main.state;
   main.state = this.id;
-  translate.init();
+  //translate.init();
 };
 
 keyboard.destroy = function () {
@@ -163,7 +163,6 @@ keyboard.action = function (selected) {
       this.input.value = this.input.value.slice(0, -1);
       break;
     default:
-      console.log(this.input);
       this.input.value =
         this.input.value +
         document.getElementsByClassName(this.id + "-option")[selected[0]]

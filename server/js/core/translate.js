@@ -4,7 +4,6 @@ var translate = {
 };
 
 translate.init = function (lang) {
-  console.log("traduce...");
   translate.langs.forEach((langFile) => {
     fetch(`server/translate/${langFile}.json`)
       .then((response) => response.json())

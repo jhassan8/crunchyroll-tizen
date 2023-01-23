@@ -1,8 +1,8 @@
 var home = {
   id: "home-screen",
-  types: [ "anime", "drama" ],
+  types: ["anime", "drama"],
   type: "anime",
-  filters:  [
+  filters: [
     { label: "Alphabetical", value: "alpha" },
     { label: "Popular", value: "popular" },
     { label: "Newest", value: "newest" },
@@ -34,13 +34,15 @@ home.init = function () {
   home_element.id = home.id;
 
   let menu_items = ``;
-  home.filters.forEach(filter => {
-    menu_items += `<li class="${home.id}-menu-option" translate>${filter.label}</li>`
+  home.filters.forEach((filter) => {
+    menu_items += `<li class="${home.id}-menu-option" translate>${filter.label}</li>`;
   });
 
   let poster_items = ``;
   for (let index = 0; index <= 20; index++) {
-    poster_items += `<div class="${home.id}-item ${index === 10 ? 'selected' : ''}"><img alt=""></div>`;
+    poster_items += `<div class="${home.id}-item ${
+      index === 10 ? "selected" : ""
+    }"><img alt=""></div>`;
   }
 
   home_element.innerHTML = `
@@ -60,7 +62,9 @@ home.init = function () {
       </div>
     </div>
     <div id="${home.id}-title"></div>
-    <div class="list ${ home.state === 2 ? 'episodes' : '' }" id="${home.id}-list">
+    <div class="list ${home.state === 2 ? "episodes" : ""}" id="${
+    home.id
+  }-list">
       <div class="content-list">
         ${poster_items}
       </div>
@@ -68,21 +72,20 @@ home.init = function () {
     <div id="${home.id}-description"></div>
     <div class="tools"></div>
   </div>`;
-  
+
   document.body.appendChild(home_element);
 
   home.move.menu(home.selected.menu);
   home.move.item(home.selected.serie);
   main.state = home.id;
-  translate.init();
+  //translate.init();
 };
- 
+
 home.destroy = function () {
   document.body.removeChild(document.getElementById(home.id));
 };
 
 home.keyDown = function (event) {
-  console.log(event.keyCode);
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
       //widgetAPI.blockNavigation(event);
@@ -165,7 +168,6 @@ home.move.menu = function (selected) {
       home.data.series = response.data;
       home.selected.serie = 0;
       home.move.item(home.selected.serie);
-      console.log('cargo');
     },
     error: function () {
       home.data.series = [];
@@ -181,7 +183,10 @@ home.move.item = function (selected) {
   for (var i = 0; i < options.length; i++) {
     var value = selected - 10 + i;
     options[i].className = options[i].className.replace(" hide", "");
-    options[i].firstChild.setAttribute('src', main.urls.src + `/empty_${home.state == 2 ? '640x360' : '160x240'}.png`);
+    options[i].firstChild.setAttribute(
+      "src",
+      main.urls.src + `/empty_${home.state == 2 ? "640x360" : "160x240"}.png`
+    );
     if (
       value > -1 &&
       value <
@@ -201,7 +206,8 @@ home.move.item = function (selected) {
       )[value];
       if (home.state == 2) {
         options[i].firstChild.setAttribute(
-          "src", home.getEpisodeImage(element)
+          "src",
+          home.getEpisodeImage(element)
         );
       } else {
         options[i].firstChild.setAttribute(
@@ -234,7 +240,10 @@ home.move.item = function (selected) {
       }
     } else {
       options[i].className = options[i].className + " hide";
-      options[i].firstChild.setAttribute('src', main.urls.src + `/empty_${home.state == 2 ? '640x360' : '160x240'}.png`);
+      options[i].firstChild.setAttribute(
+        "src",
+        main.urls.src + `/empty_${home.state == 2 ? "640x360" : "160x240"}.png`
+      );
     }
   }
 };
@@ -266,7 +275,7 @@ home.send = function () {
           }
         },
         error: function () {
-          console.log("error");
+          console.log(error);
         },
       });
       break;
@@ -295,7 +304,7 @@ home.event.episodes = function () {
       document.getElementById(home.id + "-list").className = "list episodes";
     },
     error: function () {
-      console.log("error");
+      console.log(error);
     },
   });
 };

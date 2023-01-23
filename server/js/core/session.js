@@ -9,64 +9,70 @@ var session = {
   },
 };
 
-session.start = function (username, password) {
-  if (!this.info.device) {
-    this.info.device = this.generateDevice();
-    service.device({
-      data: {
-        device_id: this.info.device,
-      },
-      success: function (response) {
-        session.info.expires = response.data.expires;
-        session.info.id = response.data.session_id;
-        session.set(session.info).then((status) => {
-          console.log("guardo o no " + status);
-          main.events.isLogged();
-        });
-      },
-      error: function () {
-        main.events.isLogged();
-      },
-    });
+session.init = function () {
+  loggertest("session.init");
+  let info = localStorage.getItem("session");
+  if (info) {
+    try {
+      info = JSON.parse(info);
+      session.info = info || session.info;
+    } catch (error) {
+      console.log("error parse session.");
+    }
   }
 
-  this.info.username = username;
-  this.info.password = password;
+  if (!session.info.device) {
+    session.info.device = session.generateDevice();
+  }
 
-  service.login({
+  session.update();
+};
+
+session.start = function (username, password, callback) {
+  service.device({
     data: {
-      session_id: this.info.id,
-      password: this.info.password,
-      account: this.info.username,
+      device_id: session.info.device,
     },
-    success: function (response) {
-      session.info.expires = response.data.expires;
-      session.info.premium = response.data.user.premium;
-      session.set(session.info);
-      main.events.isLogged();
+    success: function (responseSession) {
+      service.login({
+        data: {
+          session_id: responseSession.data.session_id,
+          password: password,
+          account: username,
+        },
+        success: function (response) {
+          loggertest("service.login OK");
+          session.info.expires = response.data.expires;
+          session.info.id = responseSession.data.session_id;
+          session.info.premium = response.data.user.premium;
+          session.info.username = username;
+          session.info.password = password;
+
+          session.update();
+          return callback.success();
+        },
+        error: function () {
+          session.clear();
+          return callback.error();
+        },
+      });
     },
     error: function () {
-      main.events.isLogged();
+      session.clear();
+      return callback.error();
     },
   });
-
-  console.log("username: " + username);
-  console.log("password: " + password);
 };
 
 // return session token, if expires refresh, if doesn't exist returns undefined
-session.get = async function () {
-  let info = await file.read("crunchyroll");
-  if (!info) {
-    return;
+session.valid = function (callback) {
+  if (session.info && session.info.id) {
+    if (session.isExpired(new Date(session.info.expires))) {
+      session.start(session.info.username, session.info.password, callback);
+    }
+    return callback.success();
   }
-
-  this.info = JSON.parse(info);
-  if (this.isExpired(new Date(session.info.expires))) {
-    this.start(this.info.username, this.info.password);
-  }
-
-  return this.info.id;
+  return callback.error();
 };
 
 session.isExpired = function (date) {
@@ -74,24 +80,38 @@ session.isExpired = function (date) {
   return date.getTime() <= new Date().getTime();
 };
 
-session.set = async function (data) {
-  var dataString = JSON.stringify(data);
-  console.log(dataString);
-  var status = await file.write("crunchyroll", dataString);
-  if (status) {
-    console.log("error save file");
-  }
-  return status;
+session.update = function () {
+  localStorage.setItem("session", JSON.stringify(session.info));
 };
 
-session.generateDevice = function () {
+session.clear = function () {
+  session.info.expires = undefined;
+  session.info.id = undefined;
+  session.info.premium = undefined;
+  session.info.username = undefined;
+  session.info.password = undefined;
+  localStorage.setItem("session", JSON.stringify(session.info));
+};
+
+session.randomString = function (lenght) {
   var text = "";
   var possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < lenght; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
 
   return text;
+};
+
+session.generateDevice = function () {
+  let id;
+  try {
+    id = webapis.network.getMac().replace(/:/g, "");
+  } catch (error) {
+    console.log("fail on get mac address");
+    id = session.randomString(12);
+  }
+  return `difix-${id}`;
 };

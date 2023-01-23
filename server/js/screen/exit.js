@@ -17,13 +17,13 @@ exit.init = function () {
     '      <div class="button" id="exit-screen-no">NO</div>' +
     "    </div>" +
     "  </div>" +
-    '</div>';
+    "</div>";
   document.body.appendChild(exit_element);
 
   exit.previus = main.state;
   main.state = exit.id;
   exit.move(false);
-  translate.init();
+  //translate.init();
 };
 
 exit.destroy = function () {

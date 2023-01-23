@@ -14,8 +14,8 @@ var video = {
     osd: {
       object: null,
       duration: 4000,
-    }
-  }
+    },
+  },
 };
 
 video.init = function (id) {
@@ -44,8 +44,12 @@ video.init = function (id) {
     <div class="osd" id="osd">
       <div class="details">
         <div id="title">${home.data.series[home.selected.serie].name}</div>
-        <div id="subtitle">${home.data.episodes[home.selected.episode].name}</div>
-        <div id="description">Episode ${home.data.episodes[home.selected.episode].episode_number}</div>
+        <div id="subtitle">${
+          home.data.episodes[home.selected.episode].name
+        }</div>
+        <div id="description">Episode ${
+          home.data.episodes[home.selected.episode].episode_number
+        }</div>
       </div>
       <div class="progress">
         <div id="time">00:00:00</div>
@@ -70,7 +74,7 @@ video.init = function (id) {
   video.previus = main.state;
   main.state = video.id;
 
-  translate.init();
+  //translate.init();
 };
 
 video.destroy = function () {
@@ -107,52 +111,56 @@ video.keyDown = function (event) {
   }
 };
 
-video.showOSD = function() {
+video.showOSD = function () {
   clearTimeout(video.timers.osd.object);
   let osd = document.getElementById("osd");
   osd.style.opacity = 1;
   video.timers.osd.object = setTimeout(() => {
-    video.hideOSD()
+    video.hideOSD();
   }, video.timers.osd.duration);
-}
+};
 
-video.hideOSD = function() {
+video.hideOSD = function () {
   video.timers.osd.object = null;
   let osd = document.getElementById("osd");
   osd.style.opacity = 0;
-}
+};
 
-video.showBTN = function(state, data) {
+video.showBTN = function (state, data) {
   let button = document.getElementById("osd-icon");
   button.style.opacity = 1;
   button.className = `icon-status ${state}`;
   document.getElementById("osd-icon-data").innerText = data;
-}
+};
 
-video.hideBTN = function() {
+video.hideBTN = function () {
   let button = document.getElementById("osd-icon");
   button.style.opacity = 0;
-}
+};
 
-video.setPlayingTime = function(time) {
+video.setPlayingTime = function (time) {
   let totalTime = player.getDuration();
   let timePercent = (100 * time) / totalTime;
 
   let totalSeconds = Math.floor((totalTime / 1000) % 60);
   let totalMinutes = Math.floor((totalTime / (1000 * 60)) % 60);
   let totalHours = Math.floor((totalTime / (1000 * 60 * 60)) % 24);
-  totalHours = (totalHours < 10) ? "0" + totalHours : totalHours;
-  totalMinutes = (totalMinutes < 10) ? "0" + totalMinutes : totalMinutes;
-  totalSeconds = (totalSeconds < 10) ? "0" + totalSeconds : totalSeconds;
+  totalHours = totalHours < 10 ? "0" + totalHours : totalHours;
+  totalMinutes = totalMinutes < 10 ? "0" + totalMinutes : totalMinutes;
+  totalSeconds = totalSeconds < 10 ? "0" + totalSeconds : totalSeconds;
 
   let timeSeconds = Math.floor((time / 1000) % 60);
   let timeMinutes = Math.floor((time / (1000 * 60)) % 60);
   let timeHours = Math.floor((time / (1000 * 60 * 60)) % 24);
-  timeHours = (timeHours < 10) ? "0" + timeHours : timeHours;
-  timeMinutes = (timeMinutes < 10) ? "0" + timeMinutes : timeMinutes;
-  timeSeconds = (timeSeconds < 10) ? "0" + timeSeconds : timeSeconds;
+  timeHours = timeHours < 10 ? "0" + timeHours : timeHours;
+  timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
+  timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;
 
-  document.getElementById("time").innerText = `${timeHours}:${timeMinutes}:${timeSeconds}`;
-  document.getElementById("total").innerText = `${totalHours}:${totalMinutes}:${totalSeconds}`;
+  document.getElementById(
+    "time"
+  ).innerText = `${timeHours}:${timeMinutes}:${timeSeconds}`;
+  document.getElementById(
+    "total"
+  ).innerText = `${totalHours}:${totalMinutes}:${totalSeconds}`;
   document.getElementById("played").style.width = timePercent + "%";
-}
+};
