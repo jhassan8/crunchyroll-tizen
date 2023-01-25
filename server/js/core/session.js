@@ -6,6 +6,10 @@ var session = {
     username: undefined,
     expires: undefined,
     premium: undefined,
+    settings: {
+      quality: 'auto',
+      subtitles: 'EN',
+    }
   },
 };
 
