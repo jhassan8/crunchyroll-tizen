@@ -81,6 +81,14 @@ home.init = function () {
   //translate.init();
 };
 
+home.hide = function () {
+  document.getElementById(home.id).style.display = 'none';
+};
+
+home.show = function () {
+  document.getElementById(home.id).style.display = 'block';
+};
+
 home.destroy = function () {
   document.body.removeChild(document.getElementById(home.id));
 };

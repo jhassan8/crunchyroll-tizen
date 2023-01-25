@@ -1,43 +1,67 @@
 #menu-screen {
-  margin: 0 auto;
   left: 0;
-  right: 0;
-  top: 300px;
-  width: 330px;
-  height: 140px;
+  top: 0;
+  width: 100%;
+  height: 100%;
   position: absolute;
+}
+
+#menu-screen .content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(0, 0, 0, 0.7);
 }
 
-#menu-screen .item {
-  float: left;
-  padding: 0 10px;
-  width: 90px;
-  height: 90px;
-  background-size: 65px;
+#menu-screen .window {
+  width: 20vw;
+  height: 12vh;
+  background: black;
+  padding: 10px;
+}
+
+#menu-screen #menu-screen-title {
+  color: #fff;
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 3.5px;
+  font-weight: bold;
+}
+
+#menu-screen #menu-screen-options {
+  width: 100%;
+  height: 65%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+#menu-screen .option {
   background-repeat: no-repeat;
   background-position: center;
+  margin: 10px;
+  background-size: contain;
   opacity: 0.5;
+  padding: 5px;
 }
 
 #menu-screen .selected {
   opacity: 1;
 }
 
-#menu-screen .item.search {
+#menu-screen .option.search {
   background-image: url(../img/search.png);
 }
 
-#menu-screen .item.list {
+#menu-screen .option.list {
   background-image: url(../img/list.png);
 }
 
-#menu-screen .title {
-  padding: 10px 0;
-  bottom: 0;
-  position: absolute;
-  width: 330px;
-  text-align: center;
-  color: #fff;
-  font-size: 25px;
+#menu-screen .option.quotes {
+  background-image: url(../img/quotes.png);
+}
+
+#menu-screen .option.settings {
+  background-image: url(../img/settings.png);
 }

@@ -70,7 +70,7 @@ video.init = function (id) {
   </div>`;
   document.body.appendChild(video_element);
 
-  home.destroy();
+  home.hide();
   video.previus = main.state;
   main.state = video.id;
 
@@ -81,7 +81,7 @@ video.destroy = function () {
   player.stop();
   main.state = video.previus;
   document.body.removeChild(document.getElementById(video.id));
-  home.init();
+  home.show();
 };
 
 video.keyDown = function (event) {

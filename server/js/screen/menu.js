@@ -1,32 +1,59 @@
 var menu = {
   id: "menu-screen",
+  options: [
+    { title: "Animes", icon: "list" },
+    { title: "Dramas", icon: "list" },
+    { title: "Quotes", icon: "quotes" },
+    { title: "Search", icon: "search" },
+    {
+      title: "Settings",
+      icon: "settings",
+      childs: [
+        { title: "Return", icon: "return" },
+        { title: "Quality", icon: `quality-${session.info.settings.quality}` },
+        { title: "Subtitles", text: session.info.settings.subtitles },
+        { title: "Logout", icon: "logout" },
+        { title: "About", icon: "about" },
+      ],
+    },
+  ],
+  option: { root: true, item: 0, selected: 0 },
   previus: null,
-  selected: 0,
 };
 
 menu.init = function () {
   var menu_element = document.createElement("div");
   menu_element.id = this.id;
 
-  menu_element.innerHTML =
-    '<div class="' +
-    this.id +
-    '-option item list" value="Animes"></div>' +
-    '<div class="' +
-    this.id +
-    '-option item list" value="Dramas"></div>' +
-    '<div class="' +
-    this.id +
-    '-option item search" value="Buscar"></div>' +
-    '<div id="' +
-    this.id +
-    '-title" class="title"></div>';
+  menu_element.innerHTML = `<div class="content">
+    <div class="window">
+      <div id="${menu.id}-options"></div>
+      <div id="${menu.id}-title"></div>
+    </div>
+  </div>`;
+
   document.body.appendChild(menu_element);
 
-  this.move(this.selected);
+  this.move();
   this.previus = main.state;
   main.state = this.id;
   //translate.init();
+};
+
+menu.move = function () {
+  let options = "";
+  (menu.option.root
+    ? menu.options
+    : menu.options[menu.option.item].childs
+  ).forEach((element, index) => {
+    options += `<div class="option ${element.icon}${
+      this.option.selected === index ? " selected" : ""
+    }"></div>`;
+    if (this.option.selected === index) {
+      document.getElementById(this.id + "-title").innerText = element.title;
+    }
+  });
+  document.getElementById(`${menu.id}-options`).innerHTML = options;
 };
 
 menu.destroy = function () {
@@ -37,14 +64,22 @@ menu.destroy = function () {
 menu.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
-      //widgetAPI.blockNavigation(event);
-      this.destroy();
+      if (this.option.root) {
+        this.destroy();
+      } else {
+        this.option.root = true;
+        this.move();
+      }
       break;
     case tvKey.KEY_LEFT:
-      this.move(this.selected == 0 ? 0 : this.selected - 1);
+      this.option.selected =
+        this.option.selected == 0 ? 0 : this.option.selected - 1;
+      this.move();
       break;
     case tvKey.KEY_RIGHT:
-      this.move(this.selected == 2 ? 2 : this.selected + 1);
+      this.option.selected =
+        this.option.selected == 4 ? 4 : this.option.selected + 1;
+      this.move();
       break;
     case tvKey.KEY_ENTER:
     case tvKey.KEY_PANEL_ENTER:
@@ -53,18 +88,18 @@ menu.keyDown = function (event) {
   }
 };
 
-menu.move = function (selected) {
-  this.selected = selected;
-  var options = document.getElementsByClassName(this.id + "-option");
-  for (var i = 0; i < options.length; i++) {
-    options[i].className = options[i].className.replace(" selected", "");
-    if (i == selected) {
-      options[i].className = options[i].className + " selected";
-      document.getElementById(this.id + "-title").innerText =
-        options[i].getAttribute("value");
-    }
-  }
-};
+// menu.move = function (selected) {
+//   this.selected = selected;
+//   var options = document.getElementsByClassName(this.id + "-option");
+//   for (var i = 0; i < options.length; i++) {
+//     options[i].className = options[i].className.replace(" selected", "");
+//     if (i == selected) {
+//       options[i].className = options[i].className + " selected";
+//       document.getElementById(this.id + "-title").innerText =
+//         options[i].getAttribute("value");
+//     }
+//   }
+// };
 
 menu.send = function () {
   console.log("send");
