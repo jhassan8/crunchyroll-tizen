@@ -113,7 +113,7 @@ video.keyDown = function (event) {
 
 video.showOSD = function () {
   clearTimeout(video.timers.osd.object);
-  let osd = document.getElementById("osd");
+  var osd = document.getElementById("osd");
   osd.style.opacity = 1;
   video.timers.osd.object = setTimeout(() => {
     video.hideOSD();
@@ -122,36 +122,36 @@ video.showOSD = function () {
 
 video.hideOSD = function () {
   video.timers.osd.object = null;
-  let osd = document.getElementById("osd");
+  var osd = document.getElementById("osd");
   osd.style.opacity = 0;
 };
 
 video.showBTN = function (state, data) {
-  let button = document.getElementById("osd-icon");
+  var button = document.getElementById("osd-icon");
   button.style.opacity = 1;
   button.className = `icon-status ${state}`;
   document.getElementById("osd-icon-data").innerText = data;
 };
 
 video.hideBTN = function () {
-  let button = document.getElementById("osd-icon");
+  var button = document.getElementById("osd-icon");
   button.style.opacity = 0;
 };
 
 video.setPlayingTime = function (time) {
-  let totalTime = player.getDuration();
-  let timePercent = (100 * time) / totalTime;
+  var totalTime = player.getDuration();
+  var timePercent = (100 * time) / totalTime;
 
-  let totalSeconds = Math.floor((totalTime / 1000) % 60);
-  let totalMinutes = Math.floor((totalTime / (1000 * 60)) % 60);
-  let totalHours = Math.floor((totalTime / (1000 * 60 * 60)) % 24);
+  var totalSeconds = Math.floor((totalTime / 1000) % 60);
+  var totalMinutes = Math.floor((totalTime / (1000 * 60)) % 60);
+  var totalHours = Math.floor((totalTime / (1000 * 60 * 60)) % 24);
   totalHours = totalHours < 10 ? "0" + totalHours : totalHours;
   totalMinutes = totalMinutes < 10 ? "0" + totalMinutes : totalMinutes;
   totalSeconds = totalSeconds < 10 ? "0" + totalSeconds : totalSeconds;
 
-  let timeSeconds = Math.floor((time / 1000) % 60);
-  let timeMinutes = Math.floor((time / (1000 * 60)) % 60);
-  let timeHours = Math.floor((time / (1000 * 60 * 60)) % 24);
+  var timeSeconds = Math.floor((time / 1000) % 60);
+  var timeMinutes = Math.floor((time / (1000 * 60)) % 60);
+  var timeHours = Math.floor((time / (1000 * 60 * 60)) % 24);
   timeHours = timeHours < 10 ? "0" + timeHours : timeHours;
   timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
   timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;

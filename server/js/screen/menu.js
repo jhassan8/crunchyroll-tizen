@@ -41,7 +41,7 @@ menu.init = function () {
 };
 
 menu.move = function () {
-  let options = "";
+  var options = "";
   (menu.option.root
     ? menu.options
     : menu.options[menu.option.item].childs

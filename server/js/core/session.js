@@ -15,7 +15,7 @@ var session = {
 
 session.init = function () {
   loggertest("session.init");
-  let info = localStorage.getItem("session");
+  var info = localStorage.getItem("session");
   if (info) {
     try {
       info = JSON.parse(info);
@@ -110,7 +110,7 @@ session.randomString = function (lenght) {
 };
 
 session.generateDevice = function () {
-  let id;
+  var id;
   try {
     id = webapis.network.getMac().replace(/:/g, "");
   } catch (error) {

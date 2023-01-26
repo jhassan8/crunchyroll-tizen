@@ -17,7 +17,7 @@ service.device = function (request) {
   http.onload = function () {
     if (http.readyState == 4) {
       if (http.status == 200) {
-        let response = new Function("return " + http.responseText + ";")();
+        var response = new Function("return " + http.responseText + ";")();
         if (response.error) {
           request.error();
         } else {
@@ -43,7 +43,7 @@ service.login = function (request) {
   http.onload = function () {
     if (http.readyState == 4) {
       if (http.status == 200) {
-        let response = new Function("return " + http.responseText + ";")();
+        var response = new Function("return " + http.responseText + ";")();
         if (response.error) {
           request.error();
         } else {
@@ -72,7 +72,7 @@ service.list = function (request) {
   service.requests.list.onreadystatechange = function () {
     if (service.requests.list.readyState == 4) {
       if (service.requests.list.status == 200) {
-        let response = new Function(
+        var response = new Function(
           "return " + service.requests.list.responseText + ";"
         )();
         if (response.error) {
@@ -99,7 +99,7 @@ service.season = function (request) {
   http.onreadystatechange = function () {
     if (http.readyState == 4) {
       if (http.status == 200) {
-        let response = new Function("return " + http.responseText + ";")();
+        var response = new Function("return " + http.responseText + ";")();
         if (response.error) {
           request.error();
         } else {
@@ -124,7 +124,7 @@ service.episode = function (request) {
   http.onreadystatechange = function () {
     if (http.readyState == 4) {
       if (http.status == 200) {
-        let response = new Function("return " + http.responseText + ";")();
+        var response = new Function("return " + http.responseText + ";")();
         if (response.error) {
           request.error();
         } else {
@@ -149,7 +149,7 @@ service.video = function (request) {
   http.onreadystatechange = function () {
     if (http.readyState == 4) {
       if (http.status == 200) {
-        let response = new Function("return " + http.responseText + ";")();
+        var response = new Function("return " + http.responseText + ";")();
         if (response.error) {
           request.error();
         } else {

@@ -10,7 +10,7 @@ translate.init = function (lang) {
       .then((json) => {
         translate.add(langFile, json);
         translate.lang = lang || translate.lang;
-        let elements = document.querySelectorAll("[translate]");
+        var elements = document.querySelectorAll("[translate]");
         elements.forEach(
           (element) => (element.innerText = translate.go(element.innerText))
         );

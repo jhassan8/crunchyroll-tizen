@@ -63,12 +63,12 @@ keyboard.init = function (element) {
 
   var htmlString = "";
 
-  for (const item of values) {
+  for (var item of values) {
     htmlString += `
     <div class="${this.id}-option row">
     `;
 
-    for (const key of item.keys) {
+    for (var key of item.keys) {
       htmlString += `
       <div class="col size-${key.size}" alter="${key.number}">
         ${key.value.toLocaleLowerCase()}
@@ -176,8 +176,8 @@ keyboard.upperCase = function () {
   var type =
     options[0].children[0].innerText.toUpperCase() ==
     options[0].children[0].innerText;
-  for (const option of options) {
-    for (const child of option.children) {
+  for (var option of options) {
+    for (var child of option.children) {
       child.innerText = type
         ? child.innerText.toLowerCase()
         : child.innerText.toUpperCase();
@@ -187,8 +187,8 @@ keyboard.upperCase = function () {
 
 keyboard.change = function () {
   var options = document.getElementsByClassName(this.id + "-option");
-  for (const option of options) {
-    for (const child of option.children) {
+  for (var option of options) {
+    for (var child of option.children) {
       var newAlter = child.innerText;
       child.innerText = child.getAttribute("alter");
       child.setAttribute("alter", newAlter);

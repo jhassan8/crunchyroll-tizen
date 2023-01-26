@@ -33,13 +33,13 @@ home.init = function () {
   var home_element = document.createElement("div");
   home_element.id = home.id;
 
-  let menu_items = ``;
+  var menu_items = ``;
   home.filters.forEach((filter) => {
     menu_items += `<li class="${home.id}-menu-option" translate>${filter.label}</li>`;
   });
 
-  let poster_items = ``;
-  for (let index = 0; index <= 20; index++) {
+  var poster_items = ``;
+  for (var index = 0; index <= 20; index++) {
     poster_items += `<div class="${home.id}-item ${
       index === 10 ? "selected" : ""
     }"><img alt=""></div>`;
@@ -157,7 +157,7 @@ home.keyDown = function (event) {
 
 home.move.menu = function (selected) {
   home.selected.menu = selected;
-  let options = document.getElementsByClassName(home.id + "-menu-option");
+  var options = document.getElementsByClassName(home.id + "-menu-option");
   for (var i = 0; i < options.length; i++) {
     if (i == selected) {
       options[i].className = home.id + "-menu-option selected";
