@@ -113,9 +113,7 @@ home.keyDown = function (event) {
         home.move.item(selected);
       }
       break;
-    case tvKey.KEY_PANEL_MENU:
-    case tvKey.KEY_MENU:
-      //widgetAPI.blockNavigation(event);
+    case tvKey.KEY_NEXT:
       menu.init();
       break;
     case tvKey.KEY_UP:

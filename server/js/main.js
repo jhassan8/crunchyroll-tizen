@@ -10,7 +10,6 @@ var main = {
 
 /* on init app */
 main.init = function () {
-  loggertest(localStorage.getItem("session"));
   loading.init();
   player.init();
   session.init();

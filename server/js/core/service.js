@@ -60,7 +60,7 @@ service.login = function (request) {
 
 service.list = function (request) {
   service.abort(service.requests.list);
-  var params = `session_id=${session.info.id}&media_type=${request.data.type}&filter=${request.data.filter}&limit=100000&fields=series.name,series.description,series.series_id,series.portrait_image,image.thumb_url`;
+  var params = `locale=${session.info.settings.subtitles}&session_id=${session.info.id}&media_type=${request.data.type}&filter=${request.data.filter}&limit=100000&fields=series.name,series.description,series.series_id,series.portrait_image,image.thumb_url`;
 
   service.requests.list = new XMLHttpRequest();
   service.requests.list.open("POST", this.api.url + "list_series.0.json", true);
@@ -90,7 +90,7 @@ service.list = function (request) {
 };
 
 service.season = function (request) {
-  var params = `session_id=${session.info.id}&series_id=${request.data.series_id}&limit=100000&fields=collection.collection_id,collection.season,collection.name,collection.description,collection.media_count,collection.portrait_image,image.thumb_url`;
+  var params = `locale=${session.info.settings.subtitles}&session_id=${session.info.id}&series_id=${request.data.series_id}&limit=100000&fields=collection.collection_id,collection.season,collection.name,collection.description,collection.media_count,collection.portrait_image,image.thumb_url`;
 
   var http = new XMLHttpRequest();
   http.open("POST", this.api.url + "list_collections.0.json", true);
@@ -115,7 +115,7 @@ service.season = function (request) {
 };
 
 service.episode = function (request) {
-  var params = `session_id=${session.info.id}&collection_id=${request.data.collection_id}&limit=100000&fields=media.media_id,media.episode_number,media.name,media.description,media.screenshot_image,image.fwide_url,image.fwidestar_url,media.available,media.free_available`;
+  var params = `locale=${session.info.settings.subtitles}&session_id=${session.info.id}&collection_id=${request.data.collection_id}&limit=100000&fields=media.media_id,media.episode_number,media.name,media.description,media.screenshot_image,image.fwide_url,image.fwidestar_url,media.available,media.free_available`;
 
   var http = new XMLHttpRequest();
   http.open("POST", this.api.url + "list_media.0.json", true);
@@ -140,7 +140,7 @@ service.episode = function (request) {
 };
 
 service.video = function (request) {
-  var params = `session_id=${session.info.id}&media_id=${request.data.media_id}&limit=100000&fields=media.stream_data,media.name,media.episode_number`;
+  var params = `locale=${session.info.settings.subtitles}&session_id=${session.info.id}&media_id=${request.data.media_id}&limit=100000&fields=media.stream_data,media.name,media.episode_number`;
 
   var http = new XMLHttpRequest();
   http.open("POST", this.api.url + "info.0.json", true);

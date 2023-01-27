@@ -7,14 +7,13 @@ var session = {
     expires: undefined,
     premium: undefined,
     settings: {
-      quality: 'auto',
-      subtitles: 'EN',
-    }
+      quality: "auto",
+      subtitles: "N/A",
+    },
   },
 };
 
 session.init = function () {
-  loggertest("session.init");
   var info = localStorage.getItem("session");
   if (info) {
     try {
@@ -45,7 +44,6 @@ session.start = function (username, password, callback) {
           account: username,
         },
         success: function (response) {
-          loggertest("service.login OK");
           session.info.expires = response.data.expires;
           session.info.id = responseSession.data.session_id;
           session.info.premium = response.data.user.premium;

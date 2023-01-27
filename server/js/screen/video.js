@@ -27,9 +27,12 @@ video.init = function (id) {
       media_id: id,
     },
     success: function (data) {
-      console.log(data);
       video.data = data.data;
-      player.play(video.data.stream_data.streams[0].url);
+      try {
+        player.play(video.byQuality(video.data.stream_data.streams).url);
+      } catch (error) {
+        console.log(error);
+      }
       video.showOSD();
     },
     error: function () {
@@ -75,6 +78,31 @@ video.init = function (id) {
   main.state = video.id;
 
   //translate.init();
+};
+
+video.byQuality = function (data) {
+  var stream;
+  var quality =
+    session.info.settings.quality === "fhd"
+      ? "high"
+      : session.info.settings.quality === "hd"
+      ? "mid"
+      : session.info.settings.quality === "sd"
+      ? "low"
+      : "adaptive";
+  
+  data.forEach((element) => {
+    if (element.quality === quality) {
+      stream = element;
+    }
+  });
+
+  stream = stream ? stream : data[0];
+  if (!stream) {
+    throw new Error("empty videos");
+  }
+
+  return stream;
 };
 
 video.destroy = function () {

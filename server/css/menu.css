@@ -65,3 +65,41 @@
 #menu-screen .option.settings {
   background-image: url(../img/settings.png);
 }
+
+#menu-screen .option.quality-auto {
+  background-image: url(../img/auto.png);
+}
+
+#menu-screen .option.quality-fhd {
+  background-image: url(../img/fhd.png);
+}
+
+#menu-screen .option.quality-hd {
+  background-image: url(../img/hd.png);
+}
+
+#menu-screen .option.quality-sd {
+  background-image: url(../img/sd.png);
+}
+
+#menu-screen .option.about {
+  background-image: url(../img/about.png);
+}
+
+#menu-screen .option.logout {
+  background-image: url(../img/logout.png);
+}
+
+#menu-screen .option.return {
+  background-image: url(../img/return.png);
+}
+
+#menu-screen .option.text {
+  color: #fff;
+  text-align: center;
+  line-height: 38px;
+  font-size: 20px;
+  padding: 5px 0;
+  transform: scaleY(3);
+}
+

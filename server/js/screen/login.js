@@ -15,10 +15,10 @@ login.init = function () {
       </div>
       <div class="form">
         <div class="input ${login.id}-option">
-          <input type="text" placeholder="Enter user..." value="djjoc">
+          <input type="text" placeholder="Enter user...">
         </div>
         <div class="input ${login.id}-option">
-          <input type="password" placeholder="Enter password..." value="eduardoteodiamos">
+          <input type="password" placeholder="Enter password...">
         </div>
         <a class="button ${login.id}-option" translate>LOGIN</a>
       </div>
