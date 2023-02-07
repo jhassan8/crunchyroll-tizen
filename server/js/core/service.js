@@ -1,12 +1,53 @@
 var service = {
   api: {
-    url: "https://api.crunchyroll.com/",
-    device_type: "com.crunchyroll.windows.desktop",
-    access_token: "LNDJgOit5yaRIWN",
+    //url: "https://beta-api.crunchyroll.com",
+    url: "http://localhost:3002",
+    auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
   },
-  requests: {
-    list: null,
-  },
+};
+
+service.token = function (request) {
+  var headers = new Headers();
+  headers.append("Authorization", service.api.auth);
+  headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+  var params = new URLSearchParams();
+  params.append("username", request.data.username);
+  params.append("password", request.data.password);
+  params.append("grant_type", "password");
+  params.append("scope", "offline_access");
+
+  fetch(`${service.api.url}/auth/v1/token`, {
+    method: "POST",
+    headers: headers,
+    body: params,
+  })
+    .then((response) => response.json())
+    .then((json) => request.success && request.success(json))
+    .catch((error) => {
+      console.log(error);
+      request.error && request.error(error);
+    });
+};
+
+service.refresh = function (request) {
+  var headers = new Headers();
+  headers.append("Authorization", service.api.auth);
+  headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+  var params = new URLSearchParams();
+  params.append("refresh_token", session.storage.refresh_token);
+  params.append("grant_type", "refresh_token");
+  params.append("scope", "offline_access");
+
+  fetch(`${service.api.url}/auth/v1/token`, {
+    method: "POST",
+    headers: headers,
+    body: params,
+  })
+    .then((response) => response.json())
+    .then((json) => request.success(json))
+    .catch((error) => request.error(error));
 };
 
 service.device = function (request) {

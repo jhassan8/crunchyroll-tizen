@@ -11,53 +11,64 @@ var session = {
       subtitles: "N/A",
     },
   },
+  storage: {
+    account: {
+      password: NaN,
+      username: NaN,
+      avatar: "0001-cr-white-orange.png",
+      premium: false,
+      language: NaN,
+    },
+    cookies: {
+      bucket: NaN,
+      policy: NaN,
+      signature: NaN,
+      key_pair_id: NaN,
+      expires: NaN,
+    },
+    id: NaN,
+    country: NaN,
+    token_type: NaN,
+    access_token: NaN,
+    expires_in: NaN,
+    refresh_token: NaN,
+  },
 };
 
 session.init = function () {
-  var info = localStorage.getItem("session");
-  if (info) {
+  var storage = localStorage.getItem("session");
+  if (storage) {
     try {
-      info = JSON.parse(info);
-      session.info = info || session.info;
+      storage = JSON.parse(storage);
+      session.storage = storage || session.storage;
     } catch (error) {
       console.log("error parse session.");
     }
-  }
-
-  if (!session.info.device) {
-    session.info.device = session.generateDevice();
   }
 
   session.update();
 };
 
 session.start = function (username, password, callback) {
-  service.device({
+  service.token({
     data: {
-      device_id: session.info.device,
+      password: password,
+      username: username,
     },
-    success: function (responseSession) {
-      service.login({
-        data: {
-          session_id: responseSession.data.session_id,
-          password: password,
-          account: username,
-        },
-        success: function (response) {
-          session.info.expires = response.data.expires;
-          session.info.id = responseSession.data.session_id;
-          session.info.premium = response.data.user.premium;
-          session.info.username = username;
-          session.info.password = password;
+    success: function (response) {
+      session.storage.expires_in = new Date().setSeconds(
+        new Date().getSeconds() + response.expires_in
+      );
+      session.storage.id = response.account_id;
+      session.storage.account.username = username;
+      session.storage.account.password = password;
+      session.storage.country = response.country;
+      session.storage.token_type = response.token_type;
+      session.storage.access_token = response.access_token;
+      session.storage.refresh_token = response.refresh_token;
 
-          session.update();
-          return callback.success();
-        },
-        error: function () {
-          session.clear();
-          return callback.error();
-        },
-      });
+      //session.loadAccountInfo();
+      return callback.success(session.update());
     },
     error: function () {
       session.clear();
@@ -66,33 +77,77 @@ session.start = function (username, password, callback) {
   });
 };
 
+session.refresh = function (callback) {
+  if (session.isExpired()) {
+    service.refresh({
+      data: {
+        refresh_token: session.storage.refresh_token,
+      },
+      success: function (response) {
+        session.storage.expires_in = new Date().setSeconds(
+          new Date().getSeconds() + response.expires_in
+        );
+        session.storage.id = response.account_id;
+        session.storage.country = response.country;
+        session.storage.token_type = response.token_type;
+        session.storage.access_token = response.access_token;
+        session.storage.refresh_token = response.refresh_token;
+
+        callback.success(session.update());
+      },
+      error: function (error) {
+        callback.error(error);
+      },
+    });
+    return;
+  }
+  callback.success(session.storage);
+};
+
 // return session token, if expires refresh, if doesn't exist returns undefined
 session.valid = function (callback) {
-  if (session.info && session.info.id) {
-    if (session.isExpired(new Date(session.info.expires))) {
-      session.start(session.info.username, session.info.password, callback);
-    }
-    return callback.success();
+  if (session.storage && session.storage.access_token) {
+    return session.refresh(callback);
   }
   return callback.error();
 };
 
-session.isExpired = function (date) {
-  date.setDate(date.getDate() - 1);
-  return date.getTime() <= new Date().getTime();
+session.isExpired = function () {
+  return !(
+    session.storage.expires_in &&
+    session.storage.expires_in >= new Date().getTime()
+  );
 };
 
 session.update = function () {
-  localStorage.setItem("session", JSON.stringify(session.info));
+  localStorage.setItem("session", JSON.stringify(session.storage));
+  return session.storage;
 };
 
 session.clear = function () {
-  session.info.expires = undefined;
-  session.info.id = undefined;
-  session.info.premium = undefined;
-  session.info.username = undefined;
-  session.info.password = undefined;
-  localStorage.setItem("session", JSON.stringify(session.info));
+  session.storage = {
+    account: {
+      password: NaN,
+      username: NaN,
+      avatar: "0001-cr-white-orange.png",
+      premium: false,
+      language: NaN,
+    },
+    cookies: {
+      bucket: NaN,
+      policy: NaN,
+      signature: NaN,
+      key_pair_id: NaN,
+      expires: NaN,
+    },
+    id: NaN,
+    country: NaN,
+    token_type: NaN,
+    access_token: NaN,
+    expires_in: NaN,
+    refresh_token: NaN,
+  };
+  session.update();
 };
 
 session.randomString = function (lenght) {

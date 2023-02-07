@@ -13,10 +13,10 @@ main.init = function () {
   loading.init();
   player.init();
   session.init();
-  main.events.isLogged();
+  main.events.login();
 };
 
-main.events.isLogged = function () {
+main.events.login = function () {
   session.valid({
     success: function () {
       main.events.home();
@@ -29,21 +29,22 @@ main.events.isLogged = function () {
 };
 
 main.events.home = function () {
-  service.list({
-    data: {
-      type: home.type,
-      filter: home.filter,
-    },
-    success: function (response) {
-      loading.destroy();
-      home.data.series = response.data;
-      home.init();
-    },
-    error: function () {
-      loading.destroy();
-      login.init();
-    },
-  });
+  console.log('======================  SESSION COMPLETE =====================');
+  // service.list({
+  //   data: {
+  //     type: home.type,
+  //     filter: home.filter,
+  //   },
+  //   success: function (response) {
+  //     loading.destroy();
+  //     home.data.series = response.data;
+  //     home.init();
+  //   },
+  //   error: function () {
+  //     loading.destroy();
+  //     login.init();
+  //   },
+  // });
 };
 
 /* on exit app */
