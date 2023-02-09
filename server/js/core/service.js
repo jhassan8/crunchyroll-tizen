@@ -50,6 +50,40 @@ service.refresh = function (request) {
     .catch((error) => request.error(error));
 };
 
+service.profile = function (request) {
+  return session.refresh({
+    success: function(storage) {
+      var headers = new Headers();
+      headers.append("Authorization", `Bearer ${storage.access_token}`);
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+  
+      fetch(`${service.api.url}/accounts/v1/me/profile`, {
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((json) => request.success(json))
+        .catch((error) => request.error(error));
+    }
+  });
+};
+
+service.cookies = function (request) {
+  return session.refresh({
+    success: function(storage) {
+      var headers = new Headers();
+      headers.append("Authorization", `Bearer ${storage.access_token}`);
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+  
+      fetch(`${service.api.url}/index/v2`, {
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((json) => request.success(json))
+        .catch((error) => request.error(error));
+    }
+  });
+};
+
 service.device = function (request) {
   var params = `device_id=${request.data.device_id}&device_type=${service.api.device_type}&access_token=${service.api.access_token}`;
   var http = new XMLHttpRequest();

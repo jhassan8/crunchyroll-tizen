@@ -30,54 +30,65 @@ var home = {
 };
 
 home.init = function () {
+  menu.init();
   var home_element = document.createElement("div");
   home_element.id = home.id;
 
-  var menu_items = ``;
-  home.filters.forEach((filter) => {
-    menu_items += `<li class="${home.id}-menu-option" translate>${filter.label}</li>`;
-  });
-
-  var poster_items = ``;
-  for (var index = 0; index <= 20; index++) {
-    poster_items += `<div class="${home.id}-item ${
-      index === 10 ? "selected" : ""
-    }"><img alt=""></div>`;
-  }
-
   home_element.innerHTML = `
   <div class="content">
-    <div class="menu">
-      <div class="logo">
-        <img src="${main.urls.src}/logo-big.png" alt="">
-      </div>
-      <ul>
-        ${menu_items}
-      </ul>
-    </div>
-    <div class="header">
-      <div class="header-title">
-        <em class="title-icon"></em>
-        <div id="${home.id}-header-title">${home.type}</div>
-      </div>
-    </div>
-    <div id="${home.id}-title"></div>
-    <div class="list ${home.state === 2 ? "episodes" : ""}" id="${
-    home.id
-  }-list">
-      <div class="content-list">
-        ${poster_items}
-      </div>
-    </div>
-    <div id="${home.id}-description"></div>
-    <div class="tools"></div>
   </div>`;
 
   document.body.appendChild(home_element);
-
-  home.move.menu(home.selected.menu);
-  home.move.item(home.selected.serie);
   main.state = home.id;
+
+  // var home_element = document.createElement("div");
+  // home_element.id = home.id;
+
+  // var menu_items = ``;
+  // home.filters.forEach((filter) => {
+  //   menu_items += `<li class="${home.id}-menu-option" translate>${filter.label}</li>`;
+  // });
+
+  // var poster_items = ``;
+  // for (var index = 0; index <= 20; index++) {
+  //   poster_items += `<div class="${home.id}-item ${
+  //     index === 10 ? "selected" : ""
+  //   }"><img alt=""></div>`;
+  // }
+
+  // home_element.innerHTML = `
+  // <div class="content">
+  //   <div class="menu">
+  //     <div class="logo">
+  //       <img src="${main.urls.src}/logo-big.png" alt="">
+  //     </div>
+  //     <ul>
+  //       ${menu_items}
+  //     </ul>
+  //   </div>
+  //   <div class="header">
+  //     <div class="header-title">
+  //       <em class="title-icon"></em>
+  //       <div id="${home.id}-header-title">${home.type}</div>
+  //     </div>
+  //   </div>
+  //   <div id="${home.id}-title"></div>
+  //   <div class="list ${home.state === 2 ? "episodes" : ""}" id="${
+  //   home.id
+  // }-list">
+  //     <div class="content-list">
+  //       ${poster_items}
+  //     </div>
+  //   </div>
+  //   <div id="${home.id}-description"></div>
+  //   <div class="tools"></div>
+  // </div>`;
+
+  // document.body.appendChild(home_element);
+
+  // home.move.menu(home.selected.menu);
+  // home.move.item(home.selected.serie);
+  // main.state = home.id;
   //translate.init();
 };
 
@@ -96,22 +107,8 @@ home.destroy = function () {
 home.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
-      //widgetAPI.blockNavigation(event);
-      if (home.state == 0) {
-        exit.init();
-      } else {
-        if (home.state == 2) {
-          document.getElementById(home.id + "-list").className = "list";
-        }
-        home.state = home.state == 1 ? 0 : home.previus_state;
-        var selected =
-          home.state == 0
-            ? home.selected.serie
-            : home.state == 1
-            ? home.selected.season
-            : home.selected.episode;
-        home.move.item(selected);
-      }
+    case 27:
+      menu.open();
       break;
     case tvKey.KEY_NEXT:
       menu.init();

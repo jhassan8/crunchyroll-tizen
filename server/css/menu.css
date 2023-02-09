@@ -1,105 +1,145 @@
 #menu-screen {
   left: 0;
   top: 0;
-  width: 100%;
   height: 100%;
   position: absolute;
 }
 
 #menu-screen .content {
-  width: 100%;
   height: 100%;
+  width: 150px;
+  padding: 50px 35px 50px 65px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#menu-screen .content .profile {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
 }
 
-#menu-screen .window {
-  width: 20vw;
-  height: 12vh;
-  background: black;
-  padding: 10px;
-}
-
-#menu-screen #menu-screen-title {
-  color: #fff;
-  text-align: center;
-  font-size: 1.5rem;
-  padding: 3.5px;
-  font-weight: bold;
-}
-
-#menu-screen #menu-screen-options {
-  width: 100%;
-  height: 65%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-}
-
-#menu-screen .option {
-  background-repeat: no-repeat;
-  background-position: center;
-  margin: 10px;
-  background-size: contain;
-  opacity: 0.5;
-  padding: 5px;
-}
-
-#menu-screen .selected {
+#menu-screen .content .profile .avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.6;
+  width: 50px;
+  height: 50px;
+  margin-left: -10px;
   opacity: 1;
+  float: left;
 }
 
-#menu-screen .option.search {
-  background-image: url(../img/search.png);
+#menu-screen .content .profile .avatar img {
+  float: left;
+  width: 100%;
 }
 
-#menu-screen .option.list {
-  background-image: url(../img/list.png);
-}
-
-#menu-screen .option.quotes {
-  background-image: url(../img/quotes.png);
-}
-
-#menu-screen .option.settings {
-  background-image: url(../img/settings.png);
-}
-
-#menu-screen .option.quality-auto {
-  background-image: url(../img/auto.png);
-}
-
-#menu-screen .option.quality-fhd {
-  background-image: url(../img/fhd.png);
-}
-
-#menu-screen .option.quality-hd {
-  background-image: url(../img/hd.png);
-}
-
-#menu-screen .option.quality-sd {
-  background-image: url(../img/sd.png);
-}
-
-#menu-screen .option.about {
-  background-image: url(../img/about.png);
-}
-
-#menu-screen .option.logout {
-  background-image: url(../img/logout.png);
-}
-
-#menu-screen .option.return {
-  background-image: url(../img/return.png);
-}
-
-#menu-screen .option.text {
+#menu-screen .content .profile p {
+  float: left;
+  width: 0;
+  overflow: hidden;
+  height: 0;
+  margin: 0;
+  line-height: 22px;
+  text-transform: uppercase;
+  transition: width 0.3s;
+  white-space: nowrap;
   color: #fff;
-  text-align: center;
-  line-height: 38px;
-  font-size: 20px;
-  padding: 5px 0;
-  transform: scaleY(3);
+  font-size: 18px;
 }
 
+#menu-screen .content .profile i {
+  color: #f47521;
+  font-size: 15px;
+  margin-left: 10px;
+  display: none;
+}
+
+#menu-screen .content .options,
+#menu-screen .content .tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#menu-screen .content .options .option,
+#menu-screen .content .tools .option {
+  color: #fff;
+  font-size: 25px;
+  opacity: 0.5;
+  margin: 30px 0;
+}
+
+#menu-screen .content .options .option i,
+#menu-screen .content .tools .option i {
+  float: left;
+  width: 30px;
+  text-align: center;
+}
+
+#menu-screen .content .options .option p,
+#menu-screen .content .tools .option p {
+  float: left;
+  width: 0;
+  overflow: hidden;
+  height: 0;
+  margin: 0;
+  margin-left: 20px;
+  line-height: 22px;
+  text-transform: uppercase;
+  transition: width 0.3s;
+  white-space: nowrap;
+}
+
+#menu-screen .content .options .option.selected,
+#menu-screen .content .tools .option.selected,
+#menu-screen .content .options .option.focus,
+#menu-screen .content .tools .option.focus {
+  opacity: 1;
+  position: relative;
+}
+
+#menu-screen .content .options .option.focus::after,
+#menu-screen .content .tools .option.focus::after {
+  content: "";
+  background: #f47521;
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+  width: 10px;
+  height: calc(100% + 30px);
+  position: absolute;
+  left: -65px;
+  top: -15px;
+}
+
+.open-menu #menu-screen {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+}
+
+.open-menu #menu-screen .content {
+  background: linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgb(0, 0, 0) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  width: 600px;
+}
+
+.open-menu #menu-screen .content .options .option p,
+.open-menu #menu-screen .content .tools .option p {
+  width: 300px;
+  height: unset;
+}
+
+.open-menu #menu-screen .content .profile p {
+  width: auto;
+  height: unset;
+  margin-left: 20px;
+}
+
+.open-menu #menu-screen .content .profile.premium i {
+  display: block;
+}

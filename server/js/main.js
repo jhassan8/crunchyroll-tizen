@@ -19,6 +19,7 @@ main.init = function () {
 main.events.login = function () {
   session.valid({
     success: function () {
+      session.load_account();
       main.events.home();
     },
     error: function () {
@@ -30,6 +31,8 @@ main.events.login = function () {
 
 main.events.home = function () {
   console.log('======================  SESSION COMPLETE =====================');
+  loading.destroy();
+  home.init();
   // service.list({
   //   data: {
   //     type: home.type,

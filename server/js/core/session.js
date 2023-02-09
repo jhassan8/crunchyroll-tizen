@@ -104,6 +104,45 @@ session.refresh = function (callback) {
   callback.success(session.storage);
 };
 
+session.cookies = function (callback) {
+  if (session.isExpired(true)) {
+    service.cookies({
+      success: function () {
+        session.storage.cookies.bucket = response.cms.bucket;
+        session.storage.account.premium =
+          session.storage.cookies.bucket.includes("crunchyroll");
+        session.storage.cookies.policy = response.cms.policy;
+        session.storage.cookies.signature = response.cms.signature;
+        session.storage.cookies.key_pair_id = response.cms.key_pair_id;
+        session.storage.cookies.expires = new Date(
+          response.cms.expires
+        ).getTime();
+
+        callback.success(session.update());
+      },
+      error: function (error) {
+        callback.error(error);
+      },
+    });
+  }
+};
+
+session.load_account = function () {
+  service.profile({
+    success: function (response) {
+      session.storage.account.language =
+        response.preferred_content_subtitle_language;
+      session.storage.account.avatar = response.avatar;
+      session.update();
+    },
+  });
+
+  session.cookies({
+    success: function (response) {},
+    error: function (error) {},
+  });
+};
+
 // return session token, if expires refresh, if doesn't exist returns undefined
 session.valid = function (callback) {
   if (session.storage && session.storage.access_token) {
@@ -112,11 +151,11 @@ session.valid = function (callback) {
   return callback.error();
 };
 
-session.isExpired = function () {
-  return !(
-    session.storage.expires_in &&
-    session.storage.expires_in >= new Date().getTime()
-  );
+session.isExpired = function (coockie_type) {
+  var expire_date = coockie_type
+    ? session.storage.cookies.expires
+    : session.storage.expires_in;
+  return !(expire_date && expire_date >= new Date().getTime());
 };
 
 session.update = function () {
@@ -148,27 +187,4 @@ session.clear = function () {
     refresh_token: NaN,
   };
   session.update();
-};
-
-session.randomString = function (lenght) {
-  var text = "";
-  var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < lenght; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-
-  return text;
-};
-
-session.generateDevice = function () {
-  var id;
-  try {
-    id = webapis.network.getMac().replace(/:/g, "");
-  } catch (error) {
-    console.log("fail on get mac address");
-    id = session.randomString(12);
-  }
-  return `difix-${id}`;
 };
