@@ -107,7 +107,7 @@ session.refresh = function (callback) {
 session.cookies = function (callback) {
   if (session.isExpired(true)) {
     service.cookies({
-      success: function () {
+      success: function (response) {
         session.storage.cookies.bucket = response.cms.bucket;
         session.storage.account.premium =
           session.storage.cookies.bucket.includes("crunchyroll");

@@ -30,24 +30,22 @@ main.events.login = function () {
 };
 
 main.events.home = function () {
-  console.log('======================  SESSION COMPLETE =====================');
-  loading.destroy();
-  home.init();
-  // service.list({
-  //   data: {
-  //     type: home.type,
-  //     filter: home.filter,
-  //   },
-  //   success: function (response) {
-  //     loading.destroy();
-  //     home.data.series = response.data;
-  //     home.init();
-  //   },
-  //   error: function () {
-  //     loading.destroy();
-  //     login.init();
-  //   },
-  // });
+  console.log("======================  SESSION COMPLETE =====================");
+  service.home({
+    success: function (response) {
+      mapper.home(response, {
+        success: function () {
+          loading.destroy();
+          home.init();
+        },
+      });
+    },
+    error: function (error) {
+      console.log(error);
+      loading.destroy();
+      login.init();
+    },
+  });
 };
 
 /* on exit app */

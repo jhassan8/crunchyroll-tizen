@@ -34,6 +34,7 @@ exit.destroy = function () {
 exit.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
+      case 27:
       //widgetAPI.blockNavigation(event);
       exit.destroy();
       break;

@@ -116,6 +116,7 @@ video.keyDown = function (event) {
   video.showOSD();
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
+    case 27:
       //widgetAPI.blockNavigation(event);
       video.destroy();
       break;

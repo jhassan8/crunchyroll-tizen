@@ -22,6 +22,7 @@ var home = {
     search: 0,
   },
   data: {
+    main: NaN,
     series: [],
     seasons: [],
     episodes: [],
