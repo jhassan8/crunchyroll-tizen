@@ -8,21 +8,7 @@ var menu = {
     { label: "Explorar", icon: "fa-regular fa-rectangle-list" },
   ],
   selected: 1,
-  languages: [
-    "N/A",
-    "enUS",
-    "esLA",
-    "esES",
-    "ptBR",
-    "ptPT",
-    "frFR",
-    "deDE",
-    "itIT",
-    "ruRU",
-  ],
-  qualities: ["fhd", "hd", "sd", "auto"],
-  option: { root: true, item: 0, selected: 0 },
-  previus: null,
+  previus: NaN,
 };
 
 menu.init = function () {
@@ -71,14 +57,14 @@ menu.destroy = function () {
 
 menu.open = function () {
   $("body").addClass("open-menu");
-  $(`#${menu.id} .option.selected`).addClass('focus');
+  $(`#${menu.id} .option.selected`).addClass("focus");
   this.previus = main.state;
   main.state = this.id;
 };
 
 menu.close = function () {
   $("body").removeClass("open-menu");
-  $(`#${menu.id} .option`).removeClass('focus');
+  $(`#${menu.id} .option`).removeClass("focus");
   main.state = this.previus;
 };
 
