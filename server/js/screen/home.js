@@ -102,6 +102,18 @@ home.destroy = function () {
   document.body.removeChild(document.getElementById(home.id));
 };
 
+home.show_details = function () {
+  var item =
+    home.position > 0
+      ? this.data.main.lists[home.position - 1].items[
+          $(".row-content")[home.position - 1].slick.currentSlide
+        ]
+      : home.data.main.banner;
+  $(".details .background img").attr("src", item.background);
+  $(".details .info .title").text(item.title);
+  $(".details .info .description").text(item.description);
+};
+
 home.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
@@ -124,6 +136,7 @@ home.keyDown = function (event) {
         $(".details").addClass("full");
         home.position = 0;
       }
+      home.show_details();
       break;
     case tvKey.KEY_DOWN:
       if (home.position > 0) {
@@ -148,6 +161,7 @@ home.keyDown = function (event) {
         first_row.className = first_row.className + " selected";
         home.position++;
       }
+      home.show_details();
       break;
     case tvKey.KEY_LEFT:
       if (home.position > 0) {
@@ -155,6 +169,7 @@ home.keyDown = function (event) {
           menu.open();
         } else {
           $(".row-content")[home.position - 1].slick.prev();
+          home.show_details();
         }
       } else {
         var buttons = $(".details .buttons a");
@@ -174,6 +189,7 @@ home.keyDown = function (event) {
           this.data.main.lists[home.position - 1].items.length - 1
         ) {
           $(".row-content")[home.position - 1].slick.next();
+          home.show_details();
         }
       } else {
         var buttons = $(".details .buttons a");
@@ -186,6 +202,10 @@ home.keyDown = function (event) {
       break;
     case tvKey.KEY_ENTER:
     case tvKey.KEY_PANEL_ENTER:
+      if (home.position > 0) {
+        home.details.init();
+      } else {
+      }
       break;
   }
 };

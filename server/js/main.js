@@ -77,6 +77,9 @@ main.keyDown = function (event) {
       case home.id:
         home.keyDown(event);
         break;
+      case home.details.id:
+        home.details.keyDown(event);
+        break;
       case video.id:
         video.keyDown(event);
         break;
