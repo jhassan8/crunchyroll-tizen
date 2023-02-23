@@ -117,7 +117,6 @@ video.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
     case 27:
-      //widgetAPI.blockNavigation(event);
       video.destroy();
       break;
     case tvKey.KEY_VOL_UP:

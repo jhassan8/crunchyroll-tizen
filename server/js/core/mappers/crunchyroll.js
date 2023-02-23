@@ -88,3 +88,21 @@ crunchyroll.load = (item, index, callback) => {
     },
   });
 };
+
+crunchyroll.continue = function (response) {
+  var item = response.data[0];
+  console.log();
+  return {
+    stream: item.panel.streams_link.substr(item.panel.streams_link.indexOf('/videos/') + 8, 9),
+    serie: item.panel.episode_metadata.series_title,
+    episode: item.panel.title,
+    season_number: item.panel.episode_metadata.season_number,
+    episode_number: item.panel.episode_metadata.episode_number,
+    description: item.panel.description,
+    background: item.panel.images.thumbnail[0][4].source,
+    watched: !item.never_watched,
+    played:
+      (item.playhead * 100) /
+      (item.panel.episode_metadata.duration_ms / 1000),
+  };
+};

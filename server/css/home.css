@@ -308,10 +308,6 @@
   margin-top: 5vh;
 }
 
-.home_details-screen.home_details-screen_buttons i {
-  margin-right: 20px;
-}
-
 .home_details-screen.home_details-screen_buttons a {
   color: #fff;
   font-size: 25px;
@@ -322,13 +318,41 @@
   margin: 5px 0;
   font-size: 24px;
   opacity: 0.8;
+  position: relative;
+}
+
+.home_details-screen.home_details-screen_buttons a i {
+  margin-right: 20px;
+}
+
+.home_details-screen.home_details-screen_buttons a p {
+  display: inline-block;
+  margin: 0;
 }
 
 .home_details-screen.home_details-screen_buttons a.selected {
   border: 2px solid rgb(244, 130, 33, 0.9);
   box-sizing: border-box;
   box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+  opacity: 1;
+}
+
+.home_details-screen.home_details-screen_buttons a.selected p,
+.home_details-screen.home_details-screen_buttons a.selected i {
   color: rgb(250, 150, 60);
   text-shadow: 0 0 25px #f47521, 0 0 15px #f47521, 0 0 15px #f47521;
   opacity: 1;
+}
+
+.home_details-screen.home_details-screen_buttons a.played span {
+  background: rgba(255, 255, 255, 0.3);
+  height: 100%;
+  width: attr(percent px);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.home_details-screen.home_details-screen_buttons a.selected.played p {
+  color: #fff;
 }

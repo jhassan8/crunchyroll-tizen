@@ -203,7 +203,13 @@ home.keyDown = function (event) {
     case tvKey.KEY_ENTER:
     case tvKey.KEY_PANEL_ENTER:
       if (home.position > 0) {
-        home.details.init();
+        var item =
+          home.position > 0
+            ? this.data.main.lists[home.position - 1].items[
+                $(".row-content")[home.position - 1].slick.currentSlide
+              ]
+            : home.data.main.banner;
+        home.details.init(item);
       } else {
       }
       break;
