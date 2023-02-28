@@ -30,7 +30,6 @@ main.events.login = function () {
 };
 
 main.events.home = function () {
-  console.log("======================  SESSION COMPLETE =====================");
   service.home({
     success: function (response) {
       mapper.home(response, {
@@ -79,6 +78,9 @@ main.keyDown = function (event) {
         break;
       case home.details.id:
         home.details.keyDown(event);
+        break;
+      case home.episodes.id:
+        home.episodes.keyDown(event);
         break;
       case video.id:
         video.keyDown(event);

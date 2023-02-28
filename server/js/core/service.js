@@ -124,14 +124,14 @@ service.continue = function (request) {
   });
 };
 
-service.video = function (request) {
+service.seasons = function (request) {
   return session.cookies({
-    success: function (coockies) {
+    success: function (storage) {
       var headers = new Headers();
       headers.append("Content-Type", "application/x-www-form-urlencoded");
 
       fetch(
-        `${service.api.url}/cms/v2/${coockies.bucket}/videos/${request.data.id}/streams?Signature=${coockies.signature}&Policy=${coockies.policy}&Key-Pair-Id=${coockies.key_pair_id}`,
+        `${service.api.url}/cms/v2${storage.cookies.bucket}/seasons?series_id=${request.data.id}&locale=${storage.account.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
         {
           headers: headers,
         }
@@ -139,6 +139,53 @@ service.video = function (request) {
         .then((response) => response.json())
         .then((json) => request.success(json))
         .catch((error) => request.error(error));
+    },
+    error: function (error) {
+      request.error(error);
+    },
+  });
+};
+
+service.episodes = function (request) {
+  return session.cookies({
+    success: function (storage) {
+      var headers = new Headers();
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+      fetch(
+        `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&locale=${storage.account.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+        {
+          headers: headers,
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => request.success(json))
+        .catch((error) => request.error(error));
+    },
+    error: function (error) {
+      request.error(error);
+    },
+  });
+};
+
+service.video = function (request) {
+  return session.cookies({
+    success: function (storage) {
+      var headers = new Headers();
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+      fetch(
+        `${service.api.url}/cms/v2${storage.cookies.bucket}/videos/${request.data.id}/streams?Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+        {
+          headers: headers,
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => request.success(json))
+        .catch((error) => request.error(error));
+    },
+    error: function (error) {
+      request.error(error);
     },
   });
 };

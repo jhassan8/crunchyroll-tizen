@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 
-#home-screen .content .logo-fixed {
+#home-screen .logo-fixed {
   position: fixed;
   right: 0;
   bottom: 0;
@@ -19,9 +19,14 @@
   z-index: 1;
 }
 
-#home-screen .content .logo-fixed img {
+#home-screen .logo-fixed img {
   width: 100%;
   opacity: 0.8;
+}
+
+#home-screen .content {
+  height: 100vh;
+  transition: margin 0.5s;
 }
 
 #home-screen .content .details {
@@ -63,6 +68,7 @@
   width: 100%;
   height: 100%;
   box-shadow: 240px -200px 1000px 0 rgb(0, 0, 0) inset;
+  transition: background 0.5s;
 }
 
 #home-screen .content .details.full .background::after {
@@ -355,4 +361,20 @@
 
 .home_details-screen.home_details-screen_buttons a.selected.played p {
   color: #fff;
+}
+
+/* --------------------- */
+
+.home_episodes-screen #home-screen .content {
+  margin-top: -100vh;
+}
+
+.home_episodes-screen #home-screen .content .background::after {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.home_episodes-screen.home_episodes-screen_content {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
 }

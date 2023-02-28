@@ -2,11 +2,12 @@ home.details = {
   id: "home_details-screen",
   previus: NaN,
   data: {
+    this: NaN,
     continue: NaN,
   },
 };
 
-home.details.init = function (item) {
+home.details.init = function (item) {  
   var buttons = document.createElement("div");
   buttons.className = `${home.details.id} ${home.details.id}_buttons`;
   buttons.innerHTML = `
@@ -28,6 +29,7 @@ home.details.init = function (item) {
     <p>Contenido Relacionado</p>
   </a>`;
 
+  home.details.data.this = item;
   service.continue({
     data: {
       ids: item.id,
@@ -69,6 +71,7 @@ home.details.destroy = function () {
   $(`#${home.id} .details.full`).removeClass("full");
   $(`.${home.details.id}`).remove();
   home.details.data.continue = NaN;
+  home.details.data.this = NaN;
 
   main.state = home.details.previus;
 };
@@ -106,13 +109,13 @@ home.details.keyDown = function (event) {
 
       switch (current) {
         case 0:
-          video.init(home.details.data.continue.stream);
+          video.init(home.details.data.continue);
           break;
         case 1:
           console.log("add list");
           break;
         case 2:
-          console.log("episodes");
+          home.episodes.init(home.details.data.this);
           break;
         case 3:
           console.log("related");

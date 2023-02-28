@@ -124,6 +124,8 @@ session.cookies = function (callback) {
         callback.error(error);
       },
     });
+  } else {
+    callback.success(session.storage);
   }
 };
 
