@@ -47,8 +47,8 @@ home.init = function () {
         <div class="title resize">${home.data.main.banner.title}</div>
         <div class="description resize">${home.data.main.banner.description}</div>
         <div class="buttons">
-          <a class="selected">Reproducir</a>
-          <a>Mas Informacion</a>
+          <a class="selected">Play</a>
+          <a>More information</a>
         </div>
       </div>
     </div>

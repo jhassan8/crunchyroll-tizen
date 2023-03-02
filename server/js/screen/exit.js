@@ -11,9 +11,9 @@ exit.init = function () {
   exit_element.innerHTML =
     '<div class="content">' +
     '  <div class="window">' +
-    '    <div class="text">¿Queres salir de la aplicación?</div>' +
+    '    <div class="text">Do you want to exit the application?</div>' +
     '    <div class="buttons">' +
-    '      <div class="button" id="exit-screen-yes">SI</div>' +
+    '      <div class="button" id="exit-screen-yes">YES</div>' +
     '      <div class="button" id="exit-screen-no">NO</div>' +
     "    </div>" +
     "  </div>" +

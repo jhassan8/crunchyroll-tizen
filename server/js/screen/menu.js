@@ -1,11 +1,11 @@
 var menu = {
   id: "menu-screen",
   options: [
-    { label: "Buscar", icon: "fa-solid fa-magnifying-glass" },
-    { label: "Inicio", icon: "fa-solid fa-house" },
-    { label: "Lista de visionados", icon: "fa-solid fa-bookmark" },
-    { label: "Historial", icon: "fa-solid fa-clock-rotate-left" },
-    { label: "Explorar", icon: "fa-regular fa-rectangle-list" },
+    { label: "Search", icon: "fa-solid fa-magnifying-glass" },
+    { label: "Home", icon: "fa-solid fa-house" },
+    { label: "My list", icon: "fa-solid fa-bookmark" },
+    { label: "History", icon: "fa-solid fa-clock-rotate-left" },
+    { label: "Browse", icon: "fa-regular fa-rectangle-list" },
   ],
   selected: 1,
   previus: NaN,
@@ -42,7 +42,7 @@ menu.init = function () {
     <div class="tools">
       <a class="option">
         <i class="fa-solid fa-gear"></i>
-        <p>Ajustes</p>
+        <p>Settings</p>
       </a>
     </div>
   </div>`;

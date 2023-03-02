@@ -120,9 +120,16 @@ crunchyroll.episodes = function (response) {
   return response.items.map((episode) => ({
     id: episode.id,
     title: episode.title,
+    episode: episode.title,
+    serie: episode.series_title,
     description: episode.description,
     number: episode.episode_number,
-    background: episode.images.thumbnail[0][4].source,
+    episode_number: episode.episode_number,
+    background: episode.images.thumbnail[0][1].source,
+    stream: episode.__links__.streams.href.substr(
+      episode.__links__.streams.href.indexOf("/videos/") + 8,
+      9
+    ),
     duration: episode.duration_ms,
     premium: episode.is_premium_only,
   }));

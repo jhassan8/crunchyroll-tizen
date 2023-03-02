@@ -370,11 +370,184 @@
 }
 
 .home_episodes-screen #home-screen .content .background::after {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .home_episodes-screen.home_episodes-screen_content {
   width: 100vw;
   height: 100vh;
   position: absolute;
+  display: flex;
+}
+
+.home_episodes-screen.home_episodes-screen_content .seasons {
+  width: 40%;
+  padding: 70px 40px;
+}
+
+.home_episodes-screen.home_episodes-screen_content .seasons .title {
+  color: #fff;
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff,
+    -1px -1px 0 #fff;
+  text-transform: uppercase;
+  font-weight: bolder;
+  font-size: 5vh;
+  height: 265px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 26px;
+}
+
+.home_episodes-screen.home_episodes-screen_content .seasons .seasons-list {
+  height: 600px;
+  overflow: hidden;
+  padding: 0 26px;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .seasons
+  .seasons-list
+  .season {
+  color: #fff;
+  font-size: 2vh;
+  padding: 15px 25px;
+  opacity: 0.5;
+  margin: 15px 0;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .seasons
+  .seasons-list
+  .season.selected {
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+  border: 2px solid rgb(244, 130, 33, 0.9);
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .seasons.active
+  .seasons-list
+  .season.selected {
+  filter: none;
+  opacity: 1;
+}
+
+.home_episodes-screen.home_episodes-screen_content .episodes {
+  padding: 70px 30px;
+  width: 60%;
+}
+
+.home_episodes-screen.home_episodes-screen_content .episodes .title {
+  color: #fff;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0 15px;
+  opacity: 0.5;
+}
+
+.home_episodes-screen.home_episodes-screen_content .episodes.active .title {
+  opacity: 1;
+}
+
+.home_episodes-screen.home_episodes-screen_content .episodes .episodes-list {
+  padding: 30px 0;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episodes-list::after {
+  content: "";
+  border: 2px solid rgb(244, 130, 33, 0.9);
+  width: 100%;
+  height: 215px;
+  position: absolute;
+  top: 0;
+  margin-left: -5px;
+  box-sizing: border-box;
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+  margin-top: 25px;
+  opacity: 0;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes.active
+  .episodes-list::after {
+  filter: none;
+  opacity: 1;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episodes-list
+  .slick-slide {
+  opacity: 0.5;
+  transition: all 0.5s;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes.active
+  .episodes-list
+  .slick-slide.slick-current {
+  opacity: 1;
+}
+
+.home_episodes-screen.home_episodes-screen_content .episodes .episode {
+  padding: 15px;
+  display: flex;
+  align-items: start;
+  justify-content: left;
+  height: 207px;
+  overflow: hidden;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-image
+  img {
+  height: 175px;
+  width: 310px;
+}
+
+.episodes .slick-loading,
+.episodes .slick-loading * {
+  background: rgba(100, 100, 100, 0.5);
+  content: url("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+  border: none !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  animation: poster-loading 2s infinite;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-details {
+  padding: 0 20px;
+  color: #fff;
+  display: grid;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-details
+  .episode-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-details
+  .episode-description {
+  font-size: 1.4rem;
+  padding: 15px 0;
 }

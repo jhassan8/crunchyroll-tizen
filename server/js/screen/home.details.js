@@ -13,20 +13,20 @@ home.details.init = function (item) {
   buttons.innerHTML = `
   <a class="selected">
     <i class="fa-solid fa-play"></i>
-    <p>Reproducir: T1 E1</p>
+    <p>Play: S1 E1</p>
     <span></span>
   </a>
   <a>
     <i class="fa-solid fa-bookmark"></i>
-    <p>Añadir a mi lista</p>
+    <p>Add to my list</p>
   </a>
   <a>
     <i class="fa-solid fa-list"></i>
-    <p>Episodios</p>
+    <p>Episodes</p>
   </a>
   <a>
     <i class="fa-solid fa-clone"></i>
-    <p>Contenido Relacionado</p>
+    <p>Related content</p>
   </a>`;
 
   home.details.data.this = item;
@@ -44,7 +44,7 @@ home.details.init = function (item) {
         .eq(0)
         .text(
           `${
-            home.details.data.continue.played > 0 ? "Continuar" : "Reproducir"
+            home.details.data.continue.played > 0 ? "Continue" : "Play"
           }: T${home.details.data.continue.season_number} E${
             home.details.data.continue.episode_number
           }`
