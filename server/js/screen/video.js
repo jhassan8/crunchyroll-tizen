@@ -18,25 +18,27 @@ var video = {
   },
 };
 
-video.init = function (id) {
+video.init = function (item) {
   var video_element = document.createElement("div");
   video_element.id = video.id;
 
   service.video({
     data: {
-      media_id: id,
+      id: item.stream,
     },
     success: function (data) {
       video.data = data.data;
       try {
-        player.play(video.byQuality(video.data.stream_data.streams).url);
+        player.play(
+          data.streams.adaptive_dash[session.storage.account.language].url
+        );
       } catch (error) {
         console.log(error);
       }
       video.showOSD();
     },
-    error: function () {
-      console.log("error");
+    error: function (error) {
+      console.log(error);
     },
   });
 
@@ -46,13 +48,9 @@ video.init = function (id) {
     <object id="videoplayer" type="application/avplayer" style="width:100%; height:100%;"></object>
     <div class="osd" id="osd">
       <div class="details">
-        <div id="title">${home.data.series[home.selected.serie].name}</div>
-        <div id="subtitle">${
-          home.data.episodes[home.selected.episode].name
-        }</div>
-        <div id="description">Episode ${
-          home.data.episodes[home.selected.episode].episode_number
-        }</div>
+        <div id="title">${item.serie}</div>
+        <div id="subtitle">${item.episode}</div>
+        <div id="description">Episode ${item.episode_number}</div>
       </div>
       <div class="progress">
         <div id="time">00:00:00</div>
@@ -73,50 +71,25 @@ video.init = function (id) {
   </div>`;
   document.body.appendChild(video_element);
 
-  home.hide();
+  $(`#${home.id}`).hide();
   video.previus = main.state;
   main.state = video.id;
 
   //translate.init();
 };
 
-video.byQuality = function (data) {
-  var stream;
-  var quality =
-    session.info.settings.quality === "fhd"
-      ? "high"
-      : session.info.settings.quality === "hd"
-      ? "mid"
-      : session.info.settings.quality === "sd"
-      ? "low"
-      : "adaptive";
-  
-  data.forEach((element) => {
-    if (element.quality === quality) {
-      stream = element;
-    }
-  });
-
-  stream = stream ? stream : data[0];
-  if (!stream) {
-    throw new Error("empty videos");
-  }
-
-  return stream;
-};
-
 video.destroy = function () {
   player.stop();
   main.state = video.previus;
   document.body.removeChild(document.getElementById(video.id));
-  home.show();
+  $(`#${home.id}`).show();
 };
 
 video.keyDown = function (event) {
   video.showOSD();
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
-      //widgetAPI.blockNavigation(event);
+    case 27:
       video.destroy();
       break;
     case tvKey.KEY_VOL_UP:

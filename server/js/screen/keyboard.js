@@ -96,11 +96,20 @@ keyboard.destroy = function () {
 keyboard.keyDown = function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
+    case 27:
       this.destroy();
       break;
     case tvKey.KEY_UP:
       if (this.selected[0] > 0) {
-        this.move([this.selected[0] - 1, this.selected[1]]);
+        var max = [0, 2].includes(this.selected[0] - 1) ? 9 : 8;
+        this.move([
+          this.selected[0] - 1,
+          this.selected[0] === 3
+            ? 3 * (this.selected[1] + 1) - 1
+            : this.selected[1] > max
+            ? max
+            : this.selected[1],
+        ]);
       }
       break;
     case tvKey.KEY_DOWN:
@@ -109,7 +118,11 @@ keyboard.keyDown = function (event) {
       if (this.selected[0] < 3) {
         this.move([
           this.selected[0] + 1,
-          this.selected[1] > max ? max : this.selected[1],
+          this.selected[0] === 2
+            ? Math.round(this.selected[1] / 4.5)
+            : this.selected[1] > max
+            ? max
+            : this.selected[1],
         ]);
       }
       break;
@@ -176,8 +189,9 @@ keyboard.upperCase = function () {
   var type =
     options[0].children[0].innerText.toUpperCase() ==
     options[0].children[0].innerText;
-  for (var option of options) {
-    for (var child of option.children) {
+  for (var i = 0; i < options.length; i++) {
+    for (var x = 0; x < options[i].children.length; x++) {
+      var child = options[i].children[x];
       child.innerText = type
         ? child.innerText.toLowerCase()
         : child.innerText.toUpperCase();
@@ -187,8 +201,9 @@ keyboard.upperCase = function () {
 
 keyboard.change = function () {
   var options = document.getElementsByClassName(this.id + "-option");
-  for (var option of options) {
-    for (var child of option.children) {
+  for (var i = 0; i < options.length; i++) {
+    for (var x = 0; x < options[i].children.length; x++) {
+      var child = options[i].children[x];
       var newAlter = child.innerText;
       child.innerText = child.getAttribute("alter");
       child.setAttribute("alter", newAlter);

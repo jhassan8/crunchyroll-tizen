@@ -73,7 +73,7 @@ login.action = function (selected) {
       loading.init();
       session.start(username, password, {
         success: function () {
-          main.events.isLogged();
+          main.events.login();
         },
         error: function () {
           loading.destroy();

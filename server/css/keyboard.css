@@ -36,29 +36,35 @@
 
 #keyboard-screen .size-backspace {
   width: 10%;
-  background: url(../img/delete.png) no-repeat;
-  background-size: 25px;
-  background-position: center;
-  opacity: 0.5;
   height: 59px;
+}
+
+#keyboard-screen .size-backspace::before {
+  content: "\f55a";
+  font-size: 25px;
+  font-family: "Font Awesome 6 Free";
 }
 
 #keyboard-screen .size-alpha {
   width: 10%;
-  background: url(../img/alpha.png) no-repeat;
-  background-size: 25px;
-  background-position: center;
-  opacity: 0.5;
   height: 59px;
 }
 
+#keyboard-screen .size-alpha::before {
+  content: "\f0aa";
+  font-size: 25px;
+  font-family: "Font Awesome 6 Free";
+}
+
 #keyboard-screen .size-ok {
-  width: 30%;
-  background: url(../img/ok.png) no-repeat;
-  background-size: 25px;
-  background-position: center;
-  opacity: 0.5;
   height: 59px;
+  width: 30%;
+}
+
+#keyboard-screen .size-ok::before {
+  content: "\f058";
+  font-size: 25px;
+  font-family: "Font Awesome 6 Free";
 }
 
 #keyboard-screen .size-1 {
@@ -74,7 +80,7 @@
   height: 59px;
 }
 
-#keyboard-screen .size-5:after {
+#keyboard-screen .size-5:before {
   content: "";
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
   width: 94%;
@@ -85,11 +91,22 @@
 }
 
 #keyboard-screen .col.selected {
-  border-bottom: 0.3rem solid #f47521 !important;
+  position: relative;
   color: rgba(255, 255, 255, 1) !important;
   opacity: 1 !important;
 }
 
-#keyboard-screen .col.size-5.selected::after {
+#keyboard-screen .col.selected::after {
+  content: "";
+  width: 100%;
+  height: 0.3rem;
+  background: #f47521;
+  position: absolute;
+  bottom: -0.3rem;
+  left: 0;
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+}
+
+#keyboard-screen .col.size-5.selected::before {
   border-color: rgba(255, 255, 255, 1) !important;
 }
