@@ -22,7 +22,8 @@ main.events.login = function () {
       session.load_account();
       main.events.home();
     },
-    error: function () {
+    error: function (error) {
+      console.log(error);
       loading.destroy();
       login.init();
     },

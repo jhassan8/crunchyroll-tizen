@@ -11,11 +11,12 @@ service.token = function (request) {
   headers.append("Authorization", service.api.auth);
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-  var params = new URLSearchParams();
-  params.append("username", request.data.username);
-  params.append("password", request.data.password);
-  params.append("grant_type", "password");
-  params.append("scope", "offline_access");
+  var params = service.format({
+    username: request.data.username,
+    password: request.data.password,
+    grant_type: "password",
+    scope: "offline_access",
+  });
 
   fetch(`${service.api.url}/auth/v1/token`, {
     method: "POST",
@@ -35,10 +36,11 @@ service.refresh = function (request) {
   headers.append("Authorization", service.api.auth);
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-  var params = new URLSearchParams();
-  params.append("refresh_token", session.storage.refresh_token);
-  params.append("grant_type", "refresh_token");
-  params.append("scope", "offline_access");
+  var params = service.format({
+    refresh_token: session.storage.refresh_token,
+    grant_type: "refresh_token",
+    scope: "offline_access",
+  });
 
   fetch(`${service.api.url}/auth/v1/token`, {
     method: "POST",
@@ -188,4 +190,12 @@ service.video = function (request) {
       request.error(error);
     },
   });
+};
+
+service.format = function (params) {
+  return Object.keys(params)
+    .map(function (k) {
+      return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+    })
+    .join("&");
 };

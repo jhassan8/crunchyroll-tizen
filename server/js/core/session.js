@@ -70,9 +70,9 @@ session.start = function (username, password, callback) {
       //session.loadAccountInfo();
       return callback.success(session.update());
     },
-    error: function () {
+    error: function (error) {
       session.clear();
-      return callback.error();
+      return callback.error(error);
     },
   });
 };
