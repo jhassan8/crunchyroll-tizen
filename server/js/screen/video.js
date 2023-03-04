@@ -30,7 +30,7 @@ video.init = function (item) {
       video.data = data.data;
       try {
         player.play(
-          data.streams.adaptive_dash[session.storage.account.language].url
+          data.streams.adaptive_hls[session.storage.account.language].url
         );
       } catch (error) {
         console.log(error);
