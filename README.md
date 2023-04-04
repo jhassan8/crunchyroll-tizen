@@ -33,7 +33,7 @@
 2. In Package Manager install "Extension SDK" -> "TV extension <version>"
 3. Clone repository ```git clone https://github.com/jhassan8/crunchyroll-tizen```
 4. Open project ("File" -> "Open Project From File System" -> "Directory") and select project folder
-5. in tv open developer mode
+5. in tv open [developer mode](https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/tv-device.html)
     - Open Samsung Apps
     - Press buttons 1, 2, 3, 4, 5
     - Enable developer Mode
