@@ -15,6 +15,7 @@ crunchyroll.home = function (response, callback) {
 
   home.data.main = {
     banner: {
+      id: response.data[1].panel.id,
       title: response.data[1].panel.title,
       description: response.data[1].panel.description,
       background: response.data[1].panel.images.poster_wide[0][4].source,
@@ -133,4 +134,24 @@ crunchyroll.episodes = function (response) {
     duration: episode.duration_ms,
     premium: episode.is_premium_only,
   }));
+};
+
+crunchyroll.search = function (response) {
+  return response.items.reduce(
+    (acum, elem) =>
+      elem.type === "series" || elem.type === "movie_listing"
+        ? [
+            ...acum,
+            ...elem.items.map((item) => ({
+              display: "serie",
+              id: item.id,
+              title: item.title,
+              description: item.description,
+              background: item.images.poster_wide[0][5].source,
+              poster: item.images.poster_tall[0][2].source,
+            })),
+          ]
+        : acum,
+    []
+  );
 };

@@ -192,6 +192,25 @@ service.video = function (request) {
   });
 };
 
+service.search = function (request) {
+  return session.refresh({
+    success: function (storage) {
+      var headers = new Headers();
+      headers.append("Authorization", `Bearer ${storage.access_token}`);
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+      fetch(
+        `${service.api.url}/content/v2/search?q=${request.data.query}&type=series&n=100&locale=${storage.account.language}`,
+        {
+          headers: headers,
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => request.success(json))
+        .catch((error) => request.error(error));
+    },
+  });
+};
+
 service.format = function (params) {
   return Object.keys(params)
     .map(function (k) {
