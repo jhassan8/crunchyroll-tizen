@@ -37,6 +37,7 @@ main.events.home = function () {
         success: function () {
           loading.destroy();
           home.init();
+          menu.init();
         },
       });
     },
@@ -73,6 +74,9 @@ main.keyDown = function (event) {
         break;
       case menu.id:
         menu.keyDown(event);
+        break;
+      case search.id:
+        search.keyDown(event);
         break;
       case home.id:
         home.keyDown(event);

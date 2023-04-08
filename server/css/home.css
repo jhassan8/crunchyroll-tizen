@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 
-#home-screen .logo-fixed {
+.logo-fixed {
   position: fixed;
   right: 0;
   bottom: 0;
@@ -19,7 +19,7 @@
   z-index: 1;
 }
 
-#home-screen .logo-fixed img {
+.logo-fixed img {
   width: 100%;
   opacity: 0.8;
 }

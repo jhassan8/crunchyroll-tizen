@@ -1,14 +1,14 @@
 var menu = {
   id: "menu-screen",
   options: [
-    { label: "Search", icon: "fa-solid fa-magnifying-glass" },
-    { label: "Home", icon: "fa-solid fa-house" },
-    { label: "My list", icon: "fa-solid fa-bookmark" },
-    { label: "History", icon: "fa-solid fa-clock-rotate-left" },
-    { label: "Browse", icon: "fa-regular fa-rectangle-list" },
+    { id: 'search', label: "Search", icon: "fa-solid fa-magnifying-glass", action: search.init},
+    { id: 'home', label: "Home", icon: "fa-solid fa-house", action: home.init },
+    { id: 'list', label: "My list", icon: "fa-solid fa-bookmark" },
+    { id: 'history', label: "History", icon: "fa-solid fa-clock-rotate-left" },
+    { id: 'browse', label: "Browse", icon: "fa-regular fa-rectangle-list" },
   ],
   selected: 1,
-  previus: NaN,
+  previous: NaN,
 };
 
 menu.init = function () {
@@ -52,20 +52,20 @@ menu.init = function () {
 
 menu.destroy = function () {
   document.body.removeChild(document.getElementById(this.id));
-  main.state = this.previus;
+  main.state = this.previous;
 };
 
 menu.open = function () {
   $("body").addClass("open-menu");
   $(`#${menu.id} .option.selected`).addClass("focus");
-  this.previus = main.state;
+  this.previous = main.state;
   main.state = this.id;
 };
 
 menu.close = function () {
   $("body").removeClass("open-menu");
   $(`#${menu.id} .option`).removeClass("focus");
-  main.state = this.previus;
+  main.state = this.previous;
 };
 
 menu.move = function () {
@@ -107,6 +107,19 @@ menu.keyDown = function (event) {
       break;
     case tvKey.KEY_ENTER:
     case tvKey.KEY_PANEL_ENTER:
+      var options = $(`#${menu.id} .option`);
+      var current = options.index($(`#${menu.id} .option.focus`));
+      if(menu.options[current].action) {
+        var selected = options.index($(`#${menu.id} .option.selected`));
+        console.log('selected: ', selected);
+        console.log('current: ', current);
+        options.removeClass("selected");
+        options.eq(current).addClass("selected");
+        this.previous = window[menu.options[current].id].id;
+        window[menu.options[selected].id].destroy();
+        menu.options[current].action();
+        menu.close();
+      }
       break;
   }
 };

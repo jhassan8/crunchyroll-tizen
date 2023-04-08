@@ -1,0 +1,98 @@
+#search-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+#search-screen .content {
+  height: 100vh;
+  transition: margin 0.5s;
+  padding: 60px 60px 60px 8.5vw;
+}
+
+#search-screen .content .input {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  transition: border-color 0.2s cubic-bezier(0.5, 0, 0.25, 1);
+  padding: 5px 15px;
+  width: 40%;
+  margin: auto;
+}
+
+#search-screen .content .input::after {
+  content: "";
+  width: 100%;
+  height: 0.3rem;
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  bottom: -0.3rem;
+  left: 0px;
+}
+
+#search-screen .content .input.focus::after {
+  background: #f47521;
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+}
+
+#search-screen .content .input input {
+  border: none;
+  color: #fff;
+  display: block;
+  flex: 1 1 auto;
+  font-size: 2rem;
+  padding-bottom: 0.25rem;
+  padding-top: 0;
+  width: 100%;
+  background: transparent;
+  text-align: center;
+}
+
+#search-screen .content .list-container {
+  margin-top: 92px;
+  overflow: hidden;
+}
+
+#search-screen .content .list-container .list-container-over {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-gap: 31px;
+  transition: margin 0.5s;
+}
+
+#search-screen .content .list-container .list-container-over .item {
+  width: 161px;
+  opacity: 0.5;
+  position: relative;
+}
+
+#search-screen .content .list-container .list-container-over .item img {
+  width: 100%;
+  height: 100%;
+}
+
+#search-screen .content .list-container .list-container-over .item.selected {
+  opacity: 0.5;
+}
+
+#search-screen .content .list-container.focus .list-container-over .item.selected {
+  opacity: 1;
+}
+
+#search-screen .content .list-container .list-container-over .item.selected::after{
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: 3px solid rgb(114, 114, 114);
+  box-shadow: 0 0 25px 6px #727272, 0 0 15px 6px #727272 inset;
+}
+
+#search-screen .content .list-container.focus .list-container-over .item.selected::after{
+  border: 3px solid rgb(244, 130, 33, 0.9);
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+}

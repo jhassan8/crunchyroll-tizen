@@ -94,11 +94,11 @@ home.init = function () {
   $(`#${home.id} .rows`)[0].slick.slickGoTo(0);
   $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
-  menu.init();
   main.state = home.id;
 };
 
 home.destroy = function () {
+  this.position = 0;
   document.body.removeChild(document.getElementById(home.id));
 };
 
@@ -202,16 +202,13 @@ home.keyDown = function (event) {
       break;
     case tvKey.KEY_ENTER:
     case tvKey.KEY_PANEL_ENTER:
-      if (home.position > 0) {
-        var item =
-          home.position > 0
-            ? this.data.main.lists[home.position - 1].items[
-                $(".row-content")[home.position - 1].slick.currentSlide
-              ]
-            : home.data.main.banner;
-        home.details.init(item);
-      } else {
-      }
+      var item =
+        home.position > 0
+          ? this.data.main.lists[home.position - 1].items[
+              $(".row-content")[home.position - 1].slick.currentSlide
+            ]
+          : home.data.main.banner;
+      home.details.init(item);
       break;
   }
 };
