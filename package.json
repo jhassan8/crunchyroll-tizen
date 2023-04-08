@@ -1,0 +1,22 @@
+{
+  "name": "crunchyroll-tizen",
+  "version": "1.0.0",
+  "description": "## Description:",
+  "main": "index.js",
+  "scripts": {
+    "package-app": "tizen package -t wgt",
+    "install-app": "tizen install --name Crunchyroll.wgt",
+    "run-app": "tizen run -p qXuEoRvlCp.Crunchyroll",
+    "start": "npm run package-app && npm run install-app && npm run run-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhassan8/crunchyroll-tizen.git"
+  },
+  "author": "jhassan8",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhassan8/crunchyroll-tizen/issues"
+  },
+  "homepage": "https://github.com/jhassan8/crunchyroll-tizen"
+}

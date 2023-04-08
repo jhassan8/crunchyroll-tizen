@@ -199,7 +199,7 @@ service.search = function (request) {
       headers.append("Authorization", `Bearer ${storage.access_token}`);
       headers.append("Content-Type", "application/x-www-form-urlencoded");
       fetch(
-        `${service.api.url}/content/v2/search?q=${request.data.query}&type=series&n=100&locale=${storage.account.language}`,
+        `${service.api.url}/content/v1/search?q=${request.data.query}&type=series&n=100&locale=${storage.account.language}`,
         {
           headers: headers,
         }
