@@ -111,8 +111,6 @@ menu.keyDown = function (event) {
       var current = options.index($(`#${menu.id} .option.focus`));
       if(menu.options[current].action) {
         var selected = options.index($(`#${menu.id} .option.selected`));
-        console.log('selected: ', selected);
-        console.log('current: ', current);
         options.removeClass("selected");
         options.eq(current).addClass("selected");
         this.previous = window[menu.options[current].id].id;

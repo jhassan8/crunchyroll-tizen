@@ -6,7 +6,7 @@ var keyboard = {
   send: NaN
 };
 
-keyboard.init = function (element, send = NaN) {
+keyboard.init = function (element, send) {
   this.input = element;
   this.send = send;
   var values = [

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "package-app": "tizen package -t wgt",
-    "install-app": "tizen install --name Crunchyroll.wgt",
-    "run-app": "tizen run -p qXuEoRvlCp.Crunchyroll",
+    "install-app": "tizen install -t T-samsung-7.0-x86 --name Crunchyroll.wgt",
+    "run-app": "tizen run -t T-samsung-7.0-x86 -p qXuEoRvlCp.Crunchyroll",
     "start": "npm run package-app && npm run install-app && npm run run-app"
   },
   "repository": {
