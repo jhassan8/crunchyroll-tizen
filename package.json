@@ -4,10 +4,14 @@
   "description": "## Description:",
   "main": "index.js",
   "scripts": {
-    "package-app": "tizen package -t wgt",
-    "install-app": "tizen install -t T-samsung-7.0-x86 --name Crunchyroll.wgt",
-    "run-app": "tizen run -t T-samsung-7.0-x86 -p qXuEoRvlCp.Crunchyroll",
-    "start": "npm run package-app && npm run install-app && npm run run-app"
+    "build": "tizen build-web -opt -out dist -e package.json layouts.gif .gitignore *.md .github/*/* server/mock/*",
+    "package": "tizen package -t wgt -- dist",
+    "install-emulator": "tizen install -t T-samsung-7.0-x86 --name Crunchyroll.wgt",
+    "run-emulator": "tizen run -t T-samsung-7.0-x86 -p qXuEoRvlCp.Crunchyroll",
+    "install-tv": "tizen install -t UN65MU6100 --name Crunchyroll.wgt",
+    "run-tv": "tizen run -t UN65MU6100 -p qXuEoRvlCp.Crunchyroll",
+    "start": "npm run build && npm run package && npm run install-emulator && npm run run-emulator",
+    "start-tv": "npm run build && npm run package && npm run install-tv && npm run run-tv"
   },
   "repository": {
     "type": "git",

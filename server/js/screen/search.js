@@ -1,9 +1,6 @@
 var search = {
   id: "search-screen",
   previous: NaN,
-  data: {
-    main: NaN,
-  },
   input: NaN,
   position: 0,
   data: {
@@ -35,6 +32,7 @@ search.init = function () {
 };
 
 search.destroy = function () {
+  search.data.result = [];
   document.body.removeChild(document.getElementById(search.id));
 };
 
@@ -91,7 +89,7 @@ search.keyDown = function (event) {
 
         row = Math.ceil((newCurrent + 1) / 9);
         $(".list-container-over").get(0).style.marginTop = `${
-          row > 3 ? (row - 3) * -277 : 0
+          row > 3 ? (row - 3) * -275 : 0
         }px`;
       }
 
@@ -116,7 +114,7 @@ search.keyDown = function (event) {
 
         row = Math.ceil((newCurrent + 1) / 9);
         $(".list-container-over").get(0).style.marginTop = `${
-          row > 3 ? (row - 3) * -277 : 0
+          row > 3 ? (row - 3) * -275 : 0
         }px`;
       }
 

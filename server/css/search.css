@@ -55,16 +55,25 @@
 }
 
 #search-screen .content .list-container .list-container-over {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-gap: 31px;
   transition: margin 0.5s;
 }
 
 #search-screen .content .list-container .list-container-over .item {
+  background: rgba(100, 100, 100, 0.5);
   width: 161px;
+  height: 245px;
   opacity: 0.5;
   position: relative;
+  float: left;
+  margin: 15px;
+}
+
+#search-screen .content .list-container .list-container-over .item:nth-child(9n) {
+  margin-right: 0;
+}
+
+#search-screen .content .list-container .list-container-over .item:nth-child(9n+1) {
+  margin-left: 0;
 }
 
 #search-screen .content .list-container .list-container-over .item img {
