@@ -1,13 +1,20 @@
 home.details = {
   id: "home_details-screen",
-  previus: NaN,
+  previous: NaN,
   data: {
     this: NaN,
     continue: NaN,
   },
+  callbacks: {
+    init: NaN,
+    destroy: NaN
+  }
 };
 
-home.details.init = function (item) {  
+home.details.init = function (item, init, destroy) {
+  home.details.callbacks.init = init;
+  home.details.callbacks.destroy = destroy;
+  home.details.callbacks.init && home.details.callbacks.init(item);
   var buttons = document.createElement("div");
   buttons.className = `${home.details.id} ${home.details.id}_buttons`;
   buttons.innerHTML = `
@@ -62,7 +69,7 @@ home.details.init = function (item) {
   $(`#${home.id} .details`).addClass("full");
   $(`body`).addClass(`${home.details.id}`);
 
-  home.details.previus = main.state;
+  home.details.previous = main.state;
   main.state = home.details.id;
 };
 
@@ -73,7 +80,8 @@ home.details.destroy = function () {
   home.details.data.continue = NaN;
   home.details.data.this = NaN;
 
-  main.state = home.details.previus;
+  main.state = home.details.previous;
+  home.details.callbacks.destroy && home.details.callbacks.destroy();
 };
 
 home.details.keyDown = function (event) {

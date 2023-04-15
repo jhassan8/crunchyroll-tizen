@@ -1,6 +1,6 @@
 var exit = {
   id: "exit-screen",
-  previus: null,
+  previous: null,
   selected: false,
 };
 
@@ -20,7 +20,7 @@ exit.init = function () {
     "</div>";
   document.body.appendChild(exit_element);
 
-  exit.previus = main.state;
+  exit.previous = main.state;
   main.state = exit.id;
   exit.move(false);
   //translate.init();
@@ -28,7 +28,7 @@ exit.init = function () {
 
 exit.destroy = function () {
   document.body.removeChild(document.getElementById(this.id));
-  main.state = exit.previus;
+  main.state = exit.previous;
 };
 
 exit.keyDown = function (event) {

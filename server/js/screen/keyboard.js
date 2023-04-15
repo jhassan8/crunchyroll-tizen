@@ -1,12 +1,14 @@
 var keyboard = {
   id: "keyboard-screen",
-  previus: null,
+  previous: NaN,
   selected: [0, 0],
-  input: null,
+  input: NaN,
+  send: NaN
 };
 
-keyboard.init = function (element) {
+keyboard.init = function (element, send) {
   this.input = element;
+  this.send = send;
   var values = [
     {
       keys: [
@@ -83,14 +85,15 @@ keyboard.init = function (element) {
   document.body.appendChild(keyboard_element);
 
   this.move(this.selected);
-  this.previus = main.state;
+  this.previous = main.state;
   main.state = this.id;
   //translate.init();
 };
 
 keyboard.destroy = function () {
   document.body.removeChild(document.getElementById(this.id));
-  main.state = this.previus;
+  main.state = this.previous;
+  this.send = NaN;
 };
 
 keyboard.keyDown = function (event) {
@@ -170,6 +173,7 @@ keyboard.action = function (selected) {
       this.input.value = this.input.value + " ";
       break;
     case "32":
+      this.send && this.send();
       this.destroy();
       break;
     case "29":

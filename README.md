@@ -13,12 +13,13 @@
 - [x] Episodes screen
 - [x] Video player
 - [x] Menu options screen
+- [x] Search element
 
 #### In progress
 - [ ] Browse elements by categories
-- [ ] Search element
 
 #### Pending
+- [ ] Auto next episode
 - [ ] Change audio and subtitles language inside player
 - [ ] History screen
 - [ ] My list screen and workflow

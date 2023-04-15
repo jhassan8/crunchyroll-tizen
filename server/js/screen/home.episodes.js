@@ -1,6 +1,6 @@
 home.episodes = {
   id: "home_episodes-screen",
-  previus: NaN,
+  previous: NaN,
   data: {
     seasons: NaN,
     episodes: NaN,
@@ -47,7 +47,7 @@ home.episodes.init = function (item) {
 
   $(`body`).addClass(`${home.episodes.id}`);
 
-  home.episodes.previus = main.state;
+  home.episodes.previous = main.state;
   main.state = home.episodes.id;
 };
 
@@ -106,7 +106,7 @@ home.episodes.destroy = function () {
   setTimeout(() => {
     $(`body`).removeClass(`${home.episodes.id}`);
     $(`.${home.episodes.id}`).remove();
-    main.state = home.episodes.previus;
+    main.state = home.episodes.previous;
   }, 400);
 };
 

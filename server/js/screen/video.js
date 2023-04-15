@@ -1,6 +1,6 @@
 var video = {
   id: "video-screen",
-  previus: null,
+  previous: null,
   state: 0,
   status: {
     stopped: 0,
@@ -72,7 +72,7 @@ video.init = function (item) {
   document.body.appendChild(video_element);
 
   $(`#${home.id}`).hide();
-  video.previus = main.state;
+  video.previous = main.state;
   main.state = video.id;
 
   //translate.init();
@@ -80,7 +80,7 @@ video.init = function (item) {
 
 video.destroy = function () {
   player.stop();
-  main.state = video.previus;
+  main.state = video.previous;
   document.body.removeChild(document.getElementById(video.id));
   $(`#${home.id}`).show();
 };
