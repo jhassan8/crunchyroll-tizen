@@ -12,29 +12,31 @@ home.init = function () {
 
   var poster_items = ``;
   home.data.main.lists.forEach((element, index) => {
-    poster_items += `
-    <div class="row">
-      <div class="row-title">${element.title}</div>
-      <div class="row-content ${element.items[0].display}">`;
-    element.items.forEach((item, position) => {
+    if (element.items.length > 0) {
       poster_items += `
-      <div class="item">
-        <div class="poster ${item.display}">
-          <img src="${
-            item.display === "serie" ? item.poster : item.background
-          }">
-        </div>
-      </div>`;
-    });
-    for (var index = 0; index < 9; index++) {
-      poster_items += `
-      <div class="item">
-        <div class="poster ${element.items[0].display}">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-        </div>
-      </div>`;
+      <div class="row">
+        <div class="row-title">${element.title}</div>
+        <div class="row-content ${element.items[0].display}">`;
+      element.items.forEach((item, position) => {
+        poster_items += `
+        <div class="item">
+          <div class="poster ${item.display}">
+            <img src="${
+              item.display === "serie" ? item.poster : item.background
+            }">
+          </div>
+        </div>`;
+      });
+      for (var index = 0; index < 9; index++) {
+        poster_items += `
+        <div class="item">
+          <div class="poster ${element.items[0].display}">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+          </div>
+        </div>`;
+      }
+      poster_items += `</div></div>`;
     }
-    poster_items += `</div></div>`;
   });
 
   home_element.innerHTML = `
