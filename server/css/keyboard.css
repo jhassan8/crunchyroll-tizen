@@ -104,7 +104,7 @@
   position: absolute;
   bottom: -0.3rem;
   left: 0;
-  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
 }
 
 #keyboard-screen .col.size-5.selected::before {

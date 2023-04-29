@@ -20,7 +20,7 @@ home.init = function () {
       poster_items += `
       <div class="item">
         <div class="poster ${item.display}">
-          <img data-lazy="${
+          <img src="${
             item.display === "serie" ? item.poster : item.background
           }">
         </div>
@@ -30,7 +30,7 @@ home.init = function () {
       poster_items += `
       <div class="item">
         <div class="poster ${element.items[0].display}">
-          <img data-lazy="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
         </div>
       </div>`;
     }
@@ -63,14 +63,14 @@ home.init = function () {
   document.body.appendChild(home_element);
 
   $(`#${home.id} .rows`).slick({
-    lazyLoad: "ondemand",
     vertical: true,
     dots: false,
     arrows: false,
     infinite: false,
     slidesToShow: 1.5,
     slidesToScroll: 1,
-    speed: 200,
+    speed: 0,
+    waitForAnimate: false
   });
 
   $(`#${home.id} .rows .row-content`).not(".episode").slick({
@@ -79,7 +79,8 @@ home.init = function () {
     infinite: false,
     slidesToShow: 9,
     slidesToScroll: 1,
-    speed: 150,
+    speed: 0,
+    waitForAnimate: false
   });
 
   $(`#${home.id} .rows .row-content.episode`).slick({
@@ -88,7 +89,8 @@ home.init = function () {
     infinite: false,
     slidesToShow: 4.5,
     slidesToScroll: 1,
-    speed: 150,
+    speed: 0,
+    waitForAnimate: false
   });
 
   $(`#${home.id} .rows`)[0].slick.slickGoTo(0);

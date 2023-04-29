@@ -20,6 +20,7 @@ window.tvKey = {
   KEY_PAUSE: 19,
   KEY_RECORD: 416,
   KEY_PLAY: 415,
+  KEY_PLAY_PAUSE: 10252,
   KEY_STOP: 413,
   KEY_INFO: 457,
   KEY_LEFT: 37,

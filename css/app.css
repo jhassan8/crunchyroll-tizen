@@ -71,3 +71,13 @@ body {
   color: #fff;
   text-align: center;
 }
+
+#console {
+  width: 50%;
+  height: 50%;
+  color: #fff;
+  padding: 25px;
+  position: absolute;
+  z-index: 300;
+  overflow: auto;
+}

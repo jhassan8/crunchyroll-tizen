@@ -45,7 +45,7 @@ video.init = function (item) {
   video_element.innerHTML = `
   <div class="content">
     <img id="background">
-    <object id="videoplayer" type="application/avplayer" style="width:100%; height:100%;"></object>
+    <video id="videoplayer" style="width:100%; height:100%;"></video>
     <div class="osd" id="osd">
       <div class="details">
         <div id="title">${item.serie}</div>
@@ -71,6 +71,7 @@ video.init = function (item) {
   </div>`;
   document.body.appendChild(video_element);
 
+  player.config(video.setPlayingTime, video.destroy);
   $(`#${home.id}`).hide();
   video.previous = main.state;
   main.state = video.id;
@@ -80,25 +81,18 @@ video.init = function (item) {
 
 video.destroy = function () {
   player.stop();
+  clearTimeout(video.timers.osd.object);
   main.state = video.previous;
   document.body.removeChild(document.getElementById(video.id));
   $(`#${home.id}`).show();
 };
 
 video.keyDown = function (event) {
-  video.showOSD();
   switch (event.keyCode) {
+    case tvKey.KEY_STOP:
     case tvKey.KEY_BACK:
     case 27:
       video.destroy();
-      break;
-    case tvKey.KEY_VOL_UP:
-    case tvKey.KEY_PANEL_VOL_UP:
-      audio.setRelativeVolume(0);
-      break;
-    case tvKey.KEY_VOL_DOWN:
-    case tvKey.KEY_PANEL_VOL_DOWN:
-      audio.setRelativeVolume(1);
       break;
     case tvKey.KEY_PLAY:
       player.resume();
@@ -106,10 +100,21 @@ video.keyDown = function (event) {
     case tvKey.KEY_PAUSE:
       player.pause();
       break;
-    case tvKey.KEY_STOP:
-      player.stop();
+    case tvKey.KEY_PLAY_PAUSE:
+      player.playPause();
+    break;
+    case tvKey.KEY_ENTER:
+    case tvKey.KEY_PANEL_ENTER:
+      document.getElementById("osd").style.opacity == 1 && player.playPause();
+      break;
+    case tvKey.KEY_LEFT:
+      player.rewind(video.setPlayingTime);
+      break;
+    case tvKey.KEY_RIGHT:
+      player.forward(video.setPlayingTime);
       break;
   }
+  video.showOSD();
 };
 
 video.showOSD = function () {
@@ -139,20 +144,22 @@ video.hideBTN = function () {
   button.style.opacity = 0;
 };
 
-video.setPlayingTime = function (time) {
+video.setPlayingTime = function () {
+  var time = player.getPlayed() + player.values.forward_rewind;
+  time = time < 0 ? 0 : time;
   var totalTime = player.getDuration();
   var timePercent = (100 * time) / totalTime;
 
-  var totalSeconds = Math.floor((totalTime / 1000) % 60);
-  var totalMinutes = Math.floor((totalTime / (1000 * 60)) % 60);
-  var totalHours = Math.floor((totalTime / (1000 * 60 * 60)) % 24);
+  var totalSeconds = Math.floor(totalTime % 60);
+  var totalMinutes = Math.floor((totalTime % 3600) / 60);
+  var totalHours = Math.floor(totalTime / 3600);
   totalHours = totalHours < 10 ? "0" + totalHours : totalHours;
   totalMinutes = totalMinutes < 10 ? "0" + totalMinutes : totalMinutes;
   totalSeconds = totalSeconds < 10 ? "0" + totalSeconds : totalSeconds;
 
-  var timeSeconds = Math.floor((time / 1000) % 60);
-  var timeMinutes = Math.floor((time / (1000 * 60)) % 60);
-  var timeHours = Math.floor((time / (1000 * 60 * 60)) % 24);
+  var timeSeconds = Math.floor(time % 60);
+  var timeMinutes = Math.floor((time % 3600) / 60);
+  var timeHours = Math.floor(time / 3600);
   timeHours = timeHours < 10 ? "0" + timeHours : timeHours;
   timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
   timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;
