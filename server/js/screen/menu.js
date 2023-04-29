@@ -86,10 +86,12 @@ menu.move = function () {
 
 menu.keyDown = function (event) {
   switch (event.keyCode) {
-    case tvKey.KEY_BACK:
     case tvKey.KEY_RIGHT:
-    case 27:
       menu.close();
+    break;
+    case tvKey.KEY_BACK:
+    case 27:
+      exit.init();
       break;
     case tvKey.KEY_UP:
       var options = $(`#${menu.id} .option`);

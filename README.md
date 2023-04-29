@@ -16,11 +16,11 @@
 - [x] Search element
 
 #### In progress
+- [ ] Auto next episode
+- [ ] Change audio and subtitles language inside player
 - [ ] Browse elements by categories
 
 #### Pending
-- [ ] Auto next episode
-- [ ] Change audio and subtitles language inside player
 - [ ] History screen
 - [ ] My list screen and workflow
 - [ ] Settings screen
@@ -45,3 +45,10 @@
     - Configure
     - Convert To Tizen Project
 8. The app opens on the TV and will be installed.
+
+## Instalation CLI
+
+1. Set tizen var
+    - Linux: ```export PATH=$PATH:<your_tizen_path>/tizen-studio/tools/ide/bin```
+    - Windows: ```set PATH=%PATH%;<your_tizen_path>/tizen-studio/tools/ide/bin```
+2. In project folder run: ```npm run install --tv=<name_of_tv_device_manager>```

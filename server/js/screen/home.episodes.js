@@ -66,7 +66,7 @@ home.episodes.load = function (season) {
         episodes_html += `
         <div class="episode">
           <div class="episode-image">
-            <img data-lazy="${episode.background}">
+            <img src="${episode.background}">
           </div>
           <div class="episode-details">
             <div class="episode-title">${episode.title}</div>
@@ -78,21 +78,21 @@ home.episodes.load = function (season) {
         episodes_html += `
         <div class="episode">
           <div class="episode-image">
-            <img data-lazy="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
           </div>
         </div>`;
       }
       $(".episodes .episodes-list").eq(0).html(episodes_html);
 
       $(".episodes .episodes-list").slick({
-        lazyLoad: "ondemand",
         vertical: true,
         dots: false,
         arrows: false,
         infinite: false,
         slidesToShow: 5,
         slidesToScroll: 1,
-        speed: 200,
+        speed: 0,
+        waitForAnimate: false
       });
     },
     error: function (error) {

@@ -5,6 +5,7 @@
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 5;
 }
 
 #exit-screen .content {
@@ -51,5 +52,5 @@
 
 #exit-screen .button.selected {
   background: #f47521;
-  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
 }

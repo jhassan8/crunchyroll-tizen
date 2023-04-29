@@ -11,7 +11,6 @@ var main = {
 /* on init app */
 main.init = function () {
   loading.init();
-  player.init();
   session.init();
   main.events.login();
 };
@@ -56,6 +55,8 @@ main.destroy = function () {
 
 /* on key press */
 main.keyDown = function (event) {
+  //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
+  //$('#console').scrollTop(3000000);
   if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
     exit.init();
   } else {
