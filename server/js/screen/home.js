@@ -21,9 +21,17 @@ home.init = function () {
         poster_items += `
         <div class="item">
           <div class="poster ${item.display}">
-            <img src="${
-              item.display === "serie" ? item.poster : item.background
-            }">
+            ${
+              item.display !== "serie"
+                ? '<img src="' +
+                  item.background +
+                  '"><div class="progress" style="width: ' +
+                  (item.playhead * 100) / item.duration +
+                  '%" value="' +
+                  (item.duration - item.playhead) +
+                  'm"></div>'
+                : '<img src="' + item.poster + '">'
+            }
           </div>
         </div>`;
       });
@@ -72,7 +80,7 @@ home.init = function () {
     slidesToShow: 1.5,
     slidesToScroll: 1,
     speed: 0,
-    waitForAnimate: false
+    waitForAnimate: false,
   });
 
   $(`#${home.id} .rows .row-content`).not(".episode").slick({
@@ -82,7 +90,7 @@ home.init = function () {
     slidesToShow: 9,
     slidesToScroll: 1,
     speed: 0,
-    waitForAnimate: false
+    waitForAnimate: false,
   });
 
   $(`#${home.id} .rows .row-content.episode`).slick({
@@ -92,7 +100,7 @@ home.init = function () {
     slidesToShow: 4.5,
     slidesToScroll: 1,
     speed: 0,
-    waitForAnimate: false
+    waitForAnimate: false,
   });
 
   $(`#${home.id} .rows`)[0].slick.slickGoTo(0);

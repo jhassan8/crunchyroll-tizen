@@ -126,6 +126,26 @@ service.continue = function (request) {
   });
 };
 
+service.playheads = function (request) {
+  return session.refresh({
+    success: function (storage) {
+      var headers = new Headers();
+      headers.append("Authorization", `Bearer ${storage.access_token}`);
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+      fetch(
+        `${service.api.url}/content/v2/${storage.id}/playheads?content_ids=${request.data.ids}&locale=${storage.account.language}`,
+        {
+          headers: headers,
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => request.success(json))
+        .catch((error) => request.error(error));
+    },
+  });
+};
+
 service.seasons = function (request) {
   return session.cookies({
     success: function (storage) {
@@ -199,7 +219,7 @@ service.search = function (request) {
       headers.append("Authorization", `Bearer ${storage.access_token}`);
       headers.append("Content-Type", "application/x-www-form-urlencoded");
       fetch(
-        `${service.api.url}/content/v1/search?q=${request.data.query}&type=series&n=100&locale=${storage.account.language}`,
+        `${service.api.url}/content/v2/discover/search?q=${request.data.query}&type=series,movie_listing&n=100&locale=${storage.account.language}`,
         {
           headers: headers,
         }

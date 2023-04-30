@@ -67,7 +67,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(0,0,0,0) 50%);
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%);
   /* box-shadow: 240px -200px 1000px 0 rgb(0, 0, 0) inset; */
   /* transition: background 0.5s; */
 }
@@ -77,14 +77,20 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 50%);
   z-index: 1;
   /* box-shadow: 240px -200px 1000px 0 rgb(0, 0, 0) inset; */
   /* transition: background 0.5s; */
 }
 
 #home-screen .content .details.full .background::after {
-  background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.50) 45%, rgba(0,0,0,0) 80%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.5) 45%,
+    rgba(0, 0, 0, 0) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
   /* box-shadow: 760px -250px 1000px 0 rgba(0, 0, 0, 0.7) inset; */
 }
 
@@ -192,6 +198,26 @@
 
 #home-screen .content .row .row-content .item .poster.episode {
   padding-top: 55%;
+}
+
+#home-screen .content .row .row-content .item .poster.episode .progress {
+  height: 12px;
+  position: absolute;
+  background: rgba(244, 130, 33, 0.7);
+  bottom: 0;
+}
+
+#home-screen .content .row .row-content .item .poster.episode .progress::after {
+  content: attr(value);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  top: -185px;
+  min-width: 25px;
+  text-align: center;
+  position: absolute;
+  left: 15px;
+  border-radius: 15px;
 }
 
 #home-screen .content .row .row-content .item .poster img {
@@ -396,6 +422,7 @@
   height: 100vh;
   position: absolute;
   display: flex;
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .home_episodes-screen.home_episodes-screen_content .seasons {
@@ -519,6 +546,41 @@
   justify-content: left;
   height: 207px;
   overflow: hidden;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-image {
+  position: relative;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-image
+  .progress {
+  height: 12px;
+  position: absolute;
+  background: rgba(244, 130, 33, 0.7);
+  bottom: 0;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-image
+  .progress::after {
+  content: attr(value);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  top: -148px;
+  min-width: 25px;
+  text-align: center;
+  position: absolute;
+  left: 15px;
+  border-radius: 15px;
 }
 
 .home_episodes-screen.home_episodes-screen_content

@@ -60,45 +60,63 @@ home.episodes.load = function (season) {
       id: season.id,
     },
     success: function (response) {
-      home.episodes.data.episodes = mapper.episodes(response);
-      var episodes_html = "";
-      home.episodes.data.episodes.forEach((episode) => {
-        episodes_html += `
+      mapper.episodes(response, function (result) {
+        home.episodes.data.episodes = result;
+
+        var episodes_html = "";
+        home.episodes.data.episodes.forEach((episode) => {
+          episodes_html += `
         <div class="episode">
           <div class="episode-image">
             <img src="${episode.background}">
+            ${home.episodes.view(episode)}
           </div>
           <div class="episode-details">
             <div class="episode-title">${episode.title}</div>
             <div class="episode-description">${episode.description}</div>
           </div>
         </div>`;
-      });
-      for (var index = 0; index < 4; index++) {
-        episodes_html += `
+        });
+        for (var index = 0; index < 4; index++) {
+          episodes_html += `
         <div class="episode">
           <div class="episode-image">
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
           </div>
         </div>`;
-      }
-      $(".episodes .episodes-list").eq(0).html(episodes_html);
+        }
+        $(".episodes .episodes-list").eq(0).html(episodes_html);
 
-      $(".episodes .episodes-list").slick({
-        vertical: true,
-        dots: false,
-        arrows: false,
-        infinite: false,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        speed: 0,
-        waitForAnimate: false
+        $(".episodes .episodes-list").slick({
+          vertical: true,
+          dots: false,
+          arrows: false,
+          infinite: false,
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          speed: 0,
+          waitForAnimate: false,
+        });
+
+        $(".episodes .episodes-list")[0].slick.slickGoTo(0);
       });
     },
     error: function (error) {
       console.log(error);
     },
   });
+};
+
+home.episodes.view = function (episode) {
+  return episode.playhead !== 0
+    ? `<div class="progress" style="width: ${
+        (episode.playhead * 100) / episode.duration
+      }%" value="${
+        episode.duration === episode.playhead
+          ? "Watched"
+          : episode.duration - episode.playhead + "m"
+      }"></div>`
+    : "";
 };
 
 home.episodes.destroy = function () {

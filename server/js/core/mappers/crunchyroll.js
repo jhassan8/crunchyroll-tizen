@@ -30,10 +30,24 @@ crunchyroll.home = function (response, callback) {
     crunchyroll.load(lists[index], index, {
       success: function (test, on) {
         home.data.main.lists[on].items = test.data.map((item) => {
-          var title, description, background, poster, display;
+          var title,
+            description,
+            background,
+            poster,
+            display,
+            playhead,
+            duration,
+            type;
           if (item.panel || item.type === "episode") {
+            type = item.__class__;
             display = "episode";
             id = item.panel ? item.panel.id : item.id;
+            playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
+            duration = Math.round(
+              (item.panel
+                ? item.panel.episode_metadata.duration_ms
+                : item.episode_metadata.duration_ms) / 60000
+            );
             title = item.panel
               ? item.panel.episode_metadata.series_title
               : item.title;
@@ -42,6 +56,7 @@ crunchyroll.home = function (response, callback) {
               ? item.panel.images.thumbnail[0][4].source
               : item.images.thumbnail[0][4].source;
           } else {
+            type = item.__class__;
             display = "serie";
             id = item.id;
             title = item.title;
@@ -51,12 +66,15 @@ crunchyroll.home = function (response, callback) {
           }
 
           return {
-            id: id,
-            display: display,
-            title: title,
-            description: description,
-            background: background,
-            poster: poster,
+            id,
+            type,
+            display,
+            title,
+            description,
+            background,
+            poster,
+            duration,
+            playhead,
           };
         });
         crunchyroll.loaded++;
@@ -117,8 +135,8 @@ crunchyroll.seasons = function (response) {
   }));
 };
 
-crunchyroll.episodes = function (response) {
-  return response.items.map((episode) => ({
+crunchyroll.episodes = function (response, callback) {
+  var episodes = response.items.map((episode) => ({
     id: episode.id,
     title: episode.title,
     episode: episode.title,
@@ -126,24 +144,53 @@ crunchyroll.episodes = function (response) {
     description: episode.description,
     number: episode.episode_number,
     episode_number: episode.episode_number,
-    background: episode.images.thumbnail[0][1].source,
+    background: episode.images.thumbnail ? episode.images.thumbnail[0][1].source : '',
     stream: episode.__links__.streams.href.substr(
       episode.__links__.streams.href.indexOf("/videos/") + 8,
       9
     ),
-    duration: episode.duration_ms,
+    duration: Math.round(episode.duration_ms / 60000),
     premium: episode.is_premium_only,
   }));
+
+  crunchyroll.playheads(episodes, function (playheads) {
+    episodes = episodes.map((e) => {
+      var element = playheads.get(e.id);
+      e.playhead = element
+        ? element.fully_watched
+          ? e.duration
+          : Math.round(element.playhead / 60)
+        : 0;
+      return e;
+    });
+    callback && callback(episodes);
+  });
+};
+
+crunchyroll.playheads = function (episodes, callback) {
+  service.playheads({
+    data: {
+      ids: episodes.map((e) => e.id).join(),
+    },
+    success: function (response) {
+      var playheads = new Map(response.data.map((obj) => [obj.content_id, obj]));
+      callback && callback(playheads);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
 };
 
 crunchyroll.search = function (response) {
-  return response.items.reduce(
+  return response.data.reduce(
     (acum, elem) =>
       elem.type === "series" || elem.type === "movie_listing"
         ? [
             ...acum,
             ...elem.items.map((item) => ({
               display: "serie",
+              type: item.type,
               id: item.id,
               title: item.title,
               description: item.description,
