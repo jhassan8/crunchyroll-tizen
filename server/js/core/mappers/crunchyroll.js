@@ -13,12 +13,14 @@ crunchyroll.home = function (response, callback) {
     ].includes(element.response_type)
   );
 
+  var banner = response.data.find(p => p.resource_type === 'panel');
+
   home.data.main = {
     banner: {
-      id: response.data[1].panel.id,
-      title: response.data[1].panel.title,
-      description: response.data[1].panel.description,
-      background: response.data[1].panel.images.poster_wide[0][4].source,
+      id: banner.panel.id,
+      title: banner.panel.title,
+      description: banner.panel.description,
+      background: banner.panel.images.poster_wide[0][4].source,
     },
     lists: lists.map((list) => ({
       title: list.title,
