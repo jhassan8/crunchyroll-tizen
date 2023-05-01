@@ -1,29 +1,29 @@
-var translate = {
+window.translate = {
   langs: ["en", "es", "pt"],
   lang: "en",
-};
 
-translate.init = function (lang) {
-  translate.langs.forEach((langFile) => {
-    fetch(`server/translate/${langFile}.json`)
-      .then((response) => response.json())
-      .then((json) => {
-        translate.add(langFile, json);
-        translate.lang = lang || translate.lang;
-        var elements = document.querySelectorAll("[translate]");
-        elements.forEach(
-          (element) => (element.innerText = translate.go(element.innerText))
-        );
-      });
-  });
-};
+  init: function (lang) {
+    translate.langs.forEach((langFile) => {
+      fetch(`server/translate/${langFile}.json`)
+        .then((response) => response.json())
+        .then((json) => {
+          translate.add(langFile, json);
+          translate.lang = lang || translate.lang;
+          var elements = document.querySelectorAll("[translate]");
+          elements.forEach(
+            (element) => (element.innerText = translate.go(element.innerText))
+          );
+        });
+    });
+  },
 
-translate.go = function (key) {
-  return translate[translate.lang]
-    ? translate[translate.lang][key] || key
-    : key;
-};
+  go: function (key) {
+    return translate[translate.lang]
+      ? translate[translate.lang][key] || key
+      : key;
+  },
 
-translate.add = function (lang, dictonary) {
-  translate[lang] = translate[lang] || dictonary;
+  add: function (lang, dictonary) {
+    translate[lang] = translate[lang] || dictonary;
+  },
 };

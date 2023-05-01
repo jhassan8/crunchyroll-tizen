@@ -1,4 +1,4 @@
-home.details = {
+window.home_details = {
   id: "home_details-screen",
   previous: NaN,
   data: {
@@ -7,17 +7,16 @@ home.details = {
   },
   callbacks: {
     init: NaN,
-    destroy: NaN
-  }
-};
+    destroy: NaN,
+  },
 
-home.details.init = function (item, init, destroy) {
-  home.details.callbacks.init = init;
-  home.details.callbacks.destroy = destroy;
-  home.details.callbacks.init && home.details.callbacks.init(item);
-  var buttons = document.createElement("div");
-  buttons.className = `${home.details.id} ${home.details.id}_buttons`;
-  buttons.innerHTML = `
+  init: function (item, init, destroy) {
+    home_details.callbacks.init = init;
+    home_details.callbacks.destroy = destroy;
+    home_details.callbacks.init && home_details.callbacks.init(item);
+    var buttons = document.createElement("div");
+    buttons.className = `${home_details.id} ${home_details.id}_buttons`;
+    buttons.innerHTML = `
   <a class="selected">
     <i class="fa-solid fa-play"></i>
     <p>Play: S1 E1</p>
@@ -36,99 +35,98 @@ home.details.init = function (item, init, destroy) {
     <p>Related content</p>
   </a>`;
 
-  home.details.data.this = item;
-  service.continue({
-    data: {
-      ids: item.id,
-    },
-    success: function (response) {
-      home.details.data.continue = mapper.continue(response);
-      $(`.${home.details.id}.${home.details.id}_buttons a`)
-        .eq(0)
-        .addClass(`${home.details.data.continue.played > 0 ? "played" : ""}`)
-        .attr("percent", home.details.data.continue.played);
-      $(`.${home.details.id}.${home.details.id}_buttons a p`)
-        .eq(0)
-        .text(
-          `${
-            home.details.data.continue.played > 0 ? "Continue" : "Play"
-          }: T${home.details.data.continue.season_number} E${
-            home.details.data.continue.episode_number
-          }`
+    home_details.data.this = item;
+    service.continue({
+      data: {
+        ids: item.id,
+      },
+      success: function (response) {
+        home_details.data.continue = mapper.continue(response);
+        $(`.${home_details.id}.${home_details.id}_buttons a`)
+          .eq(0)
+          .addClass(`${home_details.data.continue.played > 0 ? "played" : ""}`)
+          .attr("percent", home_details.data.continue.played);
+        $(`.${home_details.id}.${home_details.id}_buttons a p`)
+          .eq(0)
+          .text(
+            `${home_details.data.continue.played > 0 ? "Continue" : "Play"}: T${
+              home_details.data.continue.season_number
+            } E${home_details.data.continue.episode_number}`
+          );
+        $(`.${home_details.id}.${home_details.id}_buttons a span`)
+          .eq(0)
+          .width(home_details.data.continue.played + "%");
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+
+    $(`#${home.id} .details .info`).append(buttons);
+    $(`#${home.id} .details`).addClass("full");
+    $(`body`).addClass(`${home_details.id}`);
+
+    home_details.previous = main.state;
+    main.state = home_details.id;
+  },
+
+  destroy: function () {
+    $(`body`).removeClass(`${home_details.id}`);
+    $(`#${home.id} .details.full`).removeClass("full");
+    $(`.${home_details.id}`).remove();
+    home_details.data.continue = NaN;
+    home_details.data.this = NaN;
+
+    main.state = home_details.previous;
+    home_details.callbacks.destroy && home_details.callbacks.destroy();
+  },
+
+  keyDown: function (event) {
+    switch (event.keyCode) {
+      case tvKey.KEY_BACK:
+      case 27:
+        home_details.destroy();
+        break;
+      case tvKey.KEY_UP:
+        var buttons = $(`.${home_details.id}.${home_details.id}_buttons a`);
+        var current = buttons.index(
+          $(`.${home_details.id}.${home_details.id}_buttons a.selected`)
         );
-      $(`.${home.details.id}.${home.details.id}_buttons a span`)
-        .eq(0)
-        .width(home.details.data.continue.played + "%");
-    },
-    error: function (error) {
-      console.log(error);
-    },
-  });
+        buttons.removeClass("selected");
+        buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
+        break;
+      case tvKey.KEY_DOWN:
+        var buttons = $(`.${home_details.id}.${home_details.id}_buttons a`);
+        var current = buttons.index(
+          $(`.${home_details.id}.${home_details.id}_buttons a.selected`)
+        );
+        buttons.removeClass("selected");
+        buttons
+          .eq(current < buttons.length - 1 ? current + 1 : current)
+          .addClass("selected");
+        break;
+      case tvKey.KEY_ENTER:
+      case tvKey.KEY_PANEL_ENTER:
+        var buttons = $(`.${home_details.id}.${home_details.id}_buttons a`);
+        var current = buttons.index(
+          $(`.${home_details.id}.${home_details.id}_buttons a.selected`)
+        );
 
-  $(`#${home.id} .details .info`).append(buttons);
-  $(`#${home.id} .details`).addClass("full");
-  $(`body`).addClass(`${home.details.id}`);
-
-  home.details.previous = main.state;
-  main.state = home.details.id;
-};
-
-home.details.destroy = function () {
-  $(`body`).removeClass(`${home.details.id}`);
-  $(`#${home.id} .details.full`).removeClass("full");
-  $(`.${home.details.id}`).remove();
-  home.details.data.continue = NaN;
-  home.details.data.this = NaN;
-
-  main.state = home.details.previous;
-  home.details.callbacks.destroy && home.details.callbacks.destroy();
-};
-
-home.details.keyDown = function (event) {
-  switch (event.keyCode) {
-    case tvKey.KEY_BACK:
-    case 27:
-      home.details.destroy();
-      break;
-    case tvKey.KEY_UP:
-      var buttons = $(`.${home.details.id}.${home.details.id}_buttons a`);
-      var current = buttons.index(
-        $(`.${home.details.id}.${home.details.id}_buttons a.selected`)
-      );
-      buttons.removeClass("selected");
-      buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
-      break;
-    case tvKey.KEY_DOWN:
-      var buttons = $(`.${home.details.id}.${home.details.id}_buttons a`);
-      var current = buttons.index(
-        $(`.${home.details.id}.${home.details.id}_buttons a.selected`)
-      );
-      buttons.removeClass("selected");
-      buttons
-        .eq(current < buttons.length - 1 ? current + 1 : current)
-        .addClass("selected");
-      break;
-    case tvKey.KEY_ENTER:
-    case tvKey.KEY_PANEL_ENTER:
-      var buttons = $(`.${home.details.id}.${home.details.id}_buttons a`);
-      var current = buttons.index(
-        $(`.${home.details.id}.${home.details.id}_buttons a.selected`)
-      );
-
-      switch (current) {
-        case 0:
-          video.init(home.details.data.continue);
-          break;
-        case 1:
-          console.log("add list");
-          break;
-        case 2:
-          home.episodes.init(home.details.data.this);
-          break;
-        case 3:
-          console.log("related");
-          break;
-      }
-      break;
-  }
+        switch (current) {
+          case 0:
+            video.init(home_details.data.continue);
+            break;
+          case 1:
+            console.log("add list");
+            break;
+          case 2:
+            home_episodes.init(home_details.data.this);
+            break;
+          case 3:
+            console.log("related");
+            break;
+        }
+        break;
+    }
+  },
 };

@@ -1,4 +1,4 @@
-var main = {
+window.main = {
   urls: {
     src: "server/img",
   },
@@ -6,55 +6,56 @@ var main = {
   mac: null,
   token: null,
   state: null,
-};
 
-/* on init app */
-main.init = function () {
+  /* on init app */
+init: function () {
   loading.init();
   session.init();
   main.events.login();
-};
+},
 
-main.events.login = function () {
-  session.valid({
-    success: function () {
-      session.load_account();
-      main.events.home();
-    },
-    error: function (error) {
-      console.log(error);
-      loading.destroy();
-      login.init();
-    },
-  });
-};
-
-main.events.home = function () {
-  service.home({
-    success: function (response) {
-      mapper.home(response, {
-        success: function () {
-          loading.destroy();
-          home.init();
-          menu.init();
-        },
-      });
-    },
-    error: function (error) {
-      console.log(error);
-      loading.destroy();
-      login.init();
-    },
-  });
-};
+events: {
+  login: function () {
+    session.valid({
+      success: function () {
+        session.load_account();
+        main.events.home();
+      },
+      error: function (error) {
+        console.log(error);
+        loading.destroy();
+        login.init();
+      },
+    });
+  },
+  
+  home: function () {
+    service.home({
+      success: function (response) {
+        mapper.home(response, {
+          success: function () {
+            loading.destroy();
+            home.init();
+            menu.init();
+          },
+        });
+      },
+      error: function (error) {
+        console.log(error);
+        loading.destroy();
+        login.init();
+      },
+    });
+  },
+},
 
 /* on exit app */
-main.destroy = function () {
+destroy: function () {
   player.destroy();
-};
+},
 
 /* on key press */
-main.keyDown = function (event) {
+keyDown: function (event) {
   //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
   //$('#console').scrollTop(3000000);
   if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
@@ -82,11 +83,11 @@ main.keyDown = function (event) {
       case home.id:
         home.keyDown(event);
         break;
-      case home.details.id:
-        home.details.keyDown(event);
+      case home_details.id:
+        home_details.keyDown(event);
         break;
-      case home.episodes.id:
-        home.episodes.keyDown(event);
+      case home_episodes.id:
+        home_episodes.keyDown(event);
         break;
       case video.id:
         video.keyDown(event);
@@ -96,4 +97,6 @@ main.keyDown = function (event) {
         break;
     }
   }
+},
+
 };
