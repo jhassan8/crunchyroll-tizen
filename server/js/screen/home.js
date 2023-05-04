@@ -1,12 +1,12 @@
-var home = {
+window.home = {
   id: "home-screen",
   data: {
     main: NaN,
   },
   position: 0,
-};
 
-home.init = function () {
+
+init: function () {
   var home_element = document.createElement("div");
   home_element.id = home.id;
 
@@ -107,14 +107,14 @@ home.init = function () {
   $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
   main.state = home.id;
-};
+},
 
-home.destroy = function () {
+destroy: function () {
   this.position = 0;
   document.body.removeChild(document.getElementById(home.id));
-};
+},
 
-home.show_details = function () {
+show_details: function () {
   var item =
     home.position > 0
       ? this.data.main.lists[home.position - 1].items[
@@ -124,9 +124,9 @@ home.show_details = function () {
   $(".details .background img").attr("src", item.background);
   $(".details .info .title").text(item.title);
   $(".details .info .description").text(item.description);
-};
+},
 
-home.keyDown = function (event) {
+keyDown: function (event) {
   switch (event.keyCode) {
     case tvKey.KEY_BACK:
     case 27:
@@ -220,7 +220,8 @@ home.keyDown = function (event) {
               $(".row-content")[home.position - 1].slick.currentSlide
             ]
           : home.data.main.banner;
-      home.details.init(item);
+      home_details.init(item);
       break;
   }
+},
 };

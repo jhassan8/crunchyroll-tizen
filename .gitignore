@@ -3,3 +3,9 @@
 dist
 .sign
 .package
+.vscode
+
+cdn/
+online/
+node_modules/
+package-lock.json
