@@ -8,95 +8,94 @@ window.main = {
   state: null,
 
   /* on init app */
-init: function () {
-  loading.init();
-  session.init();
-  main.events.login();
-},
-
-events: {
-  login: function () {
-    session.valid({
-      success: function () {
-        session.load_account();
-        main.events.home();
-      },
-      error: function (error) {
-        console.log(error);
-        loading.destroy();
-        login.init();
-      },
-    });
+  init: function () {
+    loading.init();
+    session.init();
+    main.events.login();
   },
-  
-  home: function () {
-    service.home({
-      success: function (response) {
-        mapper.home(response, {
-          success: function () {
-            loading.destroy();
-            home.init();
-            menu.init();
-          },
-        });
-      },
-      error: function (error) {
-        console.log(error);
-        loading.destroy();
-        login.init();
-      },
-    });
+
+  events: {
+    login: function () {
+      session.valid({
+        success: function () {
+          session.load_account();
+          main.events.home();
+        },
+        error: function (error) {
+          console.log(error);
+          loading.destroy();
+          login.init();
+        },
+      });
+    },
+
+    home: function () {
+      service.home({
+        success: function (response) {
+          mapper.home(response, {
+            success: function () {
+              loading.destroy();
+              home.init();
+              menu.init();
+            },
+          });
+        },
+        error: function (error) {
+          console.log(error);
+          loading.destroy();
+          login.init();
+        },
+      });
+    },
   },
-},
 
-/* on exit app */
-destroy: function () {
-  player.destroy();
-},
+  /* on exit app */
+  destroy: function () {
+    player.destroy();
+  },
 
-/* on key press */
-keyDown: function (event) {
-  //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
-  //$('#console').scrollTop(3000000);
-  if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
-    exit.init();
-  } else {
-    switch (main.state) {
-      case loading.id:
-        loading.keyDown(event);
-        break;
-      case exit.id:
-        exit.keyDown(event);
-        break;
-      case login.id:
-        login.keyDown(event);
-        break;
-      case keyboard.id:
-        keyboard.keyDown(event);
-        break;
-      case menu.id:
-        menu.keyDown(event);
-        break;
-      case search.id:
-        search.keyDown(event);
-        break;
-      case home.id:
-        home.keyDown(event);
-        break;
-      case home_details.id:
-        home_details.keyDown(event);
-        break;
-      case home_episodes.id:
-        home_episodes.keyDown(event);
-        break;
-      case video.id:
-        video.keyDown(event);
-        break;
-      default:
-        console.log("keyboard action screen not defined.");
-        break;
+  /* on key press */
+  keyDown: function (event) {
+    //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
+    //$('#console').scrollTop(3000000);
+    if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
+      exit.init();
+    } else {
+      switch (main.state) {
+        case loading.id:
+          loading.keyDown(event);
+          break;
+        case exit.id:
+          exit.keyDown(event);
+          break;
+        case login.id:
+          login.keyDown(event);
+          break;
+        case keyboard.id:
+          keyboard.keyDown(event);
+          break;
+        case menu.id:
+          menu.keyDown(event);
+          break;
+        case search.id:
+          search.keyDown(event);
+          break;
+        case home.id:
+          home.keyDown(event);
+          break;
+        case home_details.id:
+          home_details.keyDown(event);
+          break;
+        case home_episodes.id:
+          home_episodes.keyDown(event);
+          break;
+        case video.id:
+          video.keyDown(event);
+          break;
+        default:
+          console.log("keyboard action screen not defined.");
+          break;
+      }
     }
-  }
-},
-
+  },
 };
