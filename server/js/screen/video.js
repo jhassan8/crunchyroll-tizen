@@ -28,9 +28,13 @@ window.video = {
       success: function (data) {
         video.data = data.data;
         try {
-          player.play(
-            data.streams.adaptive_hls[session.storage.account.language].url
-          );
+          var lang;
+          if (data.streams.adaptive_hls[session.storage.account.language]) {
+            lang = session.storage.account.language;
+          } else {
+            lang = "";
+          }
+          player.play(data.streams.adaptive_hls[lang].url);
         } catch (error) {
           console.log(error);
         }
