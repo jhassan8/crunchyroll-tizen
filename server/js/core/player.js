@@ -234,7 +234,7 @@ window.player = {
     player.pause();
     clearTimeout(player.timers.forward_rewind);
     video.showBTN("rewind");
-    player.values.forward_rewind -= player.getDuration() * 0.03;
+    player.values.forward_rewind -= player.getDuration() * 0.01;
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
@@ -251,7 +251,7 @@ window.player = {
     player.pause();
     clearTimeout(player.timers.forward_rewind);
     video.showBTN("forward");
-    player.values.forward_rewind += player.getDuration() * 0.03;
+    player.values.forward_rewind += player.getDuration() * 0.01;
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =

@@ -11,35 +11,40 @@ window.home_episodes = {
     episode_contents.className = `${home_episodes.id} ${home_episodes.id}_content`;
 
     episode_contents.innerHTML = `
-  <div class="option seasons">
-    <div class="title resize">${item.title}</div>
-    <div class="seasons-list"></div>
-  </div>
-  <div class="option episodes active">
-    <div class="title"></div>
-    <div class="episodes-list"></div>
-  </div>
-  `;
+    <div class="option seasons">
+      <div class="title resize">${item.title}</div>
+      <div class="seasons-list">
+        <div id="seasons-list-offset"></div>
+      </div>
+    </div>
+    <div class="option episodes active">
+      <div class="title"></div>
+      <div class="episodes-list"></div>
+    </div>
+    `;
 
     $(`#${home.id}`).append(episode_contents);
 
+    loading.start();
     service.seasons({
       data: {
         id: item.id,
       },
       success: function (response) {
+        loading.end();
         home_episodes.data.seasons = mapper.seasons(response);
         var seasons_html = "";
         home_episodes.data.seasons.forEach((season, index) => {
           seasons_html += `
-        <div class="season${index === 0 ? " selected" : ""}">${
+        <div class="season${index === 0 ? " selected active" : ""}">${
             season.title
           }</div>`;
         });
-        $(".seasons .seasons-list").eq(0).html(seasons_html);
+        $(".seasons #seasons-list-offset").eq(0).html(seasons_html);
         home_episodes.load(home_episodes.data.seasons[0]);
       },
       error: function (error) {
+        loading.end();
         console.log(error);
       },
     });
@@ -54,6 +59,8 @@ window.home_episodes = {
     $(".episodes .title")[0].innerText = season.title;
     $(".episodes .episodes-list")[0].slick &&
       $(".episodes .episodes-list")[0].slick.destroy();
+    $(".episodes .episodes-list")[0].innerHTML = "";
+    loading.start();
     service.episodes({
       data: {
         id: season.id,
@@ -65,24 +72,25 @@ window.home_episodes = {
           var episodes_html = "";
           home_episodes.data.episodes.forEach((episode) => {
             episodes_html += `
-        <div class="episode">
-          <div class="episode-image">
-            <img src="${episode.background}">
-            ${home_episodes.view(episode)}
-          </div>
-          <div class="episode-details">
-            <div class="episode-title">${episode.title}</div>
-            <div class="episode-description">${episode.description}</div>
-          </div>
-        </div>`;
+            <div class="episode">
+              <div class="episode-image">
+                <img src="${episode.background}">
+                ${home_episodes.view(episode)}
+                ${home_episodes.premium(episode)}
+              </div>
+              <div class="episode-details">
+                <div class="episode-title">${episode.title}</div>
+                <div class="episode-description">${episode.description}</div>
+              </div>
+            </div>`;
           });
           for (var index = 0; index < 4; index++) {
             episodes_html += `
-        <div class="episode">
-          <div class="episode-image">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-          </div>
-        </div>`;
+            <div class="episode">
+              <div class="episode-image">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+              </div>
+            </div>`;
           }
           $(".episodes .episodes-list").eq(0).html(episodes_html);
 
@@ -98,9 +106,11 @@ window.home_episodes = {
           });
 
           $(".episodes .episodes-list")[0].slick.slickGoTo(0);
+          loading.end();
         });
       },
       error: function (error) {
+        loading.end();
         console.log(error);
       },
     });
@@ -118,13 +128,19 @@ window.home_episodes = {
       : "";
   },
 
+  premium: function (episode) {
+    return episode.premium
+      ? `<i class="fa-solid fa-crown premium"></i>`
+      : "";
+  },
+
   destroy: function () {
     $(`body`).removeClass(`${home_episodes.id}`);
     setTimeout(() => {
       $(`body`).removeClass(`${home_episodes.id}`);
       $(`.${home_episodes.id}`).remove();
       main.state = home_episodes.previous;
-    }, 400);
+    }, 0 /*400*/);
   },
 
   keyDown: function (event) {
@@ -154,6 +170,24 @@ window.home_episodes = {
         options
           .eq(current < options.length - 1 ? current + 1 : current)
           .addClass("active");
+
+        options = $(`.seasons-list .season`);
+        current = options.index($(`.seasons-list .season.active`));
+        $(`.seasons-list .season`).removeClass("selected");
+
+        var marginTop = 0;
+        if (options.length > 8 && current > 4) {
+          if (current > options.length - 4) {
+            marginTop = -((options.length - 8) * 72);
+          } else {
+            marginTop = -((current - 4) * 72);
+          }
+        }
+
+        options.eq(current).addClass("selected");
+        document.getElementById(
+          "seasons-list-offset"
+        ).style.marginTop = `${marginTop}px`;
         break;
       case tvKey.KEY_UP:
         var options = $(
@@ -167,17 +201,23 @@ window.home_episodes = {
         } else {
           options = $(`.seasons-list .season`);
           current = options.index($(`.seasons-list .season.selected`));
-          options[0].style.marginTop = `${
-            current < options.length - 3
-              ? (current - 5) * -70 < 15
-                ? (current - 5) * -70
-                : 15
-              : -1120
-          }px`;
+
           options.removeClass("selected");
           var newCurrent = current > 0 ? current - 1 : current;
           options.eq(newCurrent).addClass("selected");
-          home_episodes.load(home_episodes.data.seasons[newCurrent]);
+
+          var marginTop = 0;
+          if (options.length > 8 && newCurrent > 4) {
+            if (newCurrent > options.length - 4) {
+              marginTop = -((options.length - 8) * 72);
+            } else {
+              marginTop = -((newCurrent - 4) * 72);
+            }
+          }
+
+          document.getElementById(
+            "seasons-list-offset"
+          ).style.marginTop = `${marginTop}px`;
         }
         break;
       case tvKey.KEY_DOWN:
@@ -192,17 +232,23 @@ window.home_episodes = {
         } else {
           options = $(`.seasons-list .season`);
           current = options.index($(`.seasons-list .season.selected`));
-          options[0].style.marginTop = `${
-            current - 3 > 0
-              ? (current - 3) * -70 > -1120
-                ? (current - 3) * -70
-                : -1120
-              : 15
-          }px`;
+
           options.removeClass("selected");
           var newCurrent = current < options.length - 1 ? current + 1 : current;
           options.eq(newCurrent).addClass("selected");
-          home_episodes.load(home_episodes.data.seasons[newCurrent]);
+
+          var marginTop = 0;
+          if (options.length > 8 && newCurrent > 4) {
+            if (newCurrent > options.length - 4) {
+              marginTop = -((options.length - 8) * 72);
+            } else {
+              marginTop = -((newCurrent - 4) * 72);
+            }
+          }
+
+          document.getElementById(
+            "seasons-list-offset"
+          ).style.marginTop = `${marginTop}px`;
         }
         break;
       case tvKey.KEY_ENTER:
@@ -219,6 +265,13 @@ window.home_episodes = {
               $(".episodes .episodes-list")[0].slick.currentSlide
             ]
           );
+        } else {
+          options = $(`.seasons-list .season`);
+          current = options.index($(`.seasons-list .season.selected`));
+
+          options.removeClass("active");
+          options.eq(current).addClass("active");
+          home_episodes.load(home_episodes.data.seasons[current]);
         }
         break;
     }

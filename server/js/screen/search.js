@@ -36,11 +36,13 @@ window.search = {
   },
 
   start: function () {
+    loading.start();
     service.search({
       data: {
         query: search.input.value,
       },
       success: function (response) {
+        loading.end();
         search.data.result = mapper.search(response);
         var elements_content = "";
         search.data.result.forEach((element, index) => {
@@ -53,6 +55,7 @@ window.search = {
         $(".list-container-over").html(elements_content);
       },
       error: function (error) {
+        loading.end();
         console.log(error);
       },
     });

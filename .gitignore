@@ -1,11 +1,10 @@
 .project
 .settings/
-dist
 .sign
 .package
 .vscode
+.mockoon
 
-cdn/
-online/
+dist
 node_modules/
 package-lock.json

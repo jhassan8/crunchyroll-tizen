@@ -46,9 +46,15 @@
     - Convert To Tizen Project
 8. The app opens on the TV and will be installed.
 
-## Instalation CLI
+## Instalation CLI (recommended)
+
+### required: npm, configure device (developer mode, "on" device in "device manager")
+### veresions: online (auto-update use cdn), offline (no auto-update)
 
 1. Set tizen var
     - Linux: ```export PATH=$PATH:<your_tizen_path>/tizen-studio/tools/ide/bin```
     - Windows: ```set PATH=%PATH%;<your_tizen_path>/tizen-studio/tools/ide/bin```
-2. In project folder run: ```npm run install --tv=<name_of_tv_device_manager>```
+2. Install build dependencies: ```npm install```
+3. In project folder run:
+    - online: ```npm run start-tv-online --tv=<name_of_tv_device_manager>```
+    - offline: ```npm run start-tv --tv=<name_of_tv_device_manager>```

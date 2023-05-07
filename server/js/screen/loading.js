@@ -1,5 +1,27 @@
 window.loading = {
   id: "loading-screen",
+  active: false,
+
+  start: function () {
+    if(!document.getElementById(loading.id)) {
+      loading.active = true;
+      var loading_element = document.createElement("div");
+      loading_element.id = loading.id;
+      loading_element.className = "flat";
+      loading_element.innerHTML = `
+      <div class="content flat">
+        <div class="loading"></div>
+      </div>`;
+      document.body.appendChild(loading_element);
+    }
+    loading.active = true;
+  },
+
+  end: function () {
+    document.getElementById(loading.id) &&
+      document.body.removeChild(document.getElementById(this.id));
+    loading.active = false;
+  },
 
   init: function () {
     var loading_element = document.createElement("div");
