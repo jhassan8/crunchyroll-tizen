@@ -48,8 +48,8 @@
 
 ## Instalation CLI (recommended)
 
-### required: npm, configure device (developer mode, "on" device in "device manager")
-### veresions: online (auto-update use cdn), offline (no auto-update)
+#### required: npm, configure device (developer mode, "on" device in "device manager")
+#### veresions: online (auto-update use cdn), offline (no auto-update)
 
 1. Set tizen var
     - Linux: ```export PATH=$PATH:<your_tizen_path>/tizen-studio/tools/ide/bin```
