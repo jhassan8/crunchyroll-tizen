@@ -4,18 +4,14 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
 
-    clean: {
-      cdn: ["cdn"],
-      online: ["online"],
-      offline: ["offline"],
-    },
+    clean: ["dist"],
     cssmin: {
       cdn: {
         options: {
           banner: "",
         },
         files: {
-          "cdn/crunchyroll.min.css": ["**/server/css/**/*.css"],
+          "dist/crunchyroll.min.css": ["**/server/css/**/*.css"],
         },
       },
       online: {
@@ -23,7 +19,7 @@ module.exports = function (grunt) {
           banner: "",
         },
         files: {
-          "online/app.min.css": ["css/**/*.css"],
+          "dist/app.min.css": ["css/**/*.css"],
         },
       },
     },
@@ -33,11 +29,11 @@ module.exports = function (grunt) {
       },
       cdn: {
         src: ["server/js/**/*.js"],
-        dest: "cdn/crunchyroll.min.js",
+        dest: "dist/crunchyroll.min.js",
       },
       online: {
         src: ["js/**/*.js"],
-        dest: "online/app.min.js",
+        dest: "dist/app.min.js",
       },
     },
     copy: {
@@ -47,13 +43,13 @@ module.exports = function (grunt) {
             expand: true,
             cwd: "server/css/icons/webfonts",
             src: ["**/*"],
-            dest: "cdn/assets/icons",
+            dest: "dist/assets/icons",
           },
           {
             expand: true,
             cwd: "server/img/",
             src: ["**/*"],
-            dest: "cdn/assets/imgs",
+            dest: "dist/assets/imgs",
           },
         ],
       },
@@ -63,17 +59,49 @@ module.exports = function (grunt) {
             expand: true,
             cwd: "css/fonts/",
             src: ["**/*"],
-            dest: "online/fonts",
+            dest: "dist/fonts",
           },
           {
             expand: true,
             cwd: "img/",
             src: ["**/*"],
-            dest: "online/img",
+            dest: "dist/img",
           },
           {
             src: ["index.html", "config.xml", "icon.png"],
-            dest: "online/",
+            dest: "dist/",
+          },
+        ],
+      },
+      offline: {
+        files: [
+          {
+            expand: true,
+            cwd: "server/",
+            src: ["**/*"],
+            dest: "dist/server",
+          },
+          {
+            expand: true,
+            cwd: "img/",
+            src: ["**/*"],
+            dest: "dist/img",
+          },
+          {
+            expand: true,
+            cwd: "css/",
+            src: ["**/*"],
+            dest: "dist/css",
+          },
+          {
+            expand: true,
+            cwd: "js/",
+            src: ["**/*"],
+            dest: "dist/js",
+          },
+          {
+            src: ["index.html", "config.xml", "icon.png"],
+            dest: "dist/",
           },
         ],
       },
@@ -81,7 +109,7 @@ module.exports = function (grunt) {
     "string-replace": {
       cdn: {
         files: {
-          "cdn/": "cdn/*",
+          "dist/": "dist/*",
         },
         options: {
           replacements: [
@@ -100,7 +128,7 @@ module.exports = function (grunt) {
       },
       online: {
         files: {
-          "online/": "online/index.html",
+          "dist/": "dist/index.html",
         },
         options: {
           replacements: [
@@ -121,17 +149,18 @@ module.exports = function (grunt) {
     },
   });
   grunt.registerTask("cdn", [
-    "clean:cdn",
+    "clean",
     "uglify:cdn",
     "cssmin:cdn",
     "copy:cdn",
     "string-replace:cdn",
   ]);
   grunt.registerTask("online", [
-    "clean:online",
+    "clean",
     "uglify:online",
     "cssmin:online",
     "copy:online",
     "string-replace:online",
   ]);
+  grunt.registerTask("offline", ["clean", "copy:offline"]);
 };

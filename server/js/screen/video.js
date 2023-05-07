@@ -47,7 +47,7 @@ window.video = {
 
     video_element.innerHTML = `
     <div class="content">
-      <img id="background">
+      <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
       <video id="videoplayer" style="width:100%; height:100%;"></video>
       <div class="osd" id="osd">
         <div class="details">
@@ -110,10 +110,12 @@ window.video = {
       case tvKey.KEY_PANEL_ENTER:
         document.getElementById("osd").style.opacity == 1 && player.playPause();
         break;
+      case tvKey.KEY_PREVIOUS:
       case tvKey.KEY_LEFT:
         player.rewind(video.setPlayingTime);
         break;
       case tvKey.KEY_RIGHT:
+      case tvKey.KEY_NEXT:
         player.forward(video.setPlayingTime);
         break;
     }

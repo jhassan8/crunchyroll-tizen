@@ -4,16 +4,18 @@
   "description": "## Description:",
   "main": "index.js",
   "scripts": {
-    "build": "tizen build-web -opt -out dist -e package.json layouts.gif .gitignore *.md **.github/* server/mock/* **.git/*",
+    "build": "grunt offline",
     "build-online": "grunt online",
-    "package-online": "tizen package -t wgt -- online -o .",
+    "build-cdn": "grunt cdn",
+    "deploy": "npm run build-cdn && gh-pages -d dist -b cdn",
     "package": "tizen package -t wgt -- dist -o .",
     "install-app": "tizen install -t $npm_config_tv --name Crunchyroll.wgt",
     "init": "tizen run -t $npm_config_tv -p qXuEoRvlCp.Crunchyroll",
+    "start-tv-online": "npm run build-online && npm run package && npm run install-app --tv=$npm_config_tv && npm run init --tv=$npm_config_tv",
     "start-tv": "npm run build && npm run package && npm run install-app --tv=$npm_config_tv && npm run init --tv=$npm_config_tv",
     "start": "npm run start-tv --tv=T-samsung-7.0-x86",
-    "run": "npm run start-tv --tv=LS27AM500NLXZB",
-    "deploy": "gh-pages -d cdn -b cdn"
+    "start-online": "npm run start-tv-online --tv=T-samsung-7.0-x86",
+    "run": "npm run start-tv --tv=LS27AM500NLXZB"
   },
   "repository": {
     "type": "git",

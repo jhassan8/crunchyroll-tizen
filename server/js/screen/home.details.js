@@ -17,30 +17,32 @@ window.home_details = {
     var buttons = document.createElement("div");
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
     buttons.innerHTML = `
-  <a class="selected">
-    <i class="fa-solid fa-play"></i>
-    <p>Play: S1 E1</p>
-    <span></span>
-  </a>
-  <a>
-    <i class="fa-solid fa-bookmark"></i>
-    <p>Add to my list</p>
-  </a>
-  <a>
-    <i class="fa-solid fa-list"></i>
-    <p>Episodes</p>
-  </a>
-  <a>
-    <i class="fa-solid fa-clone"></i>
-    <p>Related content</p>
-  </a>`;
+    <a class="selected">
+      <i class="fa-solid fa-play"></i>
+      <p>Play: S1 E1</p>
+      <span></span>
+    </a>
+    <a>
+      <i class="fa-solid fa-bookmark"></i>
+      <p>Add to my list</p>
+    </a>
+    <a>
+      <i class="fa-solid fa-list"></i>
+      <p>Episodes</p>
+    </a>
+    <a>
+      <i class="fa-solid fa-clone"></i>
+      <p>Related content</p>
+    </a>`;
 
     home_details.data.this = item;
+    loading.start();
     service.continue({
       data: {
         ids: item.id,
       },
       success: function (response) {
+        loading.end();
         home_details.data.continue = mapper.continue(response);
         $(`.${home_details.id}.${home_details.id}_buttons a`)
           .eq(0)
@@ -58,6 +60,7 @@ window.home_details = {
           .width(home_details.data.continue.played + "%");
       },
       error: function (error) {
+        loading.end();
         console.log(error);
       },
     });

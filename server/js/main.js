@@ -58,43 +58,49 @@ window.main = {
   keyDown: function (event) {
     //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
     //$('#console').scrollTop(3000000);
-    if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
-      exit.init();
+    if (loading.active) {
+      if (event.keyCode == tvKey.KEY_BACK || event.keyCode == 27) {
+        loading.end();
+      }
     } else {
-      switch (main.state) {
-        case loading.id:
-          loading.keyDown(event);
-          break;
-        case exit.id:
-          exit.keyDown(event);
-          break;
-        case login.id:
-          login.keyDown(event);
-          break;
-        case keyboard.id:
-          keyboard.keyDown(event);
-          break;
-        case menu.id:
-          menu.keyDown(event);
-          break;
-        case search.id:
-          search.keyDown(event);
-          break;
-        case home.id:
-          home.keyDown(event);
-          break;
-        case home_details.id:
-          home_details.keyDown(event);
-          break;
-        case home_episodes.id:
-          home_episodes.keyDown(event);
-          break;
-        case video.id:
-          video.keyDown(event);
-          break;
-        default:
-          console.log("keyboard action screen not defined.");
-          break;
+      if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
+        exit.init();
+      } else {
+        switch (main.state) {
+          case loading.id:
+            loading.keyDown(event);
+            break;
+          case exit.id:
+            exit.keyDown(event);
+            break;
+          case login.id:
+            login.keyDown(event);
+            break;
+          case keyboard.id:
+            keyboard.keyDown(event);
+            break;
+          case menu.id:
+            menu.keyDown(event);
+            break;
+          case search.id:
+            search.keyDown(event);
+            break;
+          case home.id:
+            home.keyDown(event);
+            break;
+          case home_details.id:
+            home_details.keyDown(event);
+            break;
+          case home_episodes.id:
+            home_episodes.keyDown(event);
+            break;
+          case video.id:
+            video.keyDown(event);
+            break;
+          default:
+            console.log("keyboard action screen not defined.");
+            break;
+        }
       }
     }
   },

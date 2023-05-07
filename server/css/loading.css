@@ -99,3 +99,40 @@
     bottom: 0px;
   }
 }
+
+#loading-screen.flat {
+  left: 0;
+  top: 0;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+#loading-screen.flat .content .loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 4vw;
+  height: 5vw;
+}
+
+#loading-screen.flat .content .loading {
+  box-sizing: border-box;
+  width: 4vw;
+  height: 4vw;
+  border-radius: 100%;
+  border: 0.7rem solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  animation: spin 0.8s infinite linear;
+  transform: none;
+}
+
+
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -423,6 +423,9 @@
   position: absolute;
   display: flex;
   background: rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  left: 0;
+  top: 0;
 }
 
 .home_episodes-screen.home_episodes-screen_content .seasons {
@@ -459,23 +462,42 @@
   padding: 15px 25px;
   opacity: 0.5;
   margin: 15px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 57px;
+  border: 2px solid transparent;
 }
 
 .home_episodes-screen.home_episodes-screen_content
   .seasons
   .seasons-list
-  .season.selected {
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
-  border: 2px solid rgb(244, 130, 33, 0.9);
-  filter: grayscale(1);
-  opacity: 0.5;
+  .season.active {
+  opacity: 1;
+  font-weight: bolder;
+  padding-left: 50px;
+  position: relative;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .seasons
+  .seasons-list
+  .season.active::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  top: 18px;
+  border-left: 10px solid white;
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
 }
 
 .home_episodes-screen.home_episodes-screen_content
   .seasons.active
   .seasons-list
   .season.selected {
-  filter: none;
+  border: 2px solid rgb(244, 130, 33, 0.9);
+  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
   opacity: 1;
 }
 
@@ -553,6 +575,20 @@
   .episode
   .episode-image {
   position: relative;
+}
+
+.home_episodes-screen.home_episodes-screen_content
+  .episodes
+  .episode
+  .episode-image
+  .premium {
+  position: absolute;
+  color: #f47521;
+  right: 0;
+  top: 0;
+  font-size: 35px;
+  padding: 10px 15px;
+  text-shadow: 4px 2px black;
 }
 
 .home_episodes-screen.home_episodes-screen_content
