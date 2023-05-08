@@ -9,8 +9,16 @@ window.video = {
     forward: 3,
     rewind: 4,
   },
+  episode: null,
+  next: {
+    shown: false,
+    state: false,
+    time: 60,
+    episode: null,
+  },
   data: null,
   timers: {
+    next: null,
     osd: {
       object: null,
       duration: 4000,
@@ -21,29 +29,7 @@ window.video = {
     var video_element = document.createElement("div");
     video_element.id = video.id;
 
-    service.video({
-      data: {
-        id: item.stream,
-      },
-      success: function (data) {
-        video.data = data.data;
-        try {
-          var lang;
-          if (data.streams.adaptive_hls[session.storage.account.language]) {
-            lang = session.storage.account.language;
-          } else {
-            lang = "";
-          }
-          player.play(data.streams.adaptive_hls[lang].url);
-        } catch (error) {
-          console.log(error);
-        }
-        video.showOSD();
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
+    video.play(item);
 
     video_element.innerHTML = `
     <div class="content">
@@ -71,10 +57,16 @@ window.video = {
         <div class="icon"></div>
         <div id="osd-icon-data" class="percent"></div>
       </div>
+      <div class="next-episode">
+        <div class="next-episode-image">
+          <img id="next-episode-image">
+          <div id="next-episode-count">${video.next.time}</div>
+        </div>
+      </div>
     </div>`;
     document.body.appendChild(video_element);
 
-    player.config(video.setPlayingTime, video.destroy);
+    player.config(video.setPlayingTime, video.end);
     $(`#${home.id}`).hide();
     video.previous = main.state;
     main.state = video.id;
@@ -85,9 +77,15 @@ window.video = {
   destroy: function () {
     player.stop();
     clearTimeout(video.timers.osd.object);
+    clearInterval(video.timers.next);
     main.state = video.previous;
     document.body.removeChild(document.getElementById(video.id));
     $(`#${home.id}`).show();
+    video.next.episode = null;
+    video.next.status = false;
+    video.next.shown = false;
+    video.episode = null;
+    video.data = null;
   },
 
   keyDown: function (event) {
@@ -95,7 +93,11 @@ window.video = {
       case tvKey.KEY_STOP:
       case tvKey.KEY_BACK:
       case 27:
-        video.destroy();
+        if (video.next.status) {
+          video.stopNext();
+        } else {
+          video.destroy();
+        }
         break;
       case tvKey.KEY_PLAY:
         player.resume();
@@ -108,7 +110,13 @@ window.video = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
-        document.getElementById("osd").style.opacity == 1 && player.playPause();
+        if (video.next.status) {
+          clearInterval(video.timers.next);
+          video.playNext();
+        } else {
+          document.getElementById("osd").style.opacity == 1 &&
+            player.playPause();
+        }
         break;
       case tvKey.KEY_PREVIOUS:
       case tvKey.KEY_LEFT:
@@ -120,6 +128,93 @@ window.video = {
         break;
     }
     video.showOSD();
+  },
+
+  end: function () {
+    if (video.next.status) {
+      video.playNext();
+    } else {
+      video.destroy();
+    }
+  },
+
+  play: function (item) {
+    video.episode = item.id;
+    service.video({
+      data: {
+        id: item.stream,
+      },
+      success: function (data) {
+        video.stopNext();
+        video.next.shown = false;
+        video.data = data.data;
+        try {
+          var lang;
+          if (data.streams.adaptive_hls[session.storage.account.language]) {
+            lang = session.storage.account.language;
+          } else {
+            lang = "";
+          }
+          player.play(data.streams.adaptive_hls[lang].url);
+        } catch (error) {
+          console.log(error);
+        }
+        video.showOSD();
+      },
+      error: function (error) {
+        video.stopNext();
+        video.next.shown = false;
+        console.log(error);
+      },
+    });
+  },
+
+  stopNext: function () {
+    clearInterval(video.timers.next);
+    video.next.status = false;
+    video.next.episode = null;
+    document.getElementById("next-episode-count").innerText = video.next.time;
+    $(".next-episode").hide();
+  },
+
+  playNext: function () {
+    video.play(video.next.episode);
+    $(".osd #title").text(video.next.episode.serie);
+    $(".osd #subtitle").text(video.next.episode.episode);
+    $(".osd #description").text(`Episode ${video.next.episode.episode_number}`);
+  },
+
+  nextEpisode: function () {
+    video.next.shown = true;
+    try {
+      service.continue({
+        data: {
+          ids: video.episode,
+        },
+        success: function (data) {
+          video.next.episode = mapper.continue(data);
+          document
+            .getElementById("next-episode-image")
+            .setAttribute("src", video.next.episode.background);
+          $(".next-episode").show();
+          video.next.status = true;
+          video.timers.next = setInterval(() => {
+            var value = document.getElementById("next-episode-count").innerText;
+            if (+value === 1) {
+              clearInterval(video.timers.next);
+            } else {
+              document.getElementById("next-episode-count").innerText =
+                value - 1;
+            }
+          }, 1000);
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   showOSD: function () {
@@ -155,6 +250,14 @@ window.video = {
     var totalTime = player.getDuration();
     var timePercent = (100 * time) / totalTime;
 
+    if (
+      !video.next.shown &&
+      player.state === player.states.PLAYING &&
+      time >= totalTime - (video.next.time + 2)
+    ) {
+      video.nextEpisode();
+    }
+
     var totalSeconds = Math.floor(totalTime % 60);
     var totalMinutes = Math.floor((totalTime % 3600) / 60);
     var totalHours = Math.floor(totalTime / 3600);
@@ -169,12 +272,14 @@ window.video = {
     timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
     timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;
 
-    document.getElementById(
-      "time"
-    ).innerText = `${timeHours}:${timeMinutes}:${timeSeconds}`;
-    document.getElementById(
-      "total"
-    ).innerText = `${totalHours}:${totalMinutes}:${totalSeconds}`;
+    document.getElementById("time").innerText = `${
+      timeHours ? timeHours : "00"
+    }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
+    document.getElementById("total").innerText = `${
+      totalHours ? totalHours : "00"
+    }:${totalMinutes ? totalMinutes : "00"}:${
+      totalSeconds ? totalSeconds : "00"
+    }`;
     document.getElementById("played").style.width = timePercent + "%";
   },
 };

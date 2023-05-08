@@ -221,3 +221,46 @@
 #video-screen .osd .progress .bar .preview #preview {
   width: 100%;
 }
+
+#video-screen .next-episode {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(270deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  height: 200px;
+  width: 410px;
+  margin-bottom: 140px;
+  padding: 25px;
+  padding-left: 120px;
+  display: none;
+}
+
+#video-screen .next-episode .next-episode-image {
+  width: 260px;
+  height: 150px;
+  position: relative;
+}
+
+#video-screen .next-episode .next-episode-image img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+
+#video-screen .next-episode .next-episode-image #next-episode-count {
+  color: #fff;
+  font-size: 40px;
+  font-weight: bolder;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 85px;
+  height: 85px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 85px;
+}

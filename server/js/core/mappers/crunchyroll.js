@@ -112,6 +112,7 @@ window.mapper = {
   continue: function (response) {
     var item = response.data[0];
     return {
+      id: item.panel.id,
       stream: item.panel.streams_link.substr(
         item.panel.streams_link.indexOf("/videos/") + 8,
         9
