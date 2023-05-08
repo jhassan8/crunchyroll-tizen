@@ -14,14 +14,14 @@
 - [x] Video player
 - [x] Menu options screen
 - [x] Search element
+- [x] Auto next episode
 
 #### In progress
-- [ ] Auto next episode
+- [ ] History screen and workflow
 - [ ] Change audio and subtitles language inside player
 - [ ] Browse elements by categories
 
 #### Pending
-- [ ] History screen
 - [ ] My list screen and workflow
 - [ ] Settings screen
 
