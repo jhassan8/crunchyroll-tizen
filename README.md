@@ -24,6 +24,7 @@
 #### Pending
 - [ ] My list screen and workflow
 - [ ] Settings screen
+- [ ] WebOS compatibility
 
 ## Captures:
 ![layouts.gif](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/layouts.gif)
