@@ -24,6 +24,10 @@ window.video = {
       duration: 4000,
     },
   },
+  settings: {
+    open: false,
+    selected: false,
+  },
 
   init: function (item) {
     var video_element = document.createElement("div");
@@ -36,10 +40,26 @@ window.video = {
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
       <video id="videoplayer" style="width:100%; height:100%;"></video>
       <div class="osd" id="osd">
+        <div class="player-settings">
+          <i id="player-settings" class="fa-solid fa-gear"></i>
+          <div class="settings-slide">
+            <ul class="languages-content">
+              <li class="title">Audio</li>
+              <li class="option selected">Español</li>
+              <li class="option active">Ingles</li>
+              <li class="option">frances</li>
+              <li class="title">Subtitle</li>
+              <li class="option">Desactivados</li>
+              <li class="option active">Español</li>
+              <li class="option">Ingles</li>
+              <li class="option">Frances</li>
+              <li class="option">Japones</li>
+            </ul>
+          </div>
+        </div>
         <div class="details">
           <div id="title">${item.serie}</div>
-          <div id="subtitle">${item.episode}</div>
-          <div id="description">Episode ${item.episode_number}</div>
+          <div id="subtitle">${item.season_number}x${item.episode_number} - ${item.episode}</div>
         </div>
         <div class="progress">
           <div id="time">00:00:00</div>
@@ -93,10 +113,20 @@ window.video = {
       case tvKey.KEY_STOP:
       case tvKey.KEY_BACK:
       case 27:
-        if (video.next.status) {
-          video.stopNext();
+        if (video.settings.open) {
+          video.settings.open = false;
+          $(".settings-slide").removeClass("open");
+          $("#osd-icon").show();
+          video.settings.selected = false;
+          $("#player-settings").removeClass("selected");
+          $("#player-settings").show();
+          player.resume();
         } else {
-          video.destroy();
+          if (video.next.status) {
+            video.stopNext();
+          } else {
+            video.destroy();
+          }
         }
         break;
       case tvKey.KEY_PLAY:
@@ -114,8 +144,17 @@ window.video = {
           clearInterval(video.timers.next);
           video.playNext();
         } else {
-          document.getElementById("osd").style.opacity == 1 &&
-            player.playPause();
+          if (document.getElementById("osd").style.opacity == 1) {
+            if (!video.settings.selected) {
+              player.playPause();
+            } else {
+              video.settings.open = true;
+              $("#player-settings").hide();
+              $("#osd-icon").hide();
+              player.pause();
+              $(".settings-slide").addClass("open");
+            }
+          }
         }
         break;
       case tvKey.KEY_PREVIOUS:
@@ -125,6 +164,34 @@ window.video = {
       case tvKey.KEY_RIGHT:
       case tvKey.KEY_NEXT:
         player.forward(video.setPlayingTime);
+        break;
+      case tvKey.KEY_UP:
+        if (video.settings.open) {
+          var options = $(".languages-content .option");
+          var current = options.index($(".languages-content .option.selected"));
+
+          options.removeClass("selected");
+
+          var newCurrent = current > 0 ? current - 1 : current;
+          options.eq(newCurrent).addClass("selected")
+        } else {
+          video.settings.selected = true;
+          $("#player-settings").addClass("selected");
+        }
+        break;
+      case tvKey.KEY_DOWN:
+        if (video.settings.open) {
+          var options = $(".languages-content .option");
+          var current = options.index($(".languages-content .option.selected"));
+
+          options.removeClass("selected");
+
+          var newCurrent = current < options.length - 1 ? current + 1 : current;
+          options.eq(newCurrent).addClass("selected")
+        } else {
+          video.settings.selected = false;
+          $("#player-settings").removeClass("selected");
+        }
         break;
     }
     video.showOSD();
@@ -222,7 +289,7 @@ window.video = {
     var osd = document.getElementById("osd");
     osd.style.opacity = 1;
     video.timers.osd.object = setTimeout(() => {
-      video.hideOSD();
+      //video.hideOSD();
     }, video.timers.osd.duration);
   },
 
