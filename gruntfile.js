@@ -119,9 +119,9 @@ module.exports = function (grunt) {
                 "https://jhassan8.github.io/crunchyroll-tizen/assets/imgs/",
             },
             {
-              pattern: /\:url\(webfonts\//g,
+              pattern: /url\(webfonts\//g,
               replacement:
-                ":url(https://jhassan8.github.io/crunchyroll-tizen/assets/icons/",
+                "url(https://jhassan8.github.io/crunchyroll-tizen/assets/icons/",
             },
           ],
         },
