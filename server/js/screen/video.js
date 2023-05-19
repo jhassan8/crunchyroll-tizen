@@ -155,7 +155,10 @@ window.video = {
           } else {
             lang = "";
           }
-          player.play(data.streams.adaptive_hls[lang].url);
+          player.play(
+            data.streams.adaptive_hls[lang].url,
+            item.playhead === item.duration ? 0 : item.playhead
+          );
         } catch (error) {
           console.log(error);
         }

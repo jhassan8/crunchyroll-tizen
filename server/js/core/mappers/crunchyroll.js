@@ -11,9 +11,9 @@ window.mapper = {
         "because_you_watched",
       ].includes(element.response_type)
     );
-  
-    var banner = response.data.find(p => p.resource_type === 'panel');
-  
+
+    var banner = response.data.find((p) => p.resource_type === "panel");
+
     home.data.main = {
       banner: {
         id: banner.panel.id,
@@ -26,7 +26,7 @@ window.mapper = {
         items: [],
       })),
     };
-  
+
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
@@ -40,9 +40,9 @@ window.mapper = {
               duration,
               type;
             if (item.panel || item.type === "episode") {
-              type = item.__class__;
+              type = item.type;
               display = "episode";
-              id = item.panel ? item.panel.id : item.id;
+              id = item.panel ? item.panel.episode_metadata.series_id : item.id;
               playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
               duration = Math.round(
                 (item.panel
@@ -57,7 +57,7 @@ window.mapper = {
                 ? item.panel.images.thumbnail[0][4].source
                 : item.images.thumbnail[0][4].source;
             } else {
-              type = item.__class__;
+              type = item.type;
               display = "serie";
               id = item.id;
               title = item.title;
@@ -65,7 +65,7 @@ window.mapper = {
               background = item.images.poster_wide[0][5].source;
               poster = item.images.poster_tall[0][2].source;
             }
-  
+
             return {
               id,
               type,
@@ -84,7 +84,7 @@ window.mapper = {
       });
     }
   },
-  
+
   load: (item, index, callback) => {
     var url;
     if (item.resource_type === "dynamic_collection") {
@@ -92,13 +92,13 @@ window.mapper = {
     } else {
       url = `/content/v2/cms/objects/${item.ids.join()}?locale=es-419`;
     }
-  
+
     session.refresh({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         return fetch(`${service.api.url}${url}`, { headers: headers })
           .then((response) => response.json())
           .then((json) => callback.success(json, index))
@@ -108,7 +108,7 @@ window.mapper = {
       },
     });
   },
-  
+
   continue: function (response) {
     var item = response.data[0];
     return {
@@ -124,11 +124,14 @@ window.mapper = {
       description: item.panel.description,
       background: item.panel.images.thumbnail[0][4].source,
       watched: !item.never_watched,
+      playhead: Math.round(item.playhead / 60),
+      duration: Math.round(item.panel.episode_metadata.duration_ms / 60000),
       played:
-        (item.playhead * 100) / (item.panel.episode_metadata.duration_ms / 1000),
+        (item.playhead * 100) /
+        (item.panel.episode_metadata.duration_ms / 1000),
     };
   },
-  
+
   seasons: function (response) {
     return response.items.map((season) => ({
       id: season.id,
@@ -136,7 +139,7 @@ window.mapper = {
       number: season.season_number,
     }));
   },
-  
+
   episodes: function (response, callback) {
     var episodes = response.items.map((episode) => ({
       id: episode.id,
@@ -146,7 +149,9 @@ window.mapper = {
       description: episode.description,
       number: episode.episode_number,
       episode_number: episode.episode_number,
-      background: episode.images.thumbnail ? episode.images.thumbnail[0][1].source : '',
+      background: episode.images.thumbnail
+        ? episode.images.thumbnail[0][1].source
+        : "",
       stream: episode.__links__.streams.href.substr(
         episode.__links__.streams.href.indexOf("/videos/") + 8,
         9
@@ -154,7 +159,7 @@ window.mapper = {
       duration: Math.round(episode.duration_ms / 60000),
       premium: episode.is_premium_only,
     }));
-  
+
     mapper.playheads(episodes, function (playheads) {
       episodes = episodes.map((e) => {
         var element = playheads.get(e.id);
@@ -168,14 +173,16 @@ window.mapper = {
       callback && callback(episodes);
     });
   },
-  
+
   playheads: function (episodes, callback) {
     service.playheads({
       data: {
         ids: episodes.map((e) => e.id).join(),
       },
       success: function (response) {
-        var playheads = new Map(response.data.map((obj) => [obj.content_id, obj]));
+        var playheads = new Map(
+          response.data.map((obj) => [obj.content_id, obj])
+        );
         callback && callback(playheads);
       },
       error: function (error) {
@@ -183,7 +190,7 @@ window.mapper = {
       },
     });
   },
-  
+
   search: function (response) {
     return response.data.reduce(
       (acum, elem) =>
@@ -203,5 +210,5 @@ window.mapper = {
           : acum,
       []
     );
-  }
+  },
 };

@@ -23,30 +23,30 @@ window.player = {
     }
     return player.video;
   },
-  
+
   config: function (timeFunction, endFunction) {
     player.getVideo().addEventListener("timeupdate", timeFunction);
     player.getVideo().addEventListener("ended", endFunction);
   },
-  
+
   getPlayed: function () {
     return player.getVideo().currentTime;
   },
-  
+
   getDuration: function () {
     return player.getVideo().duration;
   },
-  
-  play: function (url) {
+
+  play: function (url, playhead) {
     if (Hls.isSupported()) {
       player.plugin = new Hls();
       player.plugin.loadSource(url);
       player.plugin.attachMedia(player.getVideo());
-  
+
       // player.plugin.on(Hls.Events.MANIFEST_PARSED, function () {
       //   console.log("MANIFEST_PARSED");
       // });
-  
+
       // player.plugin.on(Hls.Events.MEDIA_ATTACHING, function () {
       //   console.log("MEDIA_ATTACHING");
       // });
@@ -206,22 +206,25 @@ window.player = {
     } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
       player.getVideo().src = url;
     }
+    if (playhead && playhead > 0) {
+      player.getVideo().currentTime = playhead * 60;
+    }
     player.getVideo().play();
     player.state = player.states.PLAYING;
   },
-  
+
   pause: function () {
     player.getVideo().pause();
     player.state = player.states.PAUSED;
     video.showBTN("pause");
   },
-  
+
   resume: function () {
     player.getVideo().play();
     video.hideBTN();
     player.state = player.states.PLAYING;
   },
-  
+
   playPause: function () {
     if (player.getVideo().paused) {
       player.resume();
@@ -229,7 +232,7 @@ window.player = {
       player.pause();
     }
   },
-  
+
   rewind: function (callback) {
     player.pause();
     clearTimeout(player.timers.forward_rewind);
@@ -245,7 +248,7 @@ window.player = {
       player.resume();
     }, 500);
   },
-  
+
   forward: function (callback) {
     player.state = player.states.FORWARD;
     player.pause();
@@ -263,7 +266,7 @@ window.player = {
       player.resume();
     }, 500);
   },
-  
+
   stop: function () {
     if (player.state != player.states.STOPPED) {
       player.plugin.stopLoad();
@@ -275,51 +278,45 @@ window.player = {
       player.state = player.states.STOPPED;
     }
   },
-  
+
   destroy: function () {
     player.stop();
   },
-  
+
   onbufferingstart: function () {
     video.showBTN("loading");
   },
-  
+
   onbufferingprogress: function (percent) {
     video.showBTN("loading", `${percent} %`);
   },
-  
+
   onbufferingcomplete: function () {
     video.hideBTN();
   },
-  
+
   oncurrentplaytime: function (currentTime) {
     video.setPlayingTime(currentTime);
   },
-  
+
   onstreamcompleted: function () {
     console.log("onstreamcompleted");
     app.stop();
   },
-  
+
   onevent: function (eventType, eventData) {
     console.log("onevent " + eventType + " - " + eventData);
   },
-  
+
   onerror: function (eventType) {
     console.log("onerror " + eventType);
   },
-  
+
   ondrmevent: function (drmEvent, drmData) {
     console.log("ondrmevent " + drmEvent + " - " + drmData);
   },
-  
-  onsubtitlechange: function (
-    duration,
-    text,
-    type,
-    attriCount,
-    attributes
-  ) {
+
+  onsubtitlechange: function (duration, text, type, attriCount, attributes) {
     console.log("onsubtitlechange");
-  },  
+  },
 };
