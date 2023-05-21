@@ -211,4 +211,26 @@ window.mapper = {
       []
     );
   },
+
+  history: function (response) {
+    console.log("success", response);
+    return response.data
+      .filter((element) => element.panel)
+      .map((element) => ({
+        id: element.panel.episode_metadata.series_id,
+        playhead: element.playhead ? Math.round(element.playhead / 60) : 0,
+        duration: Math.round(
+          (element.panel
+            ? element.panel.episode_metadata.duration_ms
+            : element.episode_metadata.duration_ms) / 60000
+        ),
+        title: element.panel
+          ? element.panel.episode_metadata.series_title
+          : element.title,
+        description: element.panel.title,
+        background: element.panel
+          ? element.panel.images.thumbnail[0][4].source
+          : element.images.thumbnail[0][4].source,
+      }));
+  },
 };

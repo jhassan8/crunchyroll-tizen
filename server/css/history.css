@@ -1,0 +1,95 @@
+#history-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+#history-screen .content {
+  height: 100vh;
+  padding: 50px 60px 60px 8.5vw;
+}
+
+#history-screen .content .list-container {
+  overflow: hidden;
+}
+
+#history-screen .content .list-container .list-container-over {
+  /* transition: margin 0.2s; */
+}
+
+#history-screen .content .list-container .list-container-over .item {
+  background: rgba(100, 100, 100, 0.5);
+  width: 315px;
+  height: 180px;
+  opacity: 0.5;
+  position: relative;
+  float: left;
+  margin: 15px;
+}
+
+#history-screen
+  .content
+  .list-container
+  .list-container-over
+  .item:nth-child(5n) {
+  margin-right: 0;
+}
+
+#history-screen
+  .content
+  .list-container
+  .list-container-over
+  .item:nth-child(5n + 1) {
+  margin-left: 0;
+}
+
+#history-screen .content .list-container .list-container-over .item img {
+  width: 100%;
+  height: 100%;
+}
+
+#history-screen .content .list-container .list-container-over .item.selected {
+  opacity: 1;
+}
+
+#history-screen
+  .content
+  .list-container
+  .list-container-over
+  .item.selected::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: 3px solid rgb(244, 130, 33, 0.9);
+  /* box-shadow: 0 0 25px 6px #727272, 0 0 15px 6px #727272 inset; */
+}
+
+#history-screen .content .list-container .list-container-over .item .progress {
+  height: 12px;
+  position: absolute;
+  background: rgba(244, 130, 33, 0.7);
+  bottom: 0;
+}
+
+#history-screen
+  .content
+  .list-container
+  .list-container-over
+  .item
+  .progress::after {
+  content: attr(value);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  top: -148px;
+  min-width: 25px;
+  text-align: center;
+  position: absolute;
+  left: 15px;
+  border-radius: 15px;
+}
