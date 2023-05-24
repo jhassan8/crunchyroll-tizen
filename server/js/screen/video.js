@@ -18,6 +18,10 @@ window.video = {
   },
   data: null,
   timers: {
+    history: {
+      object: null,
+      duration: 30000,
+    },
     next: null,
     osd: {
       object: null,
@@ -78,6 +82,7 @@ window.video = {
     player.stop();
     clearTimeout(video.timers.osd.object);
     clearInterval(video.timers.next);
+    clearInterval(video.timers.history.object);
     main.state = video.previous;
     document.body.removeChild(document.getElementById(video.id));
     $(`#${home.id}`).show();
@@ -159,6 +164,7 @@ window.video = {
             data.streams.adaptive_hls[lang].url,
             item.playhead === item.duration ? 0 : item.playhead
           );
+          video.startHistory();
         } catch (error) {
           console.log(error);
         }
@@ -245,6 +251,26 @@ window.video = {
   hideBTN: function () {
     var button = document.getElementById("osd-icon");
     button.style.opacity = 0;
+  },
+
+  startHistory: function () {
+    clearInterval(video.timers.history.object);
+    video.timers.history.object = setInterval(() => {
+      video.saveHistory();
+    }, video.timers.history.duration);
+  },
+
+  saveHistory: function () {
+    service.setHistory({
+      data: {
+        content_id: video.episode,
+        playhead: Math.round(player.getPlayed()),
+      },
+      success: function () {},
+      error: function (error) {
+        console.log(error);
+      },
+    });
   },
 
   setPlayingTime: function () {

@@ -249,6 +249,27 @@ window.service = {
     });
   },
 
+  setHistory: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/playheads?preferred_audio_language=${storage.account.language}&locale=${storage.account.language}`,
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(request.data)
+          }
+        )
+          .then((response) => response.text())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
   format: function (params) {
     return Object.keys(params)
       .map(function (k) {
