@@ -179,7 +179,6 @@ window.video = {
   },
 
   stopNext: function () {
-    video.saveHistory(player.getDuration());
     clearInterval(video.timers.next);
     video.next.status = false;
     video.next.episode = null;
@@ -188,6 +187,7 @@ window.video = {
   },
 
   playNext: function () {
+    video.saveHistory(Math.floor(player.getDuration()));
     video.play(video.next.episode);
     $(".osd #title").text(video.next.episode.serie);
     $(".osd #subtitle").text(video.next.episode.episode);
@@ -265,7 +265,7 @@ window.video = {
     service.setHistory({
       data: {
         content_id: video.episode,
-        playhead: time || Math.round(player.getPlayed()),
+        playhead: time || Math.floor(player.getPlayed()),
       },
       success: function () {},
       error: function (error) {
