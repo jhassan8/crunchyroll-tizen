@@ -179,6 +179,7 @@ window.video = {
   },
 
   stopNext: function () {
+    video.saveHistory(player.getDuration());
     clearInterval(video.timers.next);
     video.next.status = false;
     video.next.episode = null;
@@ -260,11 +261,11 @@ window.video = {
     }, video.timers.history.duration);
   },
 
-  saveHistory: function () {
+  saveHistory: function (time) {
     service.setHistory({
       data: {
         content_id: video.episode,
-        playhead: Math.round(player.getPlayed()),
+        playhead: time || Math.round(player.getPlayed()),
       },
       success: function () {},
       error: function (error) {
