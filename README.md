@@ -15,9 +15,9 @@
 - [x] Menu options screen
 - [x] Search element
 - [x] Auto next episode
+- [x] History screen and workflow
 
 #### In progress
-- [ ] History screen and workflow
 - [ ] Change audio and subtitles language inside player
 - [ ] Browse elements by categories
 
