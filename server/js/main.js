@@ -85,6 +85,9 @@ window.main = {
           case search.id:
             search.keyDown(event);
             break;
+          case historyScreen.id:
+            historyScreen.keyDown(event);
+            break;
           case home.id:
             home.keyDown(event);
             break;
