@@ -9,14 +9,14 @@ window.service = {
     var headers = new Headers();
     headers.append("Authorization", service.api.auth);
     headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
     var params = service.format({
       username: request.data.username,
       password: request.data.password,
       grant_type: "password",
       scope: "offline_access",
     });
-  
+
     fetch(`${service.api.url}/auth/v1/token`, {
       method: "POST",
       headers: headers,
@@ -29,18 +29,18 @@ window.service = {
         request.error && request.error(error);
       });
   },
-  
+
   refresh: function (request) {
     var headers = new Headers();
     headers.append("Authorization", service.api.auth);
     headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
     var params = service.format({
       refresh_token: session.storage.refresh_token,
       grant_type: "refresh_token",
       scope: "offline_access",
     });
-  
+
     fetch(`${service.api.url}/auth/v1/token`, {
       method: "POST",
       headers: headers,
@@ -50,14 +50,14 @@ window.service = {
       .then((json) => request.success(json))
       .catch((error) => request.error(error));
   },
-  
+
   profile: function (request) {
     return session.refresh({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(`${service.api.url}/accounts/v1/me/profile`, {
           headers: headers,
         })
@@ -67,14 +67,14 @@ window.service = {
       },
     });
   },
-  
+
   cookies: function (request) {
     return session.refresh({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(`${service.api.url}/index/v2`, {
           headers: headers,
         })
@@ -84,14 +84,14 @@ window.service = {
       },
     });
   },
-  
+
   home: function (request) {
     return session.refresh({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(
           `${service.api.url}/content/v2/discover/${storage.id}/home_feed?start=0&n=100&locale=${storage.account.language}`,
           {
@@ -104,14 +104,14 @@ window.service = {
       },
     });
   },
-  
+
   continue: function (request) {
     return session.refresh({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(
           `${service.api.url}/content/v2/discover/up_next/${request.data.ids}?locale=${storage.account.language}`,
           {
@@ -124,14 +124,14 @@ window.service = {
       },
     });
   },
-  
+
   playheads: function (request) {
     return session.refresh({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(
           `${service.api.url}/content/v2/${storage.id}/playheads?content_ids=${request.data.ids}&locale=${storage.account.language}`,
           {
@@ -144,13 +144,13 @@ window.service = {
       },
     });
   },
-  
+
   seasons: function (request) {
     return session.cookies({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(
           `${service.api.url}/cms/v2${storage.cookies.bucket}/seasons?series_id=${request.data.id}&locale=${storage.account.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
@@ -166,13 +166,13 @@ window.service = {
       },
     });
   },
-  
+
   episodes: function (request) {
     return session.cookies({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(
           `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&locale=${storage.account.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
@@ -188,13 +188,13 @@ window.service = {
       },
     });
   },
-  
+
   video: function (request) {
     return session.cookies({
       success: function (storage) {
         var headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-  
+
         fetch(
           `${service.api.url}/cms/v2${storage.cookies.bucket}/videos/${request.data.id}/streams?Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
@@ -210,7 +210,7 @@ window.service = {
       },
     });
   },
-  
+
   search: function (request) {
     return session.refresh({
       success: function (storage) {
@@ -229,7 +229,47 @@ window.service = {
       },
     });
   },
-  
+
+  history: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/watch-history?page_size=100&preferred_audio_language=${storage.account.language}&locale=${storage.account.language}`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  setHistory: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/playheads?preferred_audio_language=${storage.account.language}&locale=${storage.account.language}`,
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(request.data)
+          }
+        )
+          .then((response) => response.text())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
   format: function (params) {
     return Object.keys(params)
       .map(function (k) {

@@ -18,6 +18,10 @@ window.video = {
   },
   data: null,
   timers: {
+    history: {
+      object: null,
+      duration: 30000,
+    },
     next: null,
     osd: {
       object: null,
@@ -98,6 +102,7 @@ window.video = {
     player.stop();
     clearTimeout(video.timers.osd.object);
     clearInterval(video.timers.next);
+    clearInterval(video.timers.history.object);
     main.state = video.previous;
     document.body.removeChild(document.getElementById(video.id));
     $(`#${home.id}`).show();
@@ -222,7 +227,11 @@ window.video = {
           } else {
             lang = "";
           }
-          player.play(data.streams.adaptive_hls[lang].url);
+          player.play(
+            data.streams.adaptive_hls[lang].url,
+            item.playhead === item.duration ? 0 : item.playhead
+          );
+          video.startHistory();
         } catch (error) {
           console.log(error);
         }
@@ -245,6 +254,7 @@ window.video = {
   },
 
   playNext: function () {
+    video.saveHistory(Math.floor(player.getDuration()));
     video.play(video.next.episode);
     $(".osd #title").text(video.next.episode.serie);
     $(".osd #subtitle").text(video.next.episode.episode);
@@ -309,6 +319,26 @@ window.video = {
   hideBTN: function () {
     var button = document.getElementById("osd-icon");
     button.style.opacity = 0;
+  },
+
+  startHistory: function () {
+    clearInterval(video.timers.history.object);
+    video.timers.history.object = setInterval(() => {
+      video.saveHistory();
+    }, video.timers.history.duration);
+  },
+
+  saveHistory: function (time) {
+    service.setHistory({
+      data: {
+        content_id: video.episode,
+        playhead: time || Math.floor(player.getPlayed()),
+      },
+      success: function () {},
+      error: function (error) {
+        console.log(error);
+      },
+    });
   },
 
   setPlayingTime: function () {

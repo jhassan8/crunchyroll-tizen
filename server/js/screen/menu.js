@@ -9,7 +9,7 @@ window.menu = {
     },
     { id: "home", label: "Home", icon: "fa-solid fa-house", action: 'home.init' },
     { id: "list", label: "My list", icon: "fa-solid fa-bookmark" },
-    { id: "history", label: "History", icon: "fa-solid fa-clock-rotate-left" },
+    { id: "historyScreen", label: "History", icon: "fa-solid fa-clock-rotate-left", action: 'historyScreen.init'},
     { id: "browse", label: "Browse", icon: "fa-regular fa-rectangle-list" },
   ],
   selected: 1,

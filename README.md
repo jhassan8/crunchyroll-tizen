@@ -1,4 +1,4 @@
-# Crunchyroll for TIZEN
+# Crunchyroll for TIZEN [![PayPal donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate/?hosted_button_id=SLLWEKD6QD5UJ)
 
 ## Description:
 
@@ -15,16 +15,17 @@
 - [x] Menu options screen
 - [x] Search element
 - [x] Auto next episode
+- [x] History screen and workflow
 
 #### In progress
-- [ ] History screen and workflow
 - [ ] Change audio and subtitles language inside player
 - [ ] Browse elements by categories
+- [ ] WebOS compatibility
 
 #### Pending
 - [ ] My list screen and workflow
 - [ ] Settings screen
-- [ ] WebOS compatibility
+- [ ] Migrate to react
 
 ## Captures:
 ![layouts.gif](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/layouts.gif)
