@@ -16,7 +16,11 @@ window.video = {
     time: 60,
     episode: null,
   },
-  data: null,
+  subtitles: [],
+  subtitle: null,
+  audios: [],
+  audio: null,
+  streams: [],
   timers: {
     history: {
       object: null,
@@ -46,20 +50,6 @@ window.video = {
       <div class="osd" id="osd">
         <div class="player-settings">
           <i id="player-settings" class="fa-solid fa-gear"></i>
-          <div class="settings-slide">
-            <ul class="languages-content">
-              <li class="title">Audio</li>
-              <li class="option selected">Español</li>
-              <li class="option active">Ingles</li>
-              <li class="option">frances</li>
-              <li class="title">Subtitle</li>
-              <li class="option">Desactivados</li>
-              <li class="option active">Español</li>
-              <li class="option">Ingles</li>
-              <li class="option">Frances</li>
-              <li class="option">Japones</li>
-            </ul>
-          </div>
         </div>
         <div class="details">
           <div id="title">${item.serie}</div>
@@ -87,6 +77,9 @@ window.video = {
           <div id="next-episode-count">${video.next.time}</div>
         </div>
       </div>
+      <div class="settings-slide">
+        <ul id="languages-content"></ul>
+      </div>
     </div>`;
     document.body.appendChild(video_element);
 
@@ -111,6 +104,7 @@ window.video = {
     video.next.shown = false;
     video.episode = null;
     video.data = null;
+    video.streams = [];
   },
 
   keyDown: function (event) {
@@ -135,71 +129,97 @@ window.video = {
         }
         break;
       case tvKey.KEY_PLAY:
-        player.resume();
+        !video.settings.open && player.resume();
         break;
       case tvKey.KEY_PAUSE:
-        player.pause();
+        !video.settings.open && player.pause();
         break;
       case tvKey.KEY_PLAY_PAUSE:
-        player.playPause();
+        !video.settings.open && player.playPause();
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
-        if (video.next.status) {
-          clearInterval(video.timers.next);
-          video.playNext();
+        if (video.settings.open) {
+          var selected = $("#languages-content .option.selected");
+          var isAudio = selected[0].className.includes("audio");
+          var active = $(
+            `#languages-content .option${
+              isAudio ? ".audio" : ".subtitle"
+            }.active`
+          );
+
+          if (active[0] !== selected[0]) {
+            var options = $(
+              `#languages-content .option${isAudio ? ".audio" : ".subtitle"}`
+            );
+
+            options.removeClass("active");
+            selected.addClass("active");
+
+            isAudio
+              ? video.changeAudio(options.index(selected[0]))
+              : video.changeSubtitle(options.index(selected[0]));
+          }
         } else {
-          if (document.getElementById("osd").style.opacity == 1) {
-            if (!video.settings.selected) {
-              player.playPause();
-            } else {
-              video.settings.open = true;
-              $("#player-settings").hide();
-              $("#osd-icon").hide();
-              player.pause();
-              $(".settings-slide").addClass("open");
+          if (video.next.status) {
+            clearInterval(video.timers.next);
+            video.playNext();
+          } else {
+            if (document.getElementById("osd").style.opacity == 1) {
+              if (!video.settings.selected) {
+                player.playPause();
+              } else {
+                video.hideOSD();
+                video.settings.open = true;
+                $("#player-settings").hide();
+                $("#osd-icon").hide();
+                player.pause();
+                $(".settings-slide").addClass("open");
+              }
             }
           }
         }
         break;
       case tvKey.KEY_PREVIOUS:
       case tvKey.KEY_LEFT:
-        player.rewind(video.setPlayingTime);
+        !video.settings.open && player.rewind(video.setPlayingTime);
         break;
       case tvKey.KEY_RIGHT:
       case tvKey.KEY_NEXT:
-        player.forward(video.setPlayingTime);
+        !video.settings.open && player.forward(video.setPlayingTime);
         break;
       case tvKey.KEY_UP:
         if (video.settings.open) {
-          var options = $(".languages-content .option");
-          var current = options.index($(".languages-content .option.selected"));
+          var options = $("#languages-content .option");
+          var current = options.index($("#languages-content .option.selected"));
 
           options.removeClass("selected");
 
           var newCurrent = current > 0 ? current - 1 : current;
-          options.eq(newCurrent).addClass("selected")
+          options.eq(newCurrent).addClass("selected");
         } else {
-          video.settings.selected = true;
-          $("#player-settings").addClass("selected");
+          if (document.getElementById("osd").style.opacity == 1) {
+            video.settings.selected = true;
+            $("#player-settings").addClass("selected");
+          }
         }
         break;
       case tvKey.KEY_DOWN:
         if (video.settings.open) {
-          var options = $(".languages-content .option");
-          var current = options.index($(".languages-content .option.selected"));
+          var options = $("#languages-content .option");
+          var current = options.index($("#languages-content .option.selected"));
 
           options.removeClass("selected");
 
           var newCurrent = current < options.length - 1 ? current + 1 : current;
-          options.eq(newCurrent).addClass("selected")
+          options.eq(newCurrent).addClass("selected");
         } else {
           video.settings.selected = false;
           $("#player-settings").removeClass("selected");
         }
         break;
     }
-    video.showOSD();
+    !video.settings.open && video.showOSD();
   },
 
   end: function () {
@@ -219,19 +239,33 @@ window.video = {
       success: function (data) {
         video.stopNext();
         video.next.shown = false;
-        video.data = data.data;
         try {
+          video.streams = data.streams.adaptive_hls;
+
           var lang;
-          if (data.streams.adaptive_hls[session.storage.account.language]) {
+          if (video.streams[session.storage.account.language]) {
             lang = session.storage.account.language;
           } else {
             lang = "";
           }
+
+          video.audio = data.audio_locale;
+          video.audios = data.versions.map((element) => ({
+            name: element.audio_locale,
+            id: element.media_guid,
+          }));
+          video.subtitle = lang;
+          video.subtitles = Object.keys(video.streams).map((element) => ({
+            name: element,
+          }));
+
           player.play(
-            data.streams.adaptive_hls[lang].url,
+            video.streams[lang].url,
             item.playhead === item.duration ? 0 : item.playhead
           );
           video.startHistory();
+          video.setAudios();
+          video.setSubtitles();
         } catch (error) {
           console.log(error);
         }
@@ -243,6 +277,51 @@ window.video = {
         console.log(error);
       },
     });
+  },
+
+  setAudios: function () {
+    $("#languages-content li").remove();
+    var audios = '<li class="audio title">Audio</li>';
+    video.audios.forEach((element, index) => {
+      audios += `<li class="audio option${
+        element.name === video.audio ? " active" : ""
+      }${index === 0 ? " selected" : ""}">${
+        session.languages[element.name]
+      }</li>`;
+    });
+
+    document.getElementById("languages-content").innerHTML =
+      document.getElementById("languages-content").innerHTML + audios;
+  },
+
+  changeAudio: function (index) {
+    video.play({
+      id: video.episode,
+      stream: video.audios[index].id,
+      playhead: player.getPlayed() / 60,
+      duration: player.getDuration(),
+    });
+    video.setSubtitles();
+  },
+
+  setSubtitles: function () {
+    $("#languages-content li.subtitle").remove();
+    var subtitles = `<li class="subtitle title">Subtitles</li>`;
+    video.subtitles.forEach((element) => {
+      subtitles += `<li class="subtitle option${
+        element.name === video.subtitle ? " active" : ""
+      }">${session.languages[element.name]}</li>`;
+    });
+
+    document.getElementById("languages-content").innerHTML =
+      document.getElementById("languages-content").innerHTML + subtitles;
+  },
+
+  changeSubtitle: function (index) {
+    player.play(
+      video.streams[video.subtitles[index].name].url,
+      player.getPlayed() / 60
+    );
   },
 
   stopNext: function () {
@@ -299,7 +378,7 @@ window.video = {
     var osd = document.getElementById("osd");
     osd.style.opacity = 1;
     video.timers.osd.object = setTimeout(() => {
-      //video.hideOSD();
+      video.hideOSD();
     }, video.timers.osd.duration);
   },
 

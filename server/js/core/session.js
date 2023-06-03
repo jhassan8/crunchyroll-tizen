@@ -1,4 +1,5 @@
 window.session = {
+  languages: {},
   info: {
     id: undefined,
     device: undefined,
@@ -35,6 +36,17 @@ window.session = {
   },
 
   init: function () {
+    service.languages({
+      success: function (response) {
+        session.languages = response;
+        session.languages["ja-JP"] = "Japanese";
+        session.languages[""] = "Disabled";
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+
     var storage = localStorage.getItem("session");
     if (storage) {
       try {
