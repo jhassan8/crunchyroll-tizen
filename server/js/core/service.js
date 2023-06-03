@@ -260,7 +260,7 @@ window.service = {
           {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(request.data)
+            body: JSON.stringify(request.data),
           }
         )
           .then((response) => response.text())
@@ -268,6 +268,13 @@ window.service = {
           .catch((error) => request.error(error));
       },
     });
+  },
+
+  languages: function (request) {
+    fetch("https://static.crunchyroll.com/config/i18n/v3/audio_languages.json")
+      .then((response) => response.json())
+      .then((json) => request.success(json))
+      .catch((error) => request.error(error));
   },
 
   format: function (params) {
