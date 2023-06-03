@@ -105,10 +105,21 @@
   height: 100%;
   right: 0;
   position: absolute;
-  list-style: none;
   margin: 0;
   padding: 100px;
   padding-left: 200px;
+}
+
+#languages-content #audios,
+#languages-content #subtitles {
+  padding: 0;
+  height: 370px;
+  overflow: hidden;
+  list-style: none;
+}
+
+#languages-content #subtitles {
+  height: 290px;
 }
 
 #languages-content .title {
@@ -127,6 +138,10 @@
   position: relative;
   margin: 5px 0;
   border: 2px solid transparent;
+}
+
+#languages-content .option:first-child {
+  margin-top: 0;
 }
 
 #languages-content .option.selected {

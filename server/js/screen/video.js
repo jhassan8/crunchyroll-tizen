@@ -78,7 +78,12 @@ window.video = {
         </div>
       </div>
       <div class="settings-slide">
-        <ul id="languages-content"></ul>
+        <div id="languages-content">
+          <div class="title">Audios</div>
+          <ul id="audios"></ul>
+          <div class="title">Subtitles</div>
+          <ul id="subtitles"></ul>
+        </div>
       </div>
     </div>`;
     document.body.appendChild(video_element);
@@ -108,11 +113,13 @@ window.video = {
   },
 
   keyDown: function (event) {
+    var osd = true;
     switch (event.keyCode) {
       case tvKey.KEY_STOP:
       case tvKey.KEY_BACK:
       case 27:
         if (video.settings.open) {
+          osd = false;
           video.settings.open = false;
           $(".settings-slide").removeClass("open");
           $("#osd-icon").show();
@@ -140,18 +147,13 @@ window.video = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         if (video.settings.open) {
+          osd = false;
           var selected = $("#languages-content .option.selected");
-          var isAudio = selected[0].className.includes("audio");
-          var active = $(
-            `#languages-content .option${
-              isAudio ? ".audio" : ".subtitle"
-            }.active`
-          );
+          var isAudio = selected.parent().attr("id") === "audios";
+          var active = selected.parent().children(".option.active");
 
           if (active[0] !== selected[0]) {
-            var options = $(
-              `#languages-content .option${isAudio ? ".audio" : ".subtitle"}`
-            );
+            var options = selected.parent().children(".option");
 
             options.removeClass("active");
             selected.addClass("active");
@@ -175,6 +177,8 @@ window.video = {
                 $("#osd-icon").hide();
                 player.pause();
                 $(".settings-slide").addClass("open");
+                video.setAudios();
+                video.setSubtitles();
               }
             }
           }
@@ -197,6 +201,23 @@ window.video = {
 
           var newCurrent = current > 0 ? current - 1 : current;
           options.eq(newCurrent).addClass("selected");
+
+          var listSelected = $("#languages-content .option.selected").parent();
+
+          var marginTop = 0;
+          var max = listSelected.attr("id") === "audios" ? 4 : 3;
+          var currentInList = listSelected
+            .children()
+            .index($("#languages-content .option.selected"));
+          if (listSelected.children().length > max && currentInList > max - 1) {
+            if (currentInList > listSelected.children().length - (max - 1)) {
+              marginTop = -((listSelected.children().length - max) * 82);
+            } else {
+              marginTop = -((currentInList - (max - 1)) * 82);
+            }
+          }
+
+          listSelected.children().first()[0].style.marginTop = `${marginTop}px`;
         } else {
           if (document.getElementById("osd").style.opacity == 1) {
             video.settings.selected = true;
@@ -213,13 +234,30 @@ window.video = {
 
           var newCurrent = current < options.length - 1 ? current + 1 : current;
           options.eq(newCurrent).addClass("selected");
+
+          var listSelected = $("#languages-content .option.selected").parent();
+
+          var marginTop = 0;
+          var max = listSelected.attr("id") === "audios" ? 4 : 3;
+          var currentInList = listSelected
+            .children()
+            .index($("#languages-content .option.selected"));
+          if (listSelected.children().length > max && currentInList > max - 1) {
+            if (currentInList > listSelected.children().length - (max - 1)) {
+              marginTop = -((listSelected.children().length - max) * 82);
+            } else {
+              marginTop = -((currentInList - (max - 1)) * 82);
+            }
+          }
+
+          listSelected.children().first()[0].style.marginTop = `${marginTop}px`;
         } else {
           video.settings.selected = false;
           $("#player-settings").removeClass("selected");
         }
         break;
     }
-    !video.settings.open && video.showOSD();
+    !video.settings.open && osd && video.showOSD();
   },
 
   end: function () {
@@ -230,7 +268,7 @@ window.video = {
     }
   },
 
-  play: function (item) {
+  play: function (item, noplay) {
     video.episode = item.id;
     service.video({
       data: {
@@ -261,7 +299,8 @@ window.video = {
 
           player.play(
             video.streams[lang].url,
-            item.playhead === item.duration ? 0 : item.playhead
+            item.playhead === item.duration ? 0 : item.playhead,
+            noplay
           );
           video.startHistory();
           video.setAudios();
@@ -280,47 +319,47 @@ window.video = {
   },
 
   setAudios: function () {
-    $("#languages-content li").remove();
-    var audios = '<li class="audio title">Audio</li>';
+    $("#audios li").remove();
+    var audios = "";
     video.audios.forEach((element, index) => {
-      audios += `<li class="audio option${
-        element.name === video.audio ? " active" : ""
-      }${index === 0 ? " selected" : ""}">${
-        session.languages[element.name]
-      }</li>`;
+      audios += `<li class="option${
+        element.name === video.audio ? " active selected" : ""
+      }">${session.languages[element.name]}</li>`;
     });
 
-    document.getElementById("languages-content").innerHTML =
-      document.getElementById("languages-content").innerHTML + audios;
+    document.getElementById("audios").innerHTML = audios;
   },
 
   changeAudio: function (index) {
-    video.play({
-      id: video.episode,
-      stream: video.audios[index].id,
-      playhead: player.getPlayed() / 60,
-      duration: player.getDuration(),
-    });
+    video.play(
+      {
+        id: video.episode,
+        stream: video.audios[index].id,
+        playhead: player.getPlayed() / 60,
+        duration: player.getDuration(),
+      },
+      true
+    );
     video.setSubtitles();
   },
 
   setSubtitles: function () {
-    $("#languages-content li.subtitle").remove();
-    var subtitles = `<li class="subtitle title">Subtitles</li>`;
+    $("#subtitles").html("");
+    var subtitles = "";
     video.subtitles.forEach((element) => {
-      subtitles += `<li class="subtitle option${
+      subtitles += `<li class="option${
         element.name === video.subtitle ? " active" : ""
       }">${session.languages[element.name]}</li>`;
     });
 
-    document.getElementById("languages-content").innerHTML =
-      document.getElementById("languages-content").innerHTML + subtitles;
+    document.getElementById("subtitles").innerHTML = subtitles;
   },
 
   changeSubtitle: function (index) {
     player.play(
       video.streams[video.subtitles[index].name].url,
-      player.getPlayed() / 60
+      player.getPlayed() / 60,
+      true
     );
   },
 

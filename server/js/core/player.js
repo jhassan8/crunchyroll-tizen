@@ -37,7 +37,7 @@ window.player = {
     return player.getVideo().duration;
   },
 
-  play: function (url, playhead) {
+  play: function (url, playhead, noplay) {
     if (Hls.isSupported()) {
       player.plugin = new Hls();
       player.plugin.loadSource(url);
@@ -209,8 +209,10 @@ window.player = {
     if (playhead && playhead > 0) {
       player.getVideo().currentTime = playhead * 60;
     }
-    player.getVideo().play();
-    player.state = player.states.PLAYING;
+    if (!noplay) {
+      player.getVideo().play();
+      player.state = player.states.PLAYING;
+    }
   },
 
   pause: function () {
