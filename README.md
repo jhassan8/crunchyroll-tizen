@@ -16,14 +16,14 @@
 - [x] Search element
 - [x] Auto next episode
 - [x] History screen and workflow
+- [x] Change audio and subtitles language inside player
 
 #### In progress
-- [ ] Change audio and subtitles language inside player
 - [ ] Browse elements by categories
+- [ ] My list screen and workflow
 - [ ] WebOS compatibility
 
 #### Pending
-- [ ] My list screen and workflow
 - [ ] Settings screen
 - [ ] Migrate to react
 
