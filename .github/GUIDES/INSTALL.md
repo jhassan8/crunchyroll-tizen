@@ -3,13 +3,13 @@
 ## TIZEN Installation
 
 1. Install [Tizen Studio](https://developer.tizen.org/development/tizen-studio/download)
-    ![1.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/1.PNG)
+    <br />![1.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/1.PNG)
     ![2.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/2.PNG)
     ![3.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/3.PNG)
     ![4.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/4.PNG)
 2. Get your PC ip address
     - In the next step you will need the PC IP ADDRESS
-    ![5.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/5.png)
+    <br />![5.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/5.png)
     ![6.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/6.png)
 3. Config [develop mode](https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/tv-device.html) in TV
     - Open Samsung Apps
@@ -17,16 +17,16 @@
     - Enable developer Mode
     - Enter your PC IP ADDRESS
     - OK and restart your TV
-    ![7.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/7.png)
+    <br />![7.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/7.png)
 4. Get your DEVICE ip address
     - In the next step you will need the ip address of your tv
-    ![8.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/8.png)
+    <br />![8.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/8.png)
     ![9.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/9.png)
 5. Download and unzip app .zip from [releases](https://github.com/jhassan8/crunchyroll-tizen/releases) (recomended online version)
 6. Run install (fill in the requested values)
     - If it was installed tizen without changing paths and the online app version is installed, the first parameters are not necessary
-    ![10.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/10.png)
+    <br />![10.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/10.png)
 7. Installation complete, you can add the app to home screen
-    ![11.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/11.png)
+    <br />![11.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/11.png)
 
 ## WEBOS Installation (pending)
