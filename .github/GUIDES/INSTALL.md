@@ -4,9 +4,8 @@
 
 1. Install [Tizen Studio](https://developer.tizen.org/development/tizen-studio/download)
     <br />![1.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/1.PNG)
-    ![2.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/2.PNG)
-    ![3.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/3.PNG)
-    ![4.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/4.PNG)
+    - Uncheck option "Launch the Package Manager"
+    <br />![2.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/2.PNG)
 2. Get your PC ip address
     - In the next step you will need the PC IP ADDRESS
     <br />![5.png](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/.github/GUIDES/imgs/5.png)
