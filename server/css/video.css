@@ -49,6 +49,7 @@
   font-size: 5.8vh;
   font-weight: bold;
   color: #fff;
+  max-width: 75%;
 }
 
 #video-screen .osd .details #subtitle {

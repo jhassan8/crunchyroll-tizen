@@ -288,10 +288,15 @@ window.video = {
           }
 
           video.audio = data.audio_locale;
-          video.audios = data.versions.map((element) => ({
-            name: element.audio_locale,
-            id: element.media_guid,
-          }));
+          video.audios = [{name: video.audio, id: 0}];
+
+          if(data.versions) {
+            video.audios = data.versions.map((element) => ({
+              name: element.audio_locale,
+              id: element.media_guid,
+            }));
+          }
+
           video.subtitle = lang;
           video.subtitles = Object.keys(video.streams).map((element) => ({
             name: element,
