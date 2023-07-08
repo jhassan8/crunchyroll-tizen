@@ -358,13 +358,13 @@ window.video = {
 
   showSkip: function (time) {
     if (time > video.intro.end) {
-      video.intro.state = true;
+      video.intro.state = false;
       $("#skip-intro").hide();
-    }
-
-    if (!video.intro.state && time > video.intro.start && time < video.intro.end) {
-      video.intro.state = true;
-      $("#skip-intro").show();
+    } else {
+      if (!video.intro.state && time > video.intro.start && time < video.intro.end) {
+        video.intro.state = true;
+        $("#skip-intro").show();
+      }
     }
   },
 
