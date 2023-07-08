@@ -20,6 +20,7 @@ window.video = {
   subtitle: null,
   audios: [],
   audio: null,
+  intro: null,
   streams: [],
   timers: {
     history: {
@@ -77,6 +78,12 @@ window.video = {
           <div id="next-episode-count">${video.next.time}</div>
         </div>
       </div>
+
+      <div id="skip-intro">
+        <i class="fa-solid fa-forward"></i>
+        SKIP INTRO
+      </div>
+
       <div class="settings-slide">
         <div id="languages-content">
           <div class="title">Audios</div>
@@ -162,6 +169,9 @@ window.video = {
               ? video.changeAudio(options.index(selected[0]))
               : video.changeSubtitle(options.index(selected[0]));
           }
+        } if(video.intro && video.intro.state) {
+          osd = false;
+          player.forwardTo(video.intro.end);
         } else {
           if (video.next.status) {
             clearInterval(video.timers.next);
@@ -276,6 +286,7 @@ window.video = {
       },
       success: function (data) {
         video.stopNext();
+        video.setSkipIntro(item.id);
         video.next.shown = false;
         try {
           video.streams = data.streams.adaptive_hls;
@@ -288,9 +299,9 @@ window.video = {
           }
 
           video.audio = data.audio_locale;
-          video.audios = [{name: video.audio, id: 0}];
+          video.audios = [{ name: video.audio, id: 0 }];
 
-          if(data.versions) {
+          if (data.versions) {
             video.audios = data.versions.map((element) => ({
               name: element.audio_locale,
               id: element.media_guid,
@@ -321,6 +332,40 @@ window.video = {
         console.log(error);
       },
     });
+  },
+
+  setSkipIntro: function (id) {
+    service.intro({
+      data: {
+        id,
+      },
+      success: function (data) {
+        if (data.duration && data.duration > 10) {
+          video.intro = {
+            start: data.startTime + 2,
+            end: data.endTime - 2,
+            state: false,
+          };
+        } else {
+          video.intro = null;
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+  },
+
+  showSkip: function (time) {
+    if (time > video.intro.end) {
+      video.intro.state = false;
+      $("#skip-intro").hide();
+    } else {
+      if (!video.intro.state && time > video.intro.start && time < video.intro.end) {
+        video.intro.state = true;
+        $("#skip-intro").show();
+      }
+    }
   },
 
   setAudios: function () {
@@ -469,6 +514,8 @@ window.video = {
     time = time < 0 ? 0 : time;
     var totalTime = player.getDuration();
     var timePercent = (100 * time) / totalTime;
+
+    video.intro && video.showSkip(time);
 
     if (
       !video.next.shown &&

@@ -277,6 +277,15 @@ window.service = {
       .catch((error) => request.error(error));
   },
 
+  intro: function (request) {
+    fetch(
+      `https://static.crunchyroll.com/datalab-intro-v2/${request.data.id}.json`
+    )
+      .then((response) => response.json())
+      .then((json) => request.success(json))
+      .catch((error) => request.error(error));
+  },
+
   format: function (params) {
     return Object.keys(params)
       .map(function (k) {
