@@ -269,6 +269,10 @@ window.player = {
     }, 500);
   },
 
+  forwardTo: function (seconds) {
+    player.getVideo().currentTime = seconds;
+  },
+
   stop: function () {
     if (player.state != player.states.STOPPED) {
       player.plugin.stopLoad();

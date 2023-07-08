@@ -49,6 +49,7 @@
   font-size: 5.8vh;
   font-weight: bold;
   color: #fff;
+  max-width: 75%;
 }
 
 #video-screen .osd .details #subtitle {
@@ -361,4 +362,22 @@
   border-radius: 50%;
   text-align: center;
   line-height: 85px;
+}
+
+#video-screen #skip-intro {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px 30px;
+  z-index: 2;
+  right: 100px;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 250px;
+  font-size: 35px;
+  color: #fff;
+  border-radius: 5px;
+  display: none;
+}
+
+#video-screen #skip-intro i {
+  margin-right: 15px;
 }
