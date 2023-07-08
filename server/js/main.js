@@ -67,6 +67,9 @@ window.main = {
         exit.init();
       } else {
         switch (main.state) {
+          case changelog.id:
+            changelog.keyDown(event);
+            break;
           case loading.id:
             loading.keyDown(event);
             break;

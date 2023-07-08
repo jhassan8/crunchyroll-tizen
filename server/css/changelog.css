@@ -1,0 +1,74 @@
+#changelog-modal {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  z-index: 200;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#changelog-modal .content {
+  width: 40%;
+  height: 50%;
+  background: rgb(0, 0, 0, 0.8);
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+#changelog-modal .content .header {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#changelog-modal .content .body {
+  position: relative;
+  flex: 1;
+}
+
+#changelog-modal .content .extra {
+  bottom: 30px;
+  position: absolute;
+  font-size: 13px;
+}
+
+#changelog-modal .content .body .changes {
+  list-style: square;
+  padding: 20px 0;
+  margin: 0;
+}
+
+#changelog-modal .content .body .changes li {
+  margin: 15px 0;
+}
+
+#changelog-modal .content .body .changes li .change-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#changelog-modal .content .footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#changelog-modal .content .footer .button {
+  display: block;
+  width: 150px;
+  color: rgb(0, 0, 0);
+  background: rgb(244, 117, 33);
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+}
