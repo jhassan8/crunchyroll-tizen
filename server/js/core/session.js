@@ -13,6 +13,7 @@ window.session = {
     },
   },
   storage: {
+    version: NaN,
     account: {
       password: NaN,
       username: NaN,
