@@ -30,7 +30,9 @@
 ## Captures:
 ![layouts.gif](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/layouts.gif)
 
-## Installation
+## [Installation with Installer (Recommended)](https://github.com/jhassan8/crunchyroll-tizen/blob/master/.github/GUIDES/INSTALL.md)
+
+## Installation with IDE
 
 1. Install [Tizen Studio](https://developer.tizen.org/development/tizen-studio/download)
 2. In Package Manager install "Extension SDK" -> "TV extension <version>"
@@ -48,7 +50,7 @@
     - Convert To Tizen Project
 8. The app opens on the TV and will be installed.
 
-## Instalation CLI (recommended)
+## Installation with NPM
 
 #### required: npm, configure device (developer mode, "on" device in "device manager")
 #### veresions: online (auto-update use cdn), offline (no auto-update)
