@@ -18,8 +18,11 @@ window.main = {
     login: function () {
       session.valid({
         success: function () {
-          session.load_account();
-          main.events.home();
+          session.load_account({
+            success: function () {
+              main.events.home();
+            }
+          });
         },
         error: function (error) {
           console.log(error);
