@@ -141,14 +141,16 @@ window.session = {
     }
   },
 
-  load_account: function () {
+  load_account: function (callback) {
     service.profile({
       success: function (response) {
         session.storage.account.language =
           response.preferred_content_subtitle_language;
         session.storage.account.avatar = response.avatar;
         session.update();
+        callback.success();
       },
+      error: callback.error
     });
 
     session.cookies({
