@@ -86,15 +86,15 @@ window.mapper = {
   },
 
   load: (item, index, callback) => {
-    var url;
-    if (item.resource_type === "dynamic_collection") {
-      url = item.link;
-    } else {
-      url = `/content/v2/cms/objects/${item.ids.join()}?locale=es-419`;
-    }
-
     session.refresh({
       success: function (storage) {
+        var url;
+        if (item.resource_type === "dynamic_collection") {
+          url = item.link;
+        } else {
+          url = `/content/v2/cms/objects/${item.ids.join()}?locale=${storage.account.language}`;
+        }
+
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
