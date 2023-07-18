@@ -50,30 +50,62 @@
 }
 
 #search-screen .content .list-container {
-  margin-top: 92px;
   overflow: hidden;
+  height: 100%;
+  position: relative;
+  padding-top: 80px;
+  margin-top: 5px;
 }
 
 #search-screen .content .list-container .list-container-over {
-  /* transition: margin 0.2s; */
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 30px;
+  /* transition: margin 100ms ease-out; */
+}
+
+#search-screen .content .list-container .list-container-over:before {
+  content: '';
+  width: 102vw;
+  left: -1vw;
+  height: 75px;
+  position: absolute;
+  z-index: 1;
+  background: linear-gradient(black, transparent);
+  top: 0;
+}
+
+#search-screen .content .list-container .list-container-over:after {
+  content: '';
+  position: fixed;
+  width: 100vw;
+  height: 75px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(transparent, black);
 }
 
 #search-screen .content .list-container .list-container-over .item {
   background: rgba(100, 100, 100, 0.5);
-  width: 161px;
-  height: 245px;
   opacity: 0.5;
   position: relative;
-  float: left;
-  margin: 15px;
 }
 
-#search-screen .content .list-container .list-container-over .item:nth-child(9n) {
-  margin-right: 0;
-}
-
-#search-screen .content .list-container .list-container-over .item:nth-child(9n+1) {
-  margin-left: 0;
+#search-screen .content .list-container .list-container-over .item .title {
+  background: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  
+  width: 100%;
+  height: 3.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 #search-screen .content .list-container .list-container-over .item img {
@@ -98,10 +130,8 @@
   left: 0;
   box-sizing: border-box;
   border: 3px solid rgb(114, 114, 114);
-  /* box-shadow: 0 0 25px 6px #727272, 0 0 15px 6px #727272 inset; */
 }
 
 #search-screen .content .list-container.focus .list-container-over .item.selected::after{
   border: 3px solid rgb(244, 130, 33, 0.9);
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
 }

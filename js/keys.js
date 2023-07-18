@@ -35,6 +35,7 @@ window.tvKey = {
   KEY_BLUE: 406,
   KEY_MENU: 18,
   KEY_EXIT: 0,
+  KEY_ESCAPE: 27,
 };
 
 [

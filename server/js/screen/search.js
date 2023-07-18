@@ -2,7 +2,14 @@ window.search = {
   id: "search-screen",
   previous: NaN,
   input: NaN,
-  position: 0,
+  position: -1,
+  last_postion: 0,
+  items_per_row: 9,
+  scroll_data: {
+    item_padding: 30,
+    item_height: 390,
+    rows: 10,
+  },
   data: {
     result: [],
   },
@@ -17,7 +24,7 @@ window.search = {
           <input type="text" placeholder="Search...">
         </div>
         <div class="list-container">
-          <div class="list-container-over"></div>
+          <div class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);"></div>
         </div>
         <div class="logo-fixed">
           <img src="server/img/logo-big.png"/>
@@ -49,10 +56,14 @@ window.search = {
           elements_content += `
               <div class="item${index === 0 ? " selected" : ""}">
                 <img src="${element.poster}" alt="">
+                <div class="title">${element.title}</div>
               </div>`;
         });
 
         $(".list-container-over").html(elements_content);
+        search.last_postion = 0
+        search.scroll_data.item_height = parseFloat(window.getComputedStyle($(`.list-container-over .item`).get(0)).height.replace("px", ""))
+        search.scroll_data.rows = Math.ceil(search.data.result.length / search.items_per_row)
       },
       error: function (error) {
         loading.end();
@@ -61,108 +72,74 @@ window.search = {
     });
   },
 
+  toggleFocus: function (newIndex) {
+    if (newIndex < 0) {
+      $("#search-screen_input").addClass("focus");
+      $(".list-container").removeClass("focus");
+      search.last_postion = search.position >= 0 ? search.position : search.last_postion
+      newIndex = -1
+    } else {
+      if(search.position == -1) {
+        $("#search-screen_input").removeClass("focus");
+        $(".list-container").addClass("focus");
+      }
+      if (newIndex >= search.data.result.length) newIndex = search.data.result.length - 1
+      $(`.list-container .item`).removeClass("selected");
+      $(`.list-container .item`).eq(newIndex).addClass("selected");
+    }
+    search.position = newIndex
+  },
+  
+  scroll: function () {
+    if (search.data.result.length == 0) return
+    var current_row = Math.floor(search.position / search.items_per_row)
+    if (current_row < 2) {
+      $(".list-container-over").get(0).style.marginTop = '0px'
+    } else if ( !( current_row + 1 >= search.scroll_data.rows)) {
+      current_row = current_row - 1
+      $(".list-container-over").get(0).style.marginTop = `-${(current_row * (search.scroll_data.item_height + search.scroll_data.item_padding))}px`
+    }
+  },
+
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
-      case 27:
-        if (search.position === 0) {
+      case tvKey.KEY_ESCAPE:
+        if (search.position === -1) {
           menu.open();
         } else {
-          $("#search-screen_input").addClass("focus");
-          $(".list-container").removeClass("focus");
-          search.position = 0;
+          search.toggleFocus(-1)
         }
         break;
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        rows = Math.ceil(
-          $(".list-container-over").get(0).childElementCount / 9
-        );
-        options = $(`.list-container .item`);
-        current = options.index($(`.list-container-over .item.selected`));
-
-        if (Math.ceil((current + 1) / 9) === 1) {
-          $("#search-screen_input").addClass("focus");
-          $(".list-container").removeClass("focus");
-          search.position = 0;
-        } else {
-          options.removeClass("selected");
-          var newCurrent = current > 8 ? current - 9 : current;
-          options.eq(newCurrent).addClass("selected");
-
-          row = Math.ceil((newCurrent + 1) / 9);
-          $(".list-container-over").get(0).style.marginTop = `${
-            row > 3 ? (row - 3) * -275 : 0
-          }px`;
-        }
-
+        search.toggleFocus(search.position - search.items_per_row)
+        search.scroll()
         break;
       case tvKey.KEY_DOWN:
-        if (search.position === 0) {
-          if (search.data.result.length > 0) {
-            $("#search-screen_input").removeClass("focus");
-            $(".list-container").addClass("focus");
-            search.position = 1;
-          }
-        } else {
-          rows = Math.ceil(
-            $(".list-container-over").get(0).childElementCount / 9
-          );
-          options = $(`.list-container-over .item`);
-          current = options.index($(`.list-container-over .item.selected`));
-
-          options.removeClass("selected");
-          var newCurrent = current < options.length - 9 ? current + 9 : current;
-          options.eq(newCurrent).addClass("selected");
-
-          row = Math.ceil((newCurrent + 1) / 9);
-          $(".list-container-over").get(0).style.marginTop = `${
-            row > 3 ? (row - 3) * -275 : 0
-          }px`;
-        }
-
+        var to_index = search.position + search.items_per_row
+        if(search.position == -1) to_index = search.last_postion
+        search.toggleFocus(to_index)
+        search.scroll();
         break;
       case tvKey.KEY_LEFT:
-        options = $(`.list-container-over .item`);
-        current = options.index($(`.list-container-over .item.selected`));
-
-        if (search.position === 1 && current !== 0 && current % 9 !== 0) {
-          rows = Math.ceil(
-            $(".list-container-over").get(0).childElementCount / 9
-          );
-
-          options.removeClass("selected");
-          options.eq(current - 1).addClass("selected");
-        } else {
-          menu.open();
-        }
+        if(search.position % search.items_per_row == 0) 
+          menu.open()
+        else 
+          search.toggleFocus(search.position - 1)
         break;
       case tvKey.KEY_RIGHT:
-        if (search.position === 1) {
-          rows = Math.ceil(
-            $(".list-container-over").get(0).childElementCount / 9
-          );
-          options = $(`.list-container-over .item`);
-          current = options.index($(`.list-container-over .item.selected`));
-
-          options.removeClass("selected");
-          var newCurrent =
-            current + 1 < options.length && (current + 1) % 9 !== 0
-              ? current + 1
-              : current;
-          options.eq(newCurrent).addClass("selected");
-        }
+        if((search.position + 1) % search.items_per_row == 0) return
+        search.toggleFocus(search.position + 1)
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
-        if (this.position === 0) {
+        if (this.position === -1) {
           keyboard.init(search.input, search.start);
         } else {
-          options = $(`.list-container-over .item`);
-          current = options.index($(`.list-container-over .item.selected`));
           home_details.init(
-            search.data.result[current],
+            search.data.result[search.position],
             function (item) {
               var home_element = document.createElement("div");
               home_element.id = home.id;
@@ -192,6 +169,7 @@ window.search = {
             function () {
               document.getElementById(search.id).style.display = "block";
               home.destroy();
+              search.toggleFocus(search.position)
             }
           );
         }
