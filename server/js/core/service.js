@@ -286,6 +286,25 @@ window.service = {
       .catch((error) => request.error(error));
   },
 
+  categories: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        fetch(
+          `${service.api.url}/content/v1/tenant_categories?include_subcategories=true&locale=${storage.account.language}`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
   format: function (params) {
     return Object.keys(params)
       .map(function (k) {

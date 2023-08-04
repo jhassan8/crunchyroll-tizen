@@ -107,6 +107,9 @@ window.main = {
           case historyScreen.id:
             historyScreen.keyDown(event);
             break;
+          case browse.id:
+            browse.keyDown(event);
+            break;
           case home.id:
             home.keyDown(event);
             break;

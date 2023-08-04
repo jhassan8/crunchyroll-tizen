@@ -5,7 +5,7 @@ window.menu = {
     { id: "home",           label: "Home",      icon: "fa-solid fa-house",                action: 'home.init' },
     { id: "list",           label: "My list",   icon: "fa-solid fa-bookmark" },
     { id: "historyScreen",  label: "History",   icon: "fa-solid fa-clock-rotate-left",    action: 'historyScreen.init' },
-    { id: "browse",         label: "Browse",    icon: "fa-regular fa-rectangle-list" },
+    { id: "browse",         label: "Browse",    icon: "fa-regular fa-rectangle-list",     action: 'browse.init' },
     { id: "settings",       label: "Settings",  icon: "fa-solid fa-gear",     tool: true },
     { id: "logout",         label: "Logout",    icon: "fa-solid fa-sign-out", tool: true , event: "logout" },
   ],
