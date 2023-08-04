@@ -27,6 +27,7 @@ window.mapper = {
       })),
     };
 
+    mapper.loaded = 0
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {

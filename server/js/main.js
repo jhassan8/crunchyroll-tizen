@@ -15,6 +15,19 @@ window.main = {
   },
 
   events: {
+    logout: function() {
+      if (document.getElementById(menu.id) != null) menu.destroy();
+
+      var current_id = main.state.replace("-screen", '')
+      if( window[current_id] === undefined ) {
+        console.log("Failed to find ID of current screen")
+        menu.init();
+        return;
+      }
+      if (document.getElementById(main.state) != null) window[current_id].destroy()
+      session.clear();
+      login.init();
+    },
     login: function () {
       session.valid({
         success: function () {
