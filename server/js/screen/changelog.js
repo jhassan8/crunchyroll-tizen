@@ -1,19 +1,27 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1",
+    version: "v1.1.1",
     changes: [
       {
-        title: "feat: update changelogs",
-        description: "You will now receive a report like this with each update.",
+        title: "fix: home feed locale by @Shyked",
+        description: "Resolved language issues on home screen.",
       },
       {
-        title: "feat: skip intro beta version",
-        description: "Anime without delays! Skip the intro with just one button. More action, less waiting.",
+        title: "feat: update search screen by @GnarLito",
+        description: "Improved search display by adding names to identify anime.",
       },
       {
-        title: "fix: solve error when video versions is null",
-        description: "Playback issues have been resolved in certain anime titles, such as \"The Marginal Service\".",
+        title: "feat: logout button by @GnarLito",
+        description: "If you want, you can now log out of the application.",
+      },
+      {
+        title: "feat: video option next episode",
+        description: "next episode option on the video screen.",
+      },
+      {
+        title: "feat: video option aspect ratio",
+        description: "In some animes, you can customize the video's aspect ratio.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
