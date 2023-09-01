@@ -7,15 +7,24 @@
 
 #browse-screen .content {
   height: 100vh;
-  background: #f47521;
+}
+
+#browse-screen .content #browse-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
 }
 
 #browse-screen .content #browse-menu {
   background: black;
-  width: 40%;
+  width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 40%, rgba(0, 0, 0, 0) 100%);
-    padding: 0 29px;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0) 100%);
+  padding-left: 60px;
+  position: absolute;
 }
 
 #browse-screen .content #browse-menu .title {
@@ -24,7 +33,11 @@
   padding: 30px;
 }
 
-#browse-screen .content #browse-menu .title .browse-content-wrapper {
+#browse-screen .content #browse-menu .browse-content {
+  overflow: hidden;
+}
+
+#browse-screen .content #browse-menu .browse-content-wrapper {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -33,11 +46,22 @@
 #browse-screen .item {
   color: white;
   font-size: 50px;
-  margin: 49px 0;
+  margin: 50px 0;
   opacity: 0.2;
+  display: flex;
+  align-items: center;
 }
+
+#browse-screen .item img{
+  height: 40px;
+  margin-right: 10px;
+} 
 
 #browse-screen .item.focus {
   opacity: 1;
-  font-size: 72px;
+  font-size: 65px;
+}
+
+#browse-screen .item.focus img {
+  height: 55px;
 }
