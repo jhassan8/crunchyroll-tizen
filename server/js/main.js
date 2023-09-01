@@ -28,6 +28,7 @@ window.main = {
       session.clear();
       login.init();
     },
+
     login: function () {
       session.valid({
         success: function () {

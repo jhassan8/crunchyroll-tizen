@@ -19,7 +19,9 @@ window.mapper = {
         id: banner.panel.id,
         title: banner.panel.title,
         description: banner.panel.description,
-        background: banner.panel.images.poster_wide[0][4].source,
+        background: mapper.preventImageErrorTest(function () {
+          return banner.panel.images.poster_wide[0][4].source;
+        }),
       },
       lists: lists.map((list) => ({
         title: list.title,
@@ -27,7 +29,7 @@ window.mapper = {
       })),
     };
 
-    mapper.loaded = 0
+    mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
@@ -54,17 +56,23 @@ window.mapper = {
                 ? item.panel.episode_metadata.series_title
                 : item.title;
               description = item.panel ? item.panel.title : item.description;
-              background = item.panel
-                ? item.panel.images.thumbnail[0][4].source
-                : item.images.thumbnail[0][4].source;
+              background = mapper.preventImageErrorTest(function () {
+                return item.panel
+                  ? item.panel.images.thumbnail[0][4].source
+                  : item.images.thumbnail[0][4].source;
+              });
             } else {
               type = item.type;
               display = "serie";
               id = item.id;
               title = item.title;
               description = item.description;
-              background = item.images.poster_wide[0][5].source;
-              poster = item.images.poster_tall[0][2].source;
+              background = mapper.preventImageErrorTest(function () {
+                return item.images.poster_wide[0][5].source;
+              });
+              poster = mapper.preventImageErrorTest(function () {
+                return item.images.poster_tall[0][2].source;
+              });
             }
 
             return {
@@ -93,7 +101,9 @@ window.mapper = {
         if (item.resource_type === "dynamic_collection") {
           url = item.link;
         } else {
-          url = `/content/v2/cms/objects/${item.ids.join()}?locale=${storage.account.language}`;
+          url = `/content/v2/cms/objects/${item.ids.join()}?locale=${
+            storage.account.language
+          }`;
         }
 
         var headers = new Headers();
@@ -123,7 +133,9 @@ window.mapper = {
       season_number: item.panel.episode_metadata.season_number,
       episode_number: item.panel.episode_metadata.episode_number,
       description: item.panel.description,
-      background: item.panel.images.thumbnail[0][4].source,
+      background: mapper.preventImageErrorTest(function () {
+        return item.panel.images.thumbnail[0][4].source;
+      }),
       watched: !item.never_watched,
       playhead: Math.round(item.playhead / 60),
       duration: Math.round(item.panel.episode_metadata.duration_ms / 60000),
@@ -150,9 +162,11 @@ window.mapper = {
       description: episode.description,
       number: episode.episode_number,
       episode_number: episode.episode_number,
-      background: episode.images.thumbnail
-        ? episode.images.thumbnail[0][1].source
-        : "",
+      background: mapper.preventImageErrorTest(function () {
+        return episode.images.thumbnail
+          ? episode.images.thumbnail[0][1].source
+          : "";
+      }),
       stream: episode.__links__.streams.href.substr(
         episode.__links__.streams.href.indexOf("/videos/") + 8,
         9
@@ -204,8 +218,12 @@ window.mapper = {
                 id: item.id,
                 title: item.title,
                 description: item.description,
-                background: item.images.poster_wide[0][5].source,
-                poster: item.images.poster_tall[0][2].source,
+                background: mapper.preventImageErrorTest(function () {
+                  return item.images.poster_wide[0][5].source;
+                }),
+                poster: mapper.preventImageErrorTest(function () {
+                  return item.images.poster_tall[0][2].source;
+                }),
               })),
             ]
           : acum,
@@ -229,9 +247,20 @@ window.mapper = {
           ? element.panel.episode_metadata.series_title
           : element.title,
         description: element.panel.title,
-        background: element.panel
-          ? element.panel.images.thumbnail[0][4].source
-          : element.images.thumbnail[0][4].source,
+        background: mapper.preventImageErrorTest(function () {
+          return element.panel
+            ? element.panel.images.thumbnail[0][4].source
+            : element.images.thumbnail[0][4].source;
+        }),
       }));
+  },
+
+  preventImageErrorTest: function (callback, id) {
+    try {
+      return callback();
+    } catch (error) {
+      console.log(`error image #${id}`);
+      return `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${id}`;
+    }
   },
 };
