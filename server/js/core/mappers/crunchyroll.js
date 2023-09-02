@@ -21,7 +21,7 @@ window.mapper = {
         description: banner.panel.description,
         background: mapper.preventImageErrorTest(function () {
           return banner.panel.images.poster_wide[0][4].source;
-        }),
+        }, banner.panel.id),
       },
       lists: lists.map((list) => ({
         title: list.title,
@@ -43,24 +43,40 @@ window.mapper = {
               duration,
               type;
             if (item.panel || item.type === "episode") {
-              type = item.type;
-              display = "episode";
-              id = item.panel ? item.panel.episode_metadata.series_id : item.id;
-              playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
-              duration = Math.round(
-                (item.panel
-                  ? item.panel.episode_metadata.duration_ms
-                  : item.episode_metadata.duration_ms) / 60000
-              );
-              title = item.panel
-                ? item.panel.episode_metadata.series_title
-                : item.title;
-              description = item.panel ? item.panel.title : item.description;
-              background = mapper.preventImageErrorTest(function () {
-                return item.panel
-                  ? item.panel.images.thumbnail[0][4].source
-                  : item.images.thumbnail[0][4].source;
-              });
+              if (item.panel && item.panel.movie_metadata) {
+                debugger;
+                type = item.panel.type;
+                display = "episode";
+                id = item.panel.id;
+                playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
+                duration = Math.round(item.panel.movie_metadata.duration_ms / 60000);
+                title = item.panel.title;
+                description = item.panel.description;
+                background = mapper.preventImageErrorTest(function () {
+                  return item.panel.images.thumbnail[0][4].source;
+                }, id);
+              } else {
+                type = item.type;
+                display = "episode";
+                id = item.panel
+                  ? item.panel.episode_metadata.series_id
+                  : item.id;
+                playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
+                duration = Math.round(
+                  (item.panel
+                    ? item.panel.episode_metadata.duration_ms
+                    : item.episode_metadata.duration_ms) / 60000
+                );
+                title = item.panel
+                  ? item.panel.episode_metadata.series_title
+                  : item.title;
+                description = item.panel ? item.panel.title : item.description;
+                background = mapper.preventImageErrorTest(function () {
+                  return item.panel
+                    ? item.panel.images.thumbnail[0][4].source
+                    : item.images.thumbnail[0][4].source;
+                }, id);
+              }
             } else {
               type = item.type;
               display = "serie";
@@ -69,10 +85,10 @@ window.mapper = {
               description = item.description;
               background = mapper.preventImageErrorTest(function () {
                 return item.images.poster_wide[0][5].source;
-              });
+              }, id);
               poster = mapper.preventImageErrorTest(function () {
                 return item.images.poster_tall[0][2].source;
-              });
+              }, id);
             }
 
             return {
@@ -135,7 +151,7 @@ window.mapper = {
       description: item.panel.description,
       background: mapper.preventImageErrorTest(function () {
         return item.panel.images.thumbnail[0][4].source;
-      }),
+      }, id),
       watched: !item.never_watched,
       playhead: Math.round(item.playhead / 60),
       duration: Math.round(item.panel.episode_metadata.duration_ms / 60000),
@@ -166,7 +182,7 @@ window.mapper = {
         return episode.images.thumbnail
           ? episode.images.thumbnail[0][1].source
           : "";
-      }),
+      }, episode.id),
       stream: episode.__links__.streams.href.substr(
         episode.__links__.streams.href.indexOf("/videos/") + 8,
         9
@@ -220,7 +236,7 @@ window.mapper = {
                 description: item.description,
                 background: mapper.preventImageErrorTest(function () {
                   return item.images.poster_wide[0][5].source;
-                }),
+                }, item.id),
                 poster: mapper.preventImageErrorTest(function () {
                   return item.images.poster_tall[0][2].source;
                 }),
@@ -251,7 +267,7 @@ window.mapper = {
           return element.panel
             ? element.panel.images.thumbnail[0][4].source
             : element.images.thumbnail[0][4].source;
-        }),
+        }, element.panel.episode_metadata.series_id),
       }));
   },
 

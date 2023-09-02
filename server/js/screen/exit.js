@@ -2,15 +2,17 @@ window.exit = {
   id: "exit-screen",
   previous: null,
   selected: false,
+  logout: false,
 
-  init: function () {
+  init: function (logout) {
     var exit_element = document.createElement("div");
     exit_element.id = exit.id;
+    exit.logout = logout;
 
     exit_element.innerHTML =
       '<div class="content">' +
       '  <div class="window">' +
-      '    <div class="text">Do you want to exit the application?</div>' +
+      `    <div class="text">Do you want to ${exit.logout ? "logout and" : ""} exit the application?</div>` +
       '    <div class="buttons">' +
       '      <div class="button" id="exit-screen-yes">YES</div>' +
       '      <div class="button" id="exit-screen-no">NO</div>' +
@@ -66,6 +68,9 @@ window.exit = {
 
   action: function (selected) {
     if (selected) {
+      if (exit.logout) {
+        session.clear();
+      }
       tizen.application.getCurrentApplication().exit();
       //widgetAPI.sendExitEvent();
     } else {
