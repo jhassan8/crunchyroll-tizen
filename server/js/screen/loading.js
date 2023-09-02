@@ -54,7 +54,7 @@ window.loading = {
       case tvKey.KEY_BACK:
       case tvKey.KEY_EXIT:
       case 27:
-        tizen.application.getCurrentApplication().hide();
+        exit.init(true);
         break;
     }
   },
