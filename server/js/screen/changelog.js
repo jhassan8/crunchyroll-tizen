@@ -12,11 +12,11 @@ window.changelog = {
         description: "Logout and exit of the app when it doesn't start.",
       },
       {
-        title: "fix: exit on the login screen. @hassan22l",
+        title: "fix: exit on the login screen by @hassan22l",
         description: "option to exit has been added on the login screen.",
       },
       {
-        title: "fix: remove grid search and styles. @jhassan8",
+        title: "fix: remove grid search and styles by @jhassan8",
         description: "solve search and styles for tizen version.",
       },
       {
