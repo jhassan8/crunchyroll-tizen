@@ -1,13 +1,39 @@
 window.menu = {
   id: "menu-screen",
   options: [
-    { id: "search",         label: "Search",    icon: "fa-solid fa-magnifying-glass",     action: 'search.init', },
-    { id: "home",           label: "Home",      icon: "fa-solid fa-house",                action: 'home.init' },
-    { id: "list",           label: "My list",   icon: "fa-solid fa-bookmark" },
-    { id: "historyScreen",  label: "History",   icon: "fa-solid fa-clock-rotate-left",    action: 'historyScreen.init' },
-    { id: "browse",         label: "Browse",    icon: "fa-regular fa-rectangle-list" },
-    { id: "settings",       label: "Settings",  icon: "fa-solid fa-gear",     tool: true },
-    { id: "logout",         label: "Logout",    icon: "fa-solid fa-sign-out", tool: true , event: "logout" },
+    {
+      id: "search",
+      label: "Search",
+      icon: "fa-solid fa-magnifying-glass",
+      action: "search.init",
+    },
+    {
+      id: "home",
+      label: "Home",
+      icon: "fa-solid fa-house",
+      action: "home.restart",
+    },
+    { id: "list", label: "My list", icon: "fa-solid fa-bookmark" },
+    {
+      id: "historyScreen",
+      label: "History",
+      icon: "fa-solid fa-clock-rotate-left",
+      action: "historyScreen.init",
+    },
+    {
+      id: "browse",
+      label: "Browse",
+      icon: "fa-regular fa-rectangle-list",
+      action: "browse.init",
+    },
+    { id: "settings", label: "Settings", icon: "fa-solid fa-gear", tool: true },
+    {
+      id: "logout",
+      label: "Logout",
+      icon: "fa-solid fa-sign-out",
+      tool: true,
+      event: "logout",
+    },
   ],
   selected: 1,
   previous: NaN,
@@ -21,7 +47,7 @@ window.menu = {
     var menu_options = "";
 
     menu.options.forEach((element, index) => {
-      if(!!element.tool) {
+      if (!!element.tool) {
         tool_options += `
         <a class="option ${index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
@@ -59,14 +85,15 @@ window.menu = {
   },
 
   destroy: function () {
-    if(menu.isOpen) {
-      menu.close()
+    if (menu.isOpen) {
+      menu.close();
     }
-    document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(this.id) &&
+      document.body.removeChild(document.getElementById(this.id));
   },
 
   open: function () {
-    menu.isOpen = true
+    menu.isOpen = true;
     $("body").addClass("open-menu");
     $(`#${menu.id} .option.selected`).addClass("focus");
     this.previous = main.state;
@@ -74,7 +101,7 @@ window.menu = {
   },
 
   close: function () {
-    menu.isOpen = false
+    menu.isOpen = false;
     $("body").removeClass("open-menu");
     $(`#${menu.id} .option`).removeClass("focus");
     main.state = this.previous;
@@ -129,11 +156,11 @@ window.menu = {
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
           window[menu.options[selected].id].destroy();
-          test = menu.options[current].action.split('.');
-          window[test[0]][test[1]]()
+          test = menu.options[current].action.split(".");
+          window[test[0]][test[1]]();
           menu.close();
         } else if (menu.options[current].event) {
-          window.main.events[menu.options[current].event]()
+          window.main.events[menu.options[current].event]();
         }
         break;
     }

@@ -1,0 +1,67 @@
+#browse-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+#browse-screen .content {
+  height: 100vh;
+}
+
+#browse-screen .content #browse-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+#browse-screen .content #browse-menu {
+  background: black;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0) 100%);
+  padding-left: 60px;
+  position: absolute;
+}
+
+#browse-screen .content #browse-menu .title {
+  color: white;
+  font-size: 50px;
+  padding: 30px;
+}
+
+#browse-screen .content #browse-menu .browse-content {
+  overflow: hidden;
+}
+
+#browse-screen .content #browse-menu .browse-content-wrapper {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#browse-screen .item {
+  color: white;
+  font-size: 50px;
+  margin: 50px 0;
+  opacity: 0.2;
+  display: flex;
+  align-items: center;
+}
+
+#browse-screen .item img{
+  height: 40px;
+  margin-right: 10px;
+} 
+
+#browse-screen .item.focus {
+  opacity: 1;
+  font-size: 65px;
+}
+
+#browse-screen .item.focus img {
+  height: 55px;
+}

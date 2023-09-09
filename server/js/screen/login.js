@@ -36,6 +36,10 @@ window.login = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
+      case tvKey.KEY_BACK:
+        case tvKey.KEY_ESCAPE:
+          exit.init();
+          break;
       case tvKey.KEY_UP:
         login.move(login.selected == 0 ? 0 : login.selected - 1);
         break;

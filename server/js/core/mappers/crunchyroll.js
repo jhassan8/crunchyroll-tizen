@@ -1,5 +1,6 @@
 window.mapper = {
   loaded: 0,
+  loadedSubcategories: 0,
 
   home: function (response, callback) {
     var lists = response.data.filter((element) =>
@@ -49,7 +50,9 @@ window.mapper = {
                 display = "episode";
                 id = item.panel.id;
                 playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
-                duration = Math.round(item.panel.movie_metadata.duration_ms / 60000);
+                duration = Math.round(
+                  item.panel.movie_metadata.duration_ms / 60000
+                );
                 title = item.panel.title;
                 description = item.panel.description;
                 background = mapper.preventImageErrorTest(function () {
@@ -104,7 +107,10 @@ window.mapper = {
             };
           });
           mapper.loaded++;
-          mapper.loaded === lists.length && callback.success();
+          if(mapper.loaded === lists.length) {
+            home.data.main.lists = home.data.main.lists.filter(e => e.items.length > 0);
+            callback.success();
+          }
         },
       });
     }
@@ -248,7 +254,6 @@ window.mapper = {
   },
 
   history: function (response) {
-    console.log("success", response);
     return response.data
       .filter((element) => element.panel)
       .map((element) => ({
@@ -278,5 +283,82 @@ window.mapper = {
       console.log(`error image #${id}`);
       return `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${id}`;
     }
+  },
+
+  listByCategories: function (id, subcategories, callback) {
+    home.data.main = {
+      category: subcategories[0].parent_category,
+      banner: {
+        id: "",
+        title: "",
+        description: "",
+        background: "",
+      },
+      lists: subcategories.map((subcategory) => ({
+        lazy: true,
+        id: subcategory.tenant_category,
+        title: subcategory.localization.description,
+        items: [],
+      })),
+    };
+
+    mapper.loadedSubcategories = 0;
+    for (var index = 0; index < subcategories.length; index++) {
+      mapper.loadCategoryListAsync(
+        `${id},${subcategories[index].tenant_category}`,
+        0,
+        20,
+        index,
+        {
+          success: function (response, listPosition) {
+            home.data.main.lists[listPosition].items = mapper.mapItems(
+              response.items
+            );
+            mapper.loadedSubcategories++;
+            if (mapper.loadedSubcategories === subcategories.length) {
+              home.data.main.lists = home.data.main.lists.filter(e => e.items.length > 0);
+              home.data.main.banner =
+                home.data.main.lists[listPosition].items[0];
+              callback.success();
+            }
+          },
+          error: function (error) {
+            console.log("fail on load subcategorie list.", error);
+          },
+        }
+      );
+    }
+  },
+
+  mapItems: function (items) {
+    return items.map((item) => ({
+      background: item.images.poster_wide[0][4].source,
+      description: item.description,
+      poster: item.images.poster_tall[0][2].source,
+      display: "serie",
+      id: item.id,
+      type: item.type,
+      title: item.title,
+    }));
+  },
+
+  loadCategoryListAsync: function (categories, offset, size, index, callback) {
+    session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+        return fetch(
+          `${service.api.url}/content/v1/browse?categories=${categories}&n=${size}&start=${offset}`,
+          { headers: headers }
+        )
+          .then((response) => response.json())
+          .then((json) => callback.success(json, index))
+          .catch((error) => {
+            callback.error(error);
+          });
+      },
+    });
   },
 };

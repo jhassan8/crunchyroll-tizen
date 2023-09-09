@@ -65,7 +65,7 @@
   top: 0;
   left: 0;
   box-sizing: border-box;
-  border: 3px solid rgb(244, 130, 33, 0.9);
+  border: 3px solid rgba(244, 130, 33, 0.9);
   /* box-shadow: 0 0 25px 6px #727272, 0 0 15px 6px #727272 inset; */
 }
 

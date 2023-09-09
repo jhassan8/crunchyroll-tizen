@@ -15,7 +15,7 @@
 #changelog-modal .content {
   width: 40%;
   height: 50%;
-  background: rgb(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   padding: 20px 40px;
   display: flex;
   flex-direction: column;

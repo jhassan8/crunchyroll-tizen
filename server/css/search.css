@@ -58,9 +58,13 @@
 }
 
 #search-screen .content .list-container .list-container-over {
-  display: grid;
+  /* FORCE FOR OLD VERSION OF TIZEN*/
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -30px;
+  /* display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: 30px;
+  grid-gap: 30px; */
   /* transition: margin 100ms ease-out; */
 }
 
@@ -89,6 +93,10 @@
   background: rgba(100, 100, 100, 0.5);
   opacity: 0.5;
   position: relative;
+  /* FORCE FOR OLD VERSION OF TIZEN*/
+  max-width: 160px;
+  margin-bottom: 30px;
+  margin-left: 30px;
 }
 
 #search-screen .content .list-container .list-container-over .item .title {
@@ -133,5 +141,5 @@
 }
 
 #search-screen .content .list-container.focus .list-container-over .item.selected::after{
-  border: 3px solid rgb(244, 130, 33, 0.9);
+  border: 3px solid rgba(244, 130, 33, 0.9);
 }

@@ -71,6 +71,11 @@ window.main = {
     player.destroy();
   },
 
+  log: function(text) {
+    $('#console').html($('#console').html() + `${text}<br/>`);
+    $('#console').scrollTop(3000000);
+  },
+
   /* on key press */
   keyDown: function (event) {
     //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
@@ -107,6 +112,9 @@ window.main = {
             break;
           case historyScreen.id:
             historyScreen.keyDown(event);
+            break;
+          case browse.id:
+            browse.keyDown(event);
             break;
           case home.id:
             home.keyDown(event);
