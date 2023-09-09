@@ -1,27 +1,27 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.1",
+    version: "v1.1.2",
     changes: [
       {
-        title: "fix: home feed locale by @Shyked",
-        description: "Resolved language issues on home screen.",
+        title: "fix: crash when there is a movie in history by @jhassan8",
+        description: "movies in history causing issues when starting the app.",
       },
       {
-        title: "feat: update search screen by @GnarLito",
-        description: "Improved search display by adding names to identify anime.",
+        title: "fix: exit and logout in loading screen by @jhassan8",
+        description: "Logout and exit of the app when it doesn't start.",
       },
       {
-        title: "feat: logout button by @GnarLito",
-        description: "If you want, you can now log out of the application.",
+        title: "fix: exit on the login screen. @hassan22l",
+        description: "option to exit has been added on the login screen.",
       },
       {
-        title: "feat: video option next episode",
-        description: "next episode option on the video screen.",
+        title: "fix: remove grid search and styles. @jhassan8",
+        description: "solve search and styles for tizen version.",
       },
       {
-        title: "feat: video option aspect ratio",
-        description: "In some animes, you can customize the video's aspect ratio.",
+        title: "feat: browse screen by @jhassan8 and @hassan22l",
+        description: "The 'Browse' menu option has been enabled for easier anime discovery.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
