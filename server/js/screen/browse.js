@@ -86,6 +86,7 @@ window.browse = {
               loading.end();
               home.fromCategory.state = true;
               home.fromCategory.index = current;
+              home.fromCategory.title = browse.data.categories[current].localization.title;
               home.init();
               browse.destroy();
             },
@@ -94,8 +95,6 @@ window.browse = {
         break;
     }
   },
-
-  getCurrent: function () {},
 
   move: function (direction) {
     var options = $(".browse-content .item");

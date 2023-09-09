@@ -71,6 +71,11 @@ window.main = {
     player.destroy();
   },
 
+  log: function(text) {
+    $('#console').html($('#console').html() + `${text}<br/>`);
+    $('#console').scrollTop(3000000);
+  },
+
   /* on key press */
   keyDown: function (event) {
     //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);

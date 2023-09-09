@@ -6,7 +6,7 @@ window.home = {
   position: 0,
   fromCategory: {
     index: NaN,
-    state: false
+    state: false,
   },
 
   init: function () {
@@ -20,31 +20,11 @@ window.home = {
       <div class="row">
         <div class="row-title">${element.title}</div>
         <div class="row-content ${element.items[0].display}">`;
-        element.items.forEach((item, position) => {
-          poster_items += `
-        <div class="item">
-          <div class="poster ${item.display}">
-            ${
-              item.display !== "serie"
-                ? '<img src="' +
-                  item.background +
-                  '"><div class="progress" style="width: ' +
-                  (item.playhead * 100) / item.duration +
-                  '%" value="' +
-                  (item.duration - item.playhead) +
-                  'm"></div>'
-                : '<img src="' + item.poster + '">'
-            }
-          </div>
-        </div>`;
+        element.items.forEach((item) => {
+          poster_items += home.createItem(item);
         });
         for (var index = 0; index < 9; index++) {
-          poster_items += `
-        <div class="item">
-          <div class="poster ${element.items[0].display}">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-          </div>
-        </div>`;
+          poster_items += home.createEmptyItem(element.items[0].display);
         }
         poster_items += `</div></div>`;
       }
@@ -52,14 +32,16 @@ window.home = {
 
     home_element.innerHTML = `
     <div class="content">
-      ${home.fromCategory.state ? '<span class="browse-back"></span>' : ''}
+      ${home.fromCategory.state ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>` : ""}
       <div class="details full">
         <div class="background">
           <img src="${home.data.main.banner.background}">
         </div>
         <div class="info">
           <div class="title resize">${home.data.main.banner.title}</div>
-          <div class="description resize">${home.data.main.banner.description}</div>
+          <div class="description resize">${
+            home.data.main.banner.description
+          }</div>
           <div class="buttons">
             <a class="selected">Play</a>
             <a>More information</a>
@@ -115,14 +97,14 @@ window.home = {
   },
 
   destroy: function () {
-    this.position = 0;
+    home.position = 0;
     document.body.removeChild(document.getElementById(home.id));
   },
 
   show_details: function () {
     var item =
       home.position > 0
-        ? this.data.main.lists[home.position - 1].items[
+        ? home.data.main.lists[home.position - 1].items[
             $(".row-content")[home.position - 1].slick.currentSlide
           ]
         : home.data.main.banner;
@@ -135,7 +117,7 @@ window.home = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case 27:
-        if(!home.fromCategory.state) {
+        if (!home.fromCategory.state) {
           menu.open();
         } else {
           home.destroy();
@@ -164,10 +146,10 @@ window.home = {
         if (home.position > 0) {
           $(".row-content").removeClass("selected");
           home.position =
-            home.position < this.data.main.lists.length
+            home.position < home.data.main.lists.length
               ? home.position + 1
               : home.position;
-          if (home.position <= this.data.main.lists.length) {
+          if (home.position <= home.data.main.lists.length) {
             $(".rows")[0].slick.slickGoTo(home.position - 1);
             $(".row-content")[home.position - 1].slick.slickGoTo(
               $(".row-content")[home.position - 1].slick.getCurrent()
@@ -188,7 +170,7 @@ window.home = {
       case tvKey.KEY_LEFT:
         if (home.position > 0) {
           if ($(".row-content")[home.position - 1].slick.currentSlide === 0) {
-            if(!home.fromCategory.state) {
+            if (!home.fromCategory.state) {
               menu.open();
             } else {
               home.destroy();
@@ -202,7 +184,7 @@ window.home = {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           if (current === 0) {
-            if(!home.fromCategory.state) {
+            if (!home.fromCategory.state) {
               menu.open();
             } else {
               home.destroy();
@@ -218,11 +200,38 @@ window.home = {
         break;
       case tvKey.KEY_RIGHT:
         if (home.position > 0) {
-          if (
-            $(".row-content")[home.position - 1].slick.currentSlide <
-            this.data.main.lists[home.position - 1].items.length - 1
-          ) {
-            $(".row-content")[home.position - 1].slick.next();
+          var currentList = home.data.main.lists[home.position - 1];
+          var currentSlide = $(".row-content")[home.position - 1];
+
+          if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
+            if (home.fromCategory.state && currentList.lazy) {
+              if (
+                currentList.items.length > 15 &&
+                currentSlide.slick.currentSlide > currentList.items.length - 10
+              ) {
+                currentList.lazy = false;
+                loading.start();
+                mapper.loadCategoryListAsync(
+                  `${home.data.main.category},${currentList.id}`,
+                  currentList.items.length,
+                  20,
+                  home.position - 1,
+                  {
+                    success: function (response, index) {
+                      home.data.main.lists[index].lazy =
+                        response.items.length === 20;
+                      home.addToList(index, mapper.mapItems(response.items));
+                      loading.end();
+                    },
+                    error: function (error) {
+                      console.log(error);
+                      loading.end();
+                    },
+                  }
+                );
+              }
+            }
+            currentSlide.slick.next();
             home.show_details();
           }
         } else {
@@ -238,7 +247,7 @@ window.home = {
       case tvKey.KEY_PANEL_ENTER:
         var item =
           home.position > 0
-            ? this.data.main.lists[home.position - 1].items[
+            ? home.data.main.lists[home.position - 1].items[
                 $(".row-content")[home.position - 1].slick.currentSlide
               ]
             : home.data.main.banner;
@@ -247,7 +256,7 @@ window.home = {
     }
   },
 
-  restart: function() {
+  restart: function () {
     home.fromCategory.state = false;
     home.fromCategory.index = NaN;
     loading.start();
@@ -266,5 +275,55 @@ window.home = {
         console.log(error);
       },
     });
-  }
+  },
+
+  addToList: function (index, newItems) {
+    var itemsCount = home.data.main.lists[index].items.length;
+    var currentSlide = $(".row-content")[home.position - 1];
+    home.data.main.lists[index].items =
+      home.data.main.lists[index].items.concat(newItems);
+
+    // remove empty items for prevent move error
+    for (var index = 0; index < 9; index++) {
+      currentSlide.slick.slickRemove(itemsCount + 8 - index);
+    }
+
+    // added new items
+    newItems.forEach((element) =>
+      currentSlide.slick.slickAdd(home.createItem(element))
+    );
+
+    // added empty items for prevent move error
+    for (var index = 0; index < 9; index++) {
+      currentSlide.slick.slickAdd(home.createEmptyItem(newItems[0].display));
+    }
+  },
+
+  createItem: function (item) {
+    return `
+    <div class="item">
+      <div class="poster ${item.display}">
+        ${
+          item.display !== "serie"
+            ? '<img src="' +
+              item.background +
+              '"><div class="progress" style="width: ' +
+              (item.playhead * 100) / item.duration +
+              '%" value="' +
+              (item.duration - item.playhead) +
+              'm"></div>'
+            : '<img src="' + item.poster + '">'
+        }
+      </div>
+    </div>`;
+  },
+
+  createEmptyItem: function (type) {
+    return `
+    <div class="item">
+      <div class="poster ${type}">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+      </div>
+    </div>`;
+  },
 };

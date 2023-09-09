@@ -107,7 +107,10 @@ window.mapper = {
             };
           });
           mapper.loaded++;
-          mapper.loaded === lists.length && callback.success();
+          if(mapper.loaded === lists.length) {
+            home.data.main.lists = home.data.main.lists.filter(e => e.items.length > 0);
+            callback.success();
+          }
         },
       });
     }
@@ -292,6 +295,7 @@ window.mapper = {
         background: "",
       },
       lists: subcategories.map((subcategory) => ({
+        lazy: true,
         id: subcategory.tenant_category,
         title: subcategory.localization.description,
         items: [],
@@ -299,7 +303,7 @@ window.mapper = {
     };
 
     mapper.loadedSubcategories = 0;
-    for (let index = 0; index < subcategories.length; index++) {
+    for (var index = 0; index < subcategories.length; index++) {
       mapper.loadCategoryListAsync(
         `${id},${subcategories[index].tenant_category}`,
         0,
@@ -312,6 +316,7 @@ window.mapper = {
             );
             mapper.loadedSubcategories++;
             if (mapper.loadedSubcategories === subcategories.length) {
+              home.data.main.lists = home.data.main.lists.filter(e => e.items.length > 0);
               home.data.main.banner =
                 home.data.main.lists[listPosition].items[0];
               callback.success();
