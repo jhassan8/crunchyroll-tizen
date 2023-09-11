@@ -554,7 +554,6 @@ window.video = {
     var button = document.getElementById("osd-icon");
     button.style.opacity = 1;
     button.className = `icon-status ${state}`;
-    document.getElementById("osd-icon-data").innerText = data;
   },
 
   hideBTN: function () {
