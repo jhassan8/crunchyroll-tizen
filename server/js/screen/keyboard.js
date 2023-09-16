@@ -1,153 +1,177 @@
 window.keyboard = {
   id: "keyboard-screen",
   previous: NaN,
+  values: [
+    {
+      keys: [
+        { value: "Q", number: "1", symbol: "1", size: 1 },
+        { value: "W", number: "2", symbol: "2", size: 1 },
+        { value: "E", number: "3", symbol: "3", size: 1 },
+        { value: "R", number: "4", symbol: "4", size: 1 },
+        { value: "T", number: "5", symbol: "5", size: 1 },
+        { value: "Y", number: "6", symbol: "6", size: 1 },
+        { value: "U", number: "7", symbol: "7", size: 1 },
+        { value: "I", number: "8", symbol: "8", size: 1 },
+        { value: "O", number: "9", symbol: "9", size: 1 },
+        { value: "P", number: "0", symbol: "0", size: 1 },
+      ],
+    },
+    {
+      keys: [
+        { value: "A", number: "@", symbol: "|", size: 1 },
+        { value: "S", number: "#", symbol: "/", size: 1 },
+        { value: "D", number: "$", symbol: "\\", size: 1 },
+        { value: "F", number: "_", symbol: "*", size: 1 },
+        { value: "G", number: "&", symbol: "'", size: 1 },
+        { value: "H", number: "-", symbol: "\"", size: 1 },
+        { value: "J", number: "+", symbol: "=", size: 1 },
+        { value: "K", number: "(", symbol: ">", size: 1 },
+        { value: "L", number: ")", symbol: "<", size: 1 },
+      ],
+    },
+    {
+      keys: [
+        { value: "", number: "", symbol: "", size: "alpha" },
+        { value: "Z", number: ".", symbol: "~", size: 1 },
+        { value: "X", number: "¿", symbol: "[", size: 1 },
+        { value: "C", number: "?", symbol: "]", size: 1 },
+        { value: "V", number: "¡", symbol: "{", size: 1 },
+        { value: "B", number: "!", symbol: "}", size: 1 },
+        { value: "N", number: ";", symbol: "%", size: 1 },
+        { value: "M", number: ":", symbol: "^", size: 1 },
+        { value: "Ñ", number: ",", symbol: "`", size: 1 },
+        { value: "", number: "", symbol: "", size: "backspace" },
+      ],
+    },
+    {
+      keys: [
+        { value: "1 2 3", number: "A B C", symbol: "A B C", size: 2 },
+        { value: "", number: "", symbol: "", size: 5 },
+        { value: "", number: "", symbol: "", size: "ok" },
+      ],
+    },
+  ],
   selected: [0, 0],
   input: NaN,
   send: NaN,
+  alpha: false,
+  number: false,
 
   init: function (element, send) {
-    this.input = element;
-    this.send = send;
-    var values = [
-      {
-        keys: [
-          { value: "Q", number: "1", size: 1 },
-          { value: "W", number: "2", size: 1 },
-          { value: "E", number: "3", size: 1 },
-          { value: "R", number: "4", size: 1 },
-          { value: "T", number: "5", size: 1 },
-          { value: "Y", number: "6", size: 1 },
-          { value: "U", number: "7", size: 1 },
-          { value: "I", number: "8", size: 1 },
-          { value: "O", number: "9", size: 1 },
-          { value: "P", number: "0", size: 1 },
-        ],
-      },
-      {
-        keys: [
-          { value: "A", number: "@", size: 1 },
-          { value: "S", number: "#", size: 1 },
-          { value: "D", number: "$", size: 1 },
-          { value: "F", number: "_", size: 1 },
-          { value: "G", number: "&", size: 1 },
-          { value: "H", number: "-", size: 1 },
-          { value: "J", number: "+", size: 1 },
-          { value: "K", number: "(", size: 1 },
-          { value: "L", number: ")", size: 1 },
-        ],
-      },
-      {
-        keys: [
-          { value: "", number: "", size: "alpha" },
-          { value: "Z", number: ".", size: 1 },
-          { value: "X", number: "¿", size: 1 },
-          { value: "C", number: "?", size: 1 },
-          { value: "V", number: "¡", size: 1 },
-          { value: "B", number: "!", size: 1 },
-          { value: "N", number: ";", size: 1 },
-          { value: "M", number: ":", size: 1 },
-          { value: "Ñ", number: ",", size: 1 },
-          { value: "", number: "", size: "backspace" },
-        ],
-      },
-      {
-        keys: [
-          { value: "1 2 3", number: "A B C", size: 2 },
-          { value: "", number: "", size: 5 },
-          { value: "", number: "", size: "ok" },
-        ],
-      },
-    ];
+    keyboard.selected = [0, 0];
+    keyboard.input = element;
+    keyboard.send = send;
+    keyboard.alpha = false;
+    keyboard.number = false;
 
     var keyboard_element = document.createElement("div");
-    keyboard_element.id = this.id;
+    keyboard_element.id = keyboard.id;
 
-    var htmlString = "";
-
-    for (var item of values) {
-      htmlString += `
-      <div class="${this.id}-option row">
-      `;
-
-      for (var key of item.keys) {
-        htmlString += `
-        <div class="col size-${key.size}" alter="${key.number}">
-          ${key.value.toLocaleLowerCase()}
-        </div>`;
-      }
-
-      htmlString += `
-      </div>`;
-    }
-
-    keyboard_element.innerHTML = htmlString;
+    keyboard_element.innerHTML = keyboard.generate();
     document.body.appendChild(keyboard_element);
 
-    this.move(this.selected);
-    this.previous = main.state;
-    main.state = this.id;
+    keyboard.move(keyboard.selected);
+    keyboard.previous = main.state;
+    main.state = keyboard.id;
     //translate.init();
   },
 
   destroy: function () {
-    document.body.removeChild(document.getElementById(this.id));
-    main.state = this.previous;
-    this.send = NaN;
+    document.body.removeChild(document.getElementById(keyboard.id));
+    main.state = keyboard.previous;
+    keyboard.send = NaN;
+  },
+
+  generate: function () {
+    var htmlString = "";
+    for (var item of keyboard.values) {
+      htmlString += `<div class="${keyboard.id}-option row">`;
+
+      for (var key of item.keys) {
+        htmlString += `
+        <div class="col ${keyboard.getSize(key)}">
+          ${keyboard.getValue(key)}
+        </div>`;
+      }
+
+      htmlString += "</div>";
+    }
+    return htmlString;
+  },
+
+  getValue: function (key) {
+    if (keyboard.number) {
+      return keyboard.alpha ? key.symbol : key.number;
+    } else {
+      return key.value[keyboard.alpha ? "toUpperCase" : "toLowerCase"]();
+    }
+  },
+
+  getSize: function (key) {
+    if (key.size === "alpha") {
+      return `size-${keyboard.number ? "symbol" : "alpha"}${
+        keyboard.alpha ? " active" : ""
+      }`;
+    } else {
+      return `size-${key.size}`;
+    }
   },
 
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case 27:
-        this.destroy();
+        keyboard.destroy();
         break;
       case tvKey.KEY_UP:
-        if (this.selected[0] > 0) {
-          var max = [0, 2].includes(this.selected[0] - 1) ? 9 : 8;
-          this.move([
-            this.selected[0] - 1,
-            this.selected[0] === 3
-              ? 3 * (this.selected[1] + 1) - 1
-              : this.selected[1] > max
+        if (keyboard.selected[0] > 0) {
+          var max = { 1: 8, 3: 2 }[keyboard.selected[0] - 1] || 9;
+          keyboard.move([
+            keyboard.selected[0] - 1,
+            keyboard.selected[0] === 3
+              ? 3 * (keyboard.selected[1] + 1) - 1
+              : keyboard.selected[1] > max
               ? max
-              : this.selected[1],
+              : keyboard.selected[1],
           ]);
         }
         break;
       case tvKey.KEY_DOWN:
-        var max =
-          this.selected[0] + 1 == 1 ? 8 : this.selected[0] + 1 == 3 ? 2 : 9;
-        if (this.selected[0] < 3) {
-          this.move([
-            this.selected[0] + 1,
-            this.selected[0] === 2
-              ? Math.round(this.selected[1] / 4.5)
-              : this.selected[1] > max
+        var max = { 1: 8, 3: 2 }[keyboard.selected[0] + 1] || 9;
+        if (keyboard.selected[0] < 3) {
+          keyboard.move([
+            keyboard.selected[0] + 1,
+            keyboard.selected[0] === 2
+              ? Math.round(keyboard.selected[1] / 4.5)
+              : keyboard.selected[1] > max
               ? max
-              : this.selected[1],
+              : keyboard.selected[1],
           ]);
         }
         break;
       case tvKey.KEY_LEFT:
-        if (this.selected[1] > 0) {
-          this.move([this.selected[0], this.selected[1] - 1]);
-        }
+        var selectedColumn =
+          keyboard.selected[1] > 0
+            ? keyboard.selected[1] - 1
+            : { 1: 8, 3: 2 }[keyboard.selected[0]] || 9;
+        keyboard.move([keyboard.selected[0], selectedColumn]);
         break;
       case tvKey.KEY_RIGHT:
-        var max = this.selected[0] == 1 ? 8 : this.selected[0] == 3 ? 2 : 9;
-        if (this.selected[1] < max) {
-          this.move([this.selected[0], this.selected[1] + 1]);
-        }
+        var max = { 1: 8, 3: 2 }[keyboard.selected[0]] || 9;
+        keyboard.move([
+          keyboard.selected[0],
+          keyboard.selected[1] < max ? keyboard.selected[1] + 1 : 0,
+        ]);
         break;
       case tvKey.KEY_ENTER:
-        this.action(this.selected);
+        keyboard.action(keyboard.selected);
         break;
     }
   },
 
   move: function (selected) {
-    this.selected = selected;
-    var options = document.getElementsByClassName(this.id + "-option");
+    keyboard.selected = selected;
+    var options = document.getElementsByClassName(keyboard.id + "-option");
     for (var i = 0; i < options.length; i++) {
       var cols = options[i].children;
       for (var a = 0; a < cols.length; a++) {
@@ -163,54 +187,40 @@ window.keyboard = {
   action: function (selected) {
     switch (selected[0] + "" + selected[1]) {
       case "20":
-        this.upperCase();
+        keyboard.upperCase();
         break;
       case "30":
-        this.change();
+        keyboard.change();
         break;
       case "31":
-        this.input.value = this.input.value + " ";
+        keyboard.input.value = keyboard.input.value + " ";
         break;
       case "32":
-        this.send && this.send();
-        this.destroy();
+        keyboard.send && keyboard.send();
+        keyboard.destroy();
         break;
       case "29":
-        this.input.value = this.input.value.slice(0, -1);
+        keyboard.input.value = keyboard.input.value.slice(0, -1);
         break;
       default:
-        this.input.value =
-          this.input.value +
-          document.getElementsByClassName(this.id + "-option")[selected[0]]
+        keyboard.input.value =
+          keyboard.input.value +
+          document.getElementsByClassName(keyboard.id + "-option")[selected[0]]
             .children[selected[1]].innerText;
         break;
     }
   },
 
   upperCase: function () {
-    var options = document.getElementsByClassName(this.id + "-option");
-    var type =
-      options[0].children[0].innerText.toUpperCase() ==
-      options[0].children[0].innerText;
-    for (var i = 0; i < options.length; i++) {
-      for (var x = 0; x < options[i].children.length; x++) {
-        var child = options[i].children[x];
-        child.innerText = type
-          ? child.innerText.toLowerCase()
-          : child.innerText.toUpperCase();
-      }
-    }
+    keyboard.alpha = !keyboard.alpha;
+    document.getElementById("keyboard-screen").innerHTML = keyboard.generate();
+    keyboard.move(keyboard.selected);
   },
 
   change: function () {
-    var options = document.getElementsByClassName(this.id + "-option");
-    for (var i = 0; i < options.length; i++) {
-      for (var x = 0; x < options[i].children.length; x++) {
-        var child = options[i].children[x];
-        var newAlter = child.innerText;
-        child.innerText = child.getAttribute("alter");
-        child.setAttribute("alter", newAlter);
-      }
-    }
+    keyboard.number = !keyboard.number;
+    keyboard.alpha = false;
+    document.getElementById("keyboard-screen").innerHTML = keyboard.generate();
+    keyboard.move(keyboard.selected);
   },
 };

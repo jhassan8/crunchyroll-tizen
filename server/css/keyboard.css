@@ -45,7 +45,8 @@
   font-family: "Font Awesome 6 Free";
 }
 
-#keyboard-screen .size-alpha {
+#keyboard-screen .size-alpha,
+#keyboard-screen .size-symbol {
   width: 10%;
   height: 59px;
 }
@@ -54,6 +55,17 @@
   content: "\f0aa";
   font-size: 25px;
   font-family: "Font Awesome 6 Free";
+}
+
+#keyboard-screen .size-symbol::before {
+  content: "\f121";
+  font-size: 25px;
+  font-family: "Font Awesome 6 Free";
+}
+
+#keyboard-screen .col.size-symbol.active,
+#keyboard-screen .col.size-alpha.active {
+  color: rgba(255, 255, 255, 1);
 }
 
 #keyboard-screen .size-ok {
