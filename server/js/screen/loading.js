@@ -42,7 +42,6 @@ window.loading = {
     document.body.appendChild(loading_element);
 
     main.state = loading.id;
-    //translate.init();
   },
 
   destroy: function () {

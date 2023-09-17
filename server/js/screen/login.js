@@ -14,12 +14,12 @@ window.login = {
       </div>
       <div class="form">
         <div class="input ${login.id}-option">
-          <input type="text" placeholder="Enter user...">
+          <input type="text" placeholder="${translate.go('login.username')}">
         </div>
         <div class="input ${login.id}-option">
-          <input type="password" placeholder="Enter password...">
+          <input type="password" placeholder="${translate.go('login.password')}">
         </div>
-        <a class="button ${login.id}-option" translate>LOGIN</a>
+        <a class="button ${login.id}-option" translate>${translate.go('login.enter')}</a>
       </div>
     </div>
   </div>`;
@@ -27,7 +27,6 @@ window.login = {
 
     login.move(login.selected);
     main.state = login.id;
-    //translate.init();
   },
 
   destroy: function () {

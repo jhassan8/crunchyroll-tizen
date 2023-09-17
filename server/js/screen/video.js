@@ -120,14 +120,14 @@ window.video = {
 
       <div id="skip-intro">
         <i class="fa-solid fa-forward"></i>
-        SKIP INTRO
+        ${translate.go('video.skip')}
       </div>
 
       <div class="settings-slide">
         <div id="languages-content">
-          <div class="title">Audios</div>
+          <div class="title">${translate.go('video.languages.audios')}</div>
           <ul id="audios"></ul>
-          <div class="title">Subtitles</div>
+          <div class="title">${translate.go('video.languages.subtitles')}</div>
           <ul id="subtitles"></ul>
         </div>
       </div>
@@ -138,8 +138,6 @@ window.video = {
     $(`#${home.id}`).hide();
     video.previous = main.state;
     main.state = video.id;
-
-    //translate.init();
   },
 
   destroy: function () {

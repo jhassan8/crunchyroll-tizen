@@ -1,0 +1,48 @@
+{
+  "login": {
+    "username": "Masukkan nama pengguna atau email...",
+    "password": "Masukkan kata sandi...",
+    "enter": "MASUK"
+  },
+  "menu": {
+    "search": "Cari",
+    "home": "Beranda",
+    "list": "Daftar saya",
+    "history": "Riwayat",
+    "browse": "Jelajah",
+    "settings": "Pengaturan",
+    "logout": "Keluar"
+  },
+  "home": {
+    "banner": {
+      "play": "Putar",
+      "info": "Informasi lebih lanjut"
+    },
+    "details": {
+      "play": "Putar: S{season} E{episode}",
+      "continue": "Lanjutkan: S{season} E{episode}",
+      "add": "Tambahkan ke daftar saya",
+      "episodes": "Episode",
+      "related": "Konten terkait"
+    },
+    "episodes": {
+      "watched": "Ditonton"
+    }
+  },
+  "exit": {
+    "message": "Apakah Anda ingin keluar dari aplikasi?",
+    "message_logout": "Apakah Anda ingin keluar dan log out dari aplikasi?",
+    "no": "TIDAK",
+    "yes": "YA"
+  },
+  "search": {
+    "placeholder": "Cari..."
+  },
+  "video": {
+    "skip": "LEWATKAN PEMBUKA",
+    "languages": {
+      "audios": "Audio",
+      "subtitles": "Subtitle"
+    }
+  }
+}
