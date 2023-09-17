@@ -73,7 +73,6 @@ window.keyboard = {
     keyboard.move(keyboard.selected);
     keyboard.previous = main.state;
     main.state = keyboard.id;
-    //translate.init();
   },
 
   destroy: function () {

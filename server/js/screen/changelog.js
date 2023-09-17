@@ -46,7 +46,7 @@ window.changelog = {
           </div>
         </div>
         <div class="footer">
-          <a class="button ${login.id}-option" translate>OK</a>
+          <a class="button ${login.id}-option">OK</a>
         </div>
       </div>`;
 

@@ -51,6 +51,12 @@ module.exports = function (grunt) {
             src: ["**/*"],
             dest: "dist/assets/imgs",
           },
+          {
+            expand: true,
+            cwd: "server/translate/",
+            src: ["**/*"],
+            dest: "dist/assets/translate",
+          },
         ],
       },
       online: {
@@ -106,6 +112,11 @@ module.exports = function (grunt) {
         ],
       },
     },
+    "json-minify": {
+      cdn: {
+        files: 'dist/assets/translate/*.json'
+      }
+    },
     "string-replace": {
       cdn: {
         files: {
@@ -122,6 +133,11 @@ module.exports = function (grunt) {
               pattern: /url\(webfonts\//g,
               replacement:
                 "url(https://jhassan8.github.io/crunchyroll-tizen/assets/icons/",
+            },
+            {
+              pattern: /server\/translate\//g,
+              replacement:
+                "url(https://jhassan8.github.io/crunchyroll-tizen/assets/translate/",
             },
           ],
         },
@@ -153,6 +169,7 @@ module.exports = function (grunt) {
     "uglify:cdn",
     "cssmin:cdn",
     "copy:cdn",
+    "json-minify:cdn",
     "string-replace:cdn",
   ]);
   grunt.registerTask("online", [

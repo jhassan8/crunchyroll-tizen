@@ -15,16 +15,17 @@ window.main = {
   },
 
   events: {
-    logout: function() {
+    logout: function () {
       if (document.getElementById(menu.id) != null) menu.destroy();
 
-      var current_id = main.state.replace("-screen", '')
-      if( window[current_id] === undefined ) {
-        console.log("Failed to find ID of current screen")
+      var current_id = main.state.replace("-screen", "");
+      if (window[current_id] === undefined) {
+        console.log("Failed to find ID of current screen");
         menu.init();
         return;
       }
-      if (document.getElementById(main.state) != null) window[current_id].destroy()
+      if (document.getElementById(main.state) != null)
+        window[current_id].destroy();
       session.clear();
       login.init();
     },
@@ -34,14 +35,34 @@ window.main = {
         success: function () {
           session.load_account({
             success: function () {
-              main.events.home();
-            }
+              translate.init(
+                {
+                  success: function () {
+                    main.events.home();
+                  },
+                  error: function (error) {
+                    console.log(error);
+                  },
+                },
+                translate.getLanguage()
+              );
+            },
           });
         },
         error: function (error) {
           console.log(error);
           loading.destroy();
-          login.init();
+          translate.init(
+            {
+              success: function () {
+                login.init();
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            },
+            translate.getLanguage()
+          );
         },
       });
     },
@@ -71,9 +92,9 @@ window.main = {
     player.destroy();
   },
 
-  log: function(text) {
-    $('#console').html($('#console').html() + `${text}<br/>`);
-    $('#console').scrollTop(3000000);
+  log: function (text) {
+    $("#console").html($("#console").html() + `${text}<br/>`);
+    $("#console").scrollTop(3000000);
   },
 
   /* on key press */

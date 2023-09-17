@@ -1,29 +1,67 @@
 window.translate = {
-  langs: ["en", "es", "pt"],
   lang: "en",
 
-  init: function (lang) {
-    translate.langs.forEach((langFile) => {
-      fetch(`server/translate/${langFile}.json`)
-        .then((response) => response.json())
-        .then((json) => {
-          translate.add(langFile, json);
-          translate.lang = lang || translate.lang;
-          var elements = document.querySelectorAll("[translate]");
-          elements.forEach(
-            (element) => (element.innerText = translate.go(element.innerText))
-          );
-        });
-    });
+  init: function (callback, lang) {
+    translate.lang = lang || translate.lang;
+    fetch(`server/translate/${translate.lang}.json`)
+      .then((response) => response.json())
+      .then((json) => {
+        translate.add(translate.lang, json);
+        callback.success();
+      })
+      .catch((error) => {
+        if (translate.lang !== "en") {
+          translate.init(callback, "en");
+        } else {
+          callback.error(error);
+        }
+      });
   },
 
-  go: function (key) {
-    return translate[translate.lang]
-      ? translate[translate.lang][key] || key
-      : key;
+  refresh: function () {
+    var elements = document.querySelectorAll("[translate]");
+    elements.forEach(
+      (element) => (element.innerText = translate.go(element.innerText))
+    );
+  },
+
+  go: function (key, params) {
+    var keys = key.split(".");
+    var text = key;
+    try {
+      var text = keys.reduce((obj, i) => obj[i], translate[translate.lang]);
+      text = params ? translate.withParams(text, params) : text;
+    } catch (error) {}
+    return text || key;
   },
 
   add: function (lang, dictonary) {
     translate[lang] = translate[lang] || dictonary;
+  },
+
+  withParams: function (message, params) {
+    return Object.keys(params).reduce(
+      (param, key) =>
+        param.replace(new RegExp(`{\s*${key}\s*}`, "g"), params[key]),
+      message
+    );
+  },
+
+  getLanguage: function () {
+    var lang = translate.lang;
+
+    try {
+      lang = navigator.language.split("-")[0];
+    } catch (error) {
+      console.log("lang from navigator fail");
+    }
+
+    try {
+      lang = session.storage.account.language.split("-")[0];
+    } catch (error) {
+      console.log("lang from session fail");
+    }
+
+    return lang;
   },
 };

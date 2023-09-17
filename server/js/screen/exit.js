@@ -12,10 +12,10 @@ window.exit = {
     exit_element.innerHTML =
       '<div class="content">' +
       '  <div class="window">' +
-      `    <div class="text">Do you want to ${exit.logout ? "logout and" : ""} exit the application?</div>` +
+      `    <div class="text">${translate.go(`exit.message${exit.logout ? "_logout" : ""}`)}` +
       '    <div class="buttons">' +
-      '      <div class="button" id="exit-screen-yes">YES</div>' +
-      '      <div class="button" id="exit-screen-no">NO</div>' +
+      `      <div class="button" id="exit-screen-yes">${translate.go('exit.yes')}</div>` +
+      `      <div class="button" id="exit-screen-no">${translate.go('exit.no')}</div>` +
       "    </div>" +
       "  </div>" +
       "</div>";
@@ -24,7 +24,6 @@ window.exit = {
     exit.previous = main.state;
     main.state = exit.id;
     exit.move(false);
-    //translate.init();
   },
 
   destroy: function () {
@@ -36,11 +35,9 @@ window.exit = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case 27:
-        //widgetAPI.blockNavigation(event);
         exit.destroy();
         break;
       case tvKey.KEY_EXIT:
-        //widgetAPI.blockNavigation(event);
         exit.destroy();
         break;
       case tvKey.KEY_LEFT:
@@ -72,7 +69,6 @@ window.exit = {
         session.clear();
       }
       tizen.application.getCurrentApplication().exit();
-      //widgetAPI.sendExitEvent();
     } else {
       exit.destroy();
     }
