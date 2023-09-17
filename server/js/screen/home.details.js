@@ -19,20 +19,20 @@ window.home_details = {
     buttons.innerHTML = `
     <a class="selected">
       <i class="fa-solid fa-play"></i>
-      <p>Play: S1 E1</p>
+      <p>${translate.go("home.details.play", { season: 1, episode: 1 })}</p>
       <span></span>
     </a>
     <a>
       <i class="fa-solid fa-bookmark"></i>
-      <p>Add to my list</p>
+      <p>${translate.go("home.details.add")}</p>
     </a>
     <a>
       <i class="fa-solid fa-list"></i>
-      <p>Episodes</p>
+      <p>${translate.go("home.details.episodes")}</p>
     </a>
     <a>
       <i class="fa-solid fa-clone"></i>
-      <p>Related content</p>
+      <p>${translate.go("home.details.related")}</p>
     </a>`;
 
     home_details.data.this = item;
@@ -48,13 +48,19 @@ window.home_details = {
           .eq(0)
           .addClass(`${home_details.data.continue.played > 0 ? "played" : ""}`)
           .attr("percent", home_details.data.continue.played);
+
+        var text = translate.go(
+          `home.details.${
+            home_details.data.continue.played > 0 ? "continue" : "play"
+          }`,
+          {
+            season: home_details.data.continue.season_number,
+            episode: home_details.data.continue.episode_number,
+          }
+        );
         $(`.${home_details.id}.${home_details.id}_buttons a p`)
           .eq(0)
-          .text(
-            `${home_details.data.continue.played > 0 ? "Continue" : "Play"}: T${
-              home_details.data.continue.season_number
-            } E${home_details.data.continue.episode_number}`
-          );
+          .text(text);
         $(`.${home_details.id}.${home_details.id}_buttons a span`)
           .eq(0)
           .width(home_details.data.continue.played + "%");

@@ -1,0 +1,48 @@
+{
+  "login": {
+    "username": "Nhập tên người dùng hoặc email...",
+    "password": "Nhập mật khẩu...",
+    "enter": "ĐĂNG NHẬP"
+  },
+  "menu": {
+    "search": "Tìm kiếm",
+    "home": "Trang chủ",
+    "list": "Danh sách của tôi",
+    "history": "Lịch sử",
+    "browse": "Duyệt",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất"
+  },
+  "home": {
+    "banner": {
+      "play": "Phát",
+      "info": "Thêm thông tin"
+    },
+    "details": {
+      "play": "Phát: S{season} T{episode}",
+      "continue": "Tiếp tục: S{season} T{episode}",
+      "add": "Thêm vào danh sách của tôi",
+      "episodes": "Tập phim",
+      "related": "Nội dung liên quan"
+    },
+    "episodes": {
+      "watched": "Đã xem"
+    }
+  },
+  "exit": {
+    "message": "Bạn có muốn thoát khỏi ứng dụng không?",
+    "message_logout": "Bạn có muốn đăng xuất và thoát khỏi ứng dụng không?",
+    "no": "KHÔNG",
+    "yes": "CÓ"
+  },
+  "search": {
+    "placeholder": "Tìm kiếm..."
+  },
+  "video": {
+    "skip": "BỎ QUA GIỚI THIỆU",
+    "languages": {
+      "audios": "Âm thanh",
+      "subtitles": "Phụ đề"
+    }
+  }
+}

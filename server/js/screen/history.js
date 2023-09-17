@@ -51,7 +51,7 @@ window.historyScreen = {
           (item.playhead * 100) / item.duration
         }%" value="${
           item.duration === item.playhead
-            ? "Watched"
+            ? translate.go('home.episodes.watched')
             : item.duration - item.playhead + "m"
         }"></div>`
       : "";
@@ -131,8 +131,8 @@ window.historyScreen = {
                   <div class="title resize">${item.title}</div>
                   <div class="description resize">${item.description}</div>
                   <div class="buttons">
-                    <a class="selected">Play</a>
-                    <a>More information</a>
+                    <a class="selected">${translate.go('home.banner.play')}</a>
+                    <a>${translate.go('home.banner.info')}</a>
                   </div>
                 </div>
               </div>

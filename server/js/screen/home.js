@@ -43,8 +43,8 @@ window.home = {
             home.data.main.banner.description
           }</div>
           <div class="buttons">
-            <a class="selected">Play</a>
-            <a>More information</a>
+            <a class="selected">${translate.go('home.banner.play')}</a>
+            <a>${translate.go('home.banner.info')}</a>
           </div>
         </div>
       </div>

@@ -122,7 +122,7 @@ window.home_episodes = {
           (episode.playhead * 100) / episode.duration
         }%" value="${
           episode.duration === episode.playhead
-            ? "Watched"
+            ? translate.go('home.episodes.watched')
             : episode.duration - episode.playhead + "m"
         }"></div>`
       : "";

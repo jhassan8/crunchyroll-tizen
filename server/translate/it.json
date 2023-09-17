@@ -1,0 +1,48 @@
+{
+  "login": {
+    "username": "Inserisci nome utente o email...",
+    "password": "Inserisci password...",
+    "enter": "ACCEDI"
+  },
+  "menu": {
+    "search": "Cerca",
+    "home": "Home",
+    "list": "La mia lista",
+    "history": "Cronologia",
+    "browse": "Esplora",
+    "settings": "Impostazioni",
+    "logout": "Esci"
+  },
+  "home": {
+    "banner": {
+      "play": "Riproduci",
+      "info": "Maggiori informazioni"
+    },
+    "details": {
+      "play": "Riproduci: S{season} E{episode}",
+      "continue": "Continua: S{season} E{episode}",
+      "add": "Aggiungi alla mia lista",
+      "episodes": "Episodi",
+      "related": "Contenuti correlati"
+    },
+    "episodes": {
+      "watched": "Visti"
+    }
+  },
+  "exit": {
+    "message": "Vuoi uscire dall'applicazione?",
+    "message_logout": "Vuoi effettuare il logout ed uscire dall'applicazione?",
+    "no": "NO",
+    "yes": "SI"
+  },
+  "search": {
+    "placeholder": "Cerca..."
+  },
+  "video": {
+    "skip": "SALTA INTRO",
+    "languages": {
+      "audios": "Tracce audio",
+      "subtitles": "Sottotitoli"
+    }
+  }
+}

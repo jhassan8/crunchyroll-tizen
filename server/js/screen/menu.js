@@ -3,33 +3,33 @@ window.menu = {
   options: [
     {
       id: "search",
-      label: "Search",
+      label: "menu.search",
       icon: "fa-solid fa-magnifying-glass",
       action: "search.init",
     },
     {
       id: "home",
-      label: "Home",
+      label: "menu.home",
       icon: "fa-solid fa-house",
       action: "home.restart",
     },
-    { id: "list", label: "My list", icon: "fa-solid fa-bookmark" },
+    { id: "list", label: "menu.list", icon: "fa-solid fa-bookmark" },
     {
       id: "historyScreen",
-      label: "History",
+      label: "menu.history",
       icon: "fa-solid fa-clock-rotate-left",
       action: "historyScreen.init",
     },
     {
       id: "browse",
-      label: "Browse",
+      label: "menu.browse",
       icon: "fa-regular fa-rectangle-list",
       action: "browse.init",
     },
-    { id: "settings", label: "Settings", icon: "fa-solid fa-gear", tool: true },
+    { id: "settings", label: "menu.settings", icon: "fa-solid fa-gear", tool: true },
     {
       id: "logout",
-      label: "Logout",
+      label: "menu.logout",
       icon: "fa-solid fa-sign-out",
       tool: true,
       event: "logout",
@@ -51,13 +51,13 @@ window.menu = {
         tool_options += `
         <a class="option ${index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
-          <p>${element.label}</p>
+          <p>${translate.go(element.label)}</p>
         </a>`;
       } else {
         menu_options += `
         <a class="option ${index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
-          <p>${element.label}</p>
+          <p>${translate.go(element.label)}</p>
         </a>`;
       }
     });

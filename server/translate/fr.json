@@ -1,0 +1,48 @@
+{
+  "login": {
+    "username": "Entrez le nom d'utilisateur ou email...",
+    "password": "Entrez le mot de passe...",
+    "enter": "CONNEXION"
+  },
+  "menu": {
+    "search": "Rechercher",
+    "home": "Accueil",
+    "list": "Ma liste",
+    "history": "Historique",
+    "browse": "Explorer",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
+  "home": {
+    "banner": {
+      "play": "Lire",
+      "info": "Plus d'informations"
+    },
+    "details": {
+      "play": "Lire : S{saison} E{episode}",
+      "continue": "Continuer : S{saison} E{episode}",
+      "add": "Ajouter à ma liste",
+      "episodes": "Épisodes",
+      "related": "Contenu connexe"
+    },
+    "episodes": {
+      "watched": "Vu"
+    }
+  },
+  "exit": {
+    "message": "Voulez-vous quitter l'application?",
+    "message_logout": "Voulez-vous vous déconnecter et quitter l'application?",
+    "no": "NON",
+    "yes": "OUI"
+  },
+  "search": {
+    "placeholder": "Rechercher..."
+  },
+  "video": {
+    "skip": "SAUTER L'INTRODUCTION",
+    "languages": {
+      "audios": "Audios",
+      "subtitles": "Sous-titres"
+    }
+  }
+}
