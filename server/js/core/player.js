@@ -16,6 +16,7 @@ window.player = {
   plugin: NaN,
   video: NaN,
   duration: 0,
+  thumbnails: [],
 
   getVideo: function () {
     if (!player.video) {
@@ -27,8 +28,8 @@ window.player = {
   config: function (timeFunction, endFunction) {
     player.getVideo().addEventListener("timeupdate", timeFunction);
     player.getVideo().addEventListener("ended", endFunction);
-    player.getVideo().addEventListener('waiting', player.onbufferingstart);
-    player.getVideo().addEventListener('playing', player.onbufferingcomplete);
+    player.getVideo().addEventListener("waiting", player.onbufferingstart);
+    player.getVideo().addEventListener("playing", player.onbufferingcomplete);
   },
 
   getPlayed: function () {
@@ -54,6 +55,67 @@ window.player = {
       player.getVideo().play();
       player.state = player.states.PLAYING;
     }
+    setTimeout(() => {
+      player.preview.generate();
+    }, 200);
+  },
+
+  preview: {
+    generate: function () {
+      player.thumbnails = [];
+      var url = player.plugin.url;
+      var videoHidden = document.getElementById("videohidden");
+      var pluginHidden = new Hls();
+      pluginHidden.loadSource(url);
+      pluginHidden.attachMedia(videoHidden);
+      pluginHidden.currentLevel = 0;
+      videoHidden.pause();
+
+      var thumbnailWidth = 158;
+      var thumbnailHeight = 90;
+      var canvas;
+
+      function generateThumbnail(i, callback) {
+        canvas = document.createElement("canvas");
+        canvas.width = thumbnailWidth;
+        canvas.height = thumbnailHeight;
+        var context = canvas.getContext("2d");
+        videoHidden.currentTime = i;
+
+        var event = function () {
+          context.drawImage(videoHidden, 0, 0, thumbnailWidth, thumbnailHeight);
+
+          player.thumbnails.push({
+            id: i,
+            data: canvas.toDataURL("image/jpeg"),
+          });
+
+          videoHidden.removeEventListener("canplay", event);
+          callback();
+        };
+
+        videoHidden.addEventListener("canplay", event);
+      }
+
+      function generateThumbnailsSequentially(i) {
+        if (i <= player.getDuration()) {
+          generateThumbnail(i, function () {
+            generateThumbnailsSequentially(i + 10);
+          });
+        }
+      }
+
+      generateThumbnailsSequentially(0);
+    },
+
+    get: function (time) {
+      for (var item of player.thumbnails) {
+        if (time >= item.id && time < item.id + 10) {
+          $("#preview").attr("src", item.data);
+          return;
+        }
+      }
+    },
   },
 
   pause: function () {
@@ -80,7 +142,7 @@ window.player = {
     player.pause();
     clearTimeout(player.timers.forward_rewind);
     video.showBTN("rewind");
-    player.values.forward_rewind -= player.getDuration() * 0.01;
+    player.values.forward_rewind -= 10;
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
@@ -97,12 +159,12 @@ window.player = {
     player.pause();
     clearTimeout(player.timers.forward_rewind);
     video.showBTN("forward");
-    player.values.forward_rewind += player.getDuration() * 0.01;
+    player.values.forward_rewind += 10;
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
         player.values.forward_rewind + player.getPlayed() >
-        player.getDuration() - player.getDuration() * 0.02
+        player.getDuration() - 10
           ? player.getPlayed()
           : player.values.forward_rewind + player.getPlayed();
       player.values.forward_rewind = 0;

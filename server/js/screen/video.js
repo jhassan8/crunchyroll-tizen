@@ -84,6 +84,7 @@ window.video = {
     video_element.innerHTML = `
     <div class="content">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+      <video id="videohidden" style="display:none;"></video>
       <video id="videoplayer" style="width:100%; height:100%;"></video>
       <div class="osd" id="osd">
         <div class="player-settings">
@@ -581,6 +582,14 @@ window.video = {
 
   setPlayingTime: function () {
     var time = player.getPlayed() + player.values.forward_rewind;
+
+    if (player.values.forward_rewind != 0) {
+      player.preview.get(Math.round(time))
+      $('.preview').show();
+    } else {
+      $('.preview').hide();
+    }
+
     time = time < 0 ? 0 : time;
     var totalTime = player.getDuration();
     var timePercent = (100 * time) / totalTime;
