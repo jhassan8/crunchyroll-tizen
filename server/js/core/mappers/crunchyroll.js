@@ -34,81 +34,12 @@ window.mapper = {
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          home.data.main.lists[on].items = test.data.map((item) => {
-            var title,
-              description,
-              background,
-              poster,
-              display,
-              playhead,
-              duration,
-              type;
-            if (item.panel || item.type === "episode") {
-              if (item.panel && item.panel.movie_metadata) {
-                debugger;
-                type = item.panel.type;
-                display = "episode";
-                id = item.panel.id;
-                playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
-                duration = Math.round(
-                  item.panel.movie_metadata.duration_ms / 60000
-                );
-                title = item.panel.title;
-                description = item.panel.description;
-                background = mapper.preventImageErrorTest(function () {
-                  return item.panel.images.thumbnail[0][4].source;
-                }, id);
-              } else {
-                type = item.type;
-                display = "episode";
-                id = item.panel
-                  ? item.panel.episode_metadata.series_id
-                  : item.id;
-                playhead = item.playhead ? Math.round(item.playhead / 60) : 0;
-                duration = Math.round(
-                  (item.panel
-                    ? item.panel.episode_metadata.duration_ms
-                    : item.episode_metadata.duration_ms) / 60000
-                );
-                title = item.panel
-                  ? item.panel.episode_metadata.series_title
-                  : item.title;
-                description = item.panel ? item.panel.title : item.description;
-                background = mapper.preventImageErrorTest(function () {
-                  return item.panel
-                    ? item.panel.images.thumbnail[0][4].source
-                    : item.images.thumbnail[0][4].source;
-                }, id);
-              }
-            } else {
-              type = item.type;
-              display = "serie";
-              id = item.id;
-              title = item.title;
-              description = item.description;
-              background = mapper.preventImageErrorTest(function () {
-                return item.images.poster_wide[0][5].source;
-              }, id);
-              poster = mapper.preventImageErrorTest(function () {
-                return item.images.poster_tall[0][2].source;
-              }, id);
-            }
-
-            return {
-              id,
-              type,
-              display,
-              title,
-              description,
-              background,
-              poster,
-              duration,
-              playhead,
-            };
-          });
+          home.data.main.lists[on].items = mapper.mapItems(test.data);
           mapper.loaded++;
-          if(mapper.loaded === lists.length) {
-            home.data.main.lists = home.data.main.lists.filter(e => e.items.length > 0);
+          if (mapper.loaded === lists.length) {
+            home.data.main.lists = home.data.main.lists.filter(
+              (e) => e.items.length > 0
+            );
             callback.success();
           }
         },
@@ -157,7 +88,7 @@ window.mapper = {
       description: item.panel.description,
       background: mapper.preventImageErrorTest(function () {
         return item.panel.images.thumbnail[0][4].source;
-      }, id),
+      }, item.panel.id),
       watched: !item.never_watched,
       playhead: Math.round(item.playhead / 60),
       duration: Math.round(item.panel.episode_metadata.duration_ms / 60000),
@@ -316,7 +247,9 @@ window.mapper = {
             );
             mapper.loadedSubcategories++;
             if (mapper.loadedSubcategories === subcategories.length) {
-              home.data.main.lists = home.data.main.lists.filter(e => e.items.length > 0);
+              home.data.main.lists = home.data.main.lists.filter(
+                (e) => e.items.length > 0
+              );
               home.data.main.banner =
                 home.data.main.lists[listPosition].items[0];
               callback.success();
@@ -331,15 +264,49 @@ window.mapper = {
   },
 
   mapItems: function (items) {
-    return items.map((item) => ({
-      background: item.images.poster_wide[0][4].source,
-      description: item.description,
-      poster: item.images.poster_tall[0][2].source,
-      display: "serie",
-      id: item.id,
-      type: item.type,
-      title: item.title,
-    }));
+    try {
+      return items.map((item) => {
+        var playhead = item.playhead
+          ? Math.round(item.playhead / 60)
+          : undefined;
+        item = item.panel ? item.panel : item;
+        var id = item.id;
+        var display = "serie";
+        var title = item.title;
+
+        if (item.type === "episode") {
+          id = item.episode_metadata.series_id;
+          var duration = Math.round(item.episode_metadata.duration_ms / 60000);
+          display = "episode";
+          title = item.episode_metadata.series_title;
+          var background = item.images.thumbnail[0][4].source;
+          var poster = undefined;
+        } else if (item.type == "movie") {
+          var duration = Math.round(item.movie_metadata.duration_ms / 60000);
+          display = "episode";
+          var background = item.images.thumbnail[0][4].source;
+          var poster = undefined;
+        } else {
+          var background = item.images.poster_wide[0][4].source;
+          var poster = item.images.poster_tall[0][2].source;
+        }
+
+        return {
+          id,
+          display,
+          duration,
+          playhead,
+          background,
+          poster,
+          title,
+          description: item.description,
+          type: item.type,
+        };
+      });
+    } catch (error) {
+      console.log("CRITICAL: error on map element.");
+      return [];
+    }
   },
 
   loadCategoryListAsync: function (categories, offset, size, index, callback) {

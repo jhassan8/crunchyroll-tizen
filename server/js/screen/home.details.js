@@ -36,42 +36,62 @@ window.home_details = {
     </a>`;
 
     home_details.data.this = item;
-    loading.start();
-    service.continue({
-      data: {
-        ids: item.id,
-      },
-      success: function (response) {
-        loading.end();
-        home_details.data.continue = mapper.continue(response);
-        $(`.${home_details.id}.${home_details.id}_buttons a`)
-          .eq(0)
-          .addClass(`${home_details.data.continue.played > 0 ? "played" : ""}`)
-          .attr("percent", home_details.data.continue.played);
-
-        var text = translate.go(
-          `home.details.${
-            home_details.data.continue.played > 0 ? "continue" : "play"
-          }`,
-          {
-            season: home_details.data.continue.season_number,
-            episode: home_details.data.continue.episode_number,
-          }
-        );
-        $(`.${home_details.id}.${home_details.id}_buttons a p`)
-          .eq(0)
-          .text(text);
-        $(`.${home_details.id}.${home_details.id}_buttons a span`)
-          .eq(0)
-          .width(home_details.data.continue.played + "%");
-      },
-      error: function (error) {
-        loading.end();
-        console.log(error);
-      },
-    });
-
     $(`#${home.id} .details .info`).append(buttons);
+
+    if (item.type === "movie") {
+      $(`.${home_details.id}.${home_details.id}_buttons a`).eq(2).remove();
+      $(`.${home_details.id}.${home_details.id}_buttons a`)
+        .eq(0)
+        .addClass(`${item.playhead > 0 ? "played" : ""}`)
+        .attr("percent", (item.playhead * 100) / item.duration);
+
+      var text = translate.go(
+        `home.details.${item.playhead > 0 ? "continue" : "play"}`,
+        { season: 0, episode: 0 }
+      );
+      $(`.${home_details.id}.${home_details.id}_buttons a p`).eq(0).text(text);
+      $(`.${home_details.id}.${home_details.id}_buttons a span`)
+        .eq(0)
+        .width((item.playhead * 100) / item.duration + "%");
+    } else {
+      loading.start();
+      service.continue({
+        data: {
+          ids: item.id,
+        },
+        success: function (response) {
+          loading.end();
+          home_details.data.continue = mapper.continue(response);
+          $(`.${home_details.id}.${home_details.id}_buttons a`)
+            .eq(0)
+            .addClass(
+              `${home_details.data.continue.played > 0 ? "played" : ""}`
+            )
+            .attr("percent", home_details.data.continue.played);
+
+          var text = translate.go(
+            `home.details.${
+              home_details.data.continue.played > 0 ? "continue" : "play"
+            }`,
+            {
+              season: home_details.data.continue.season_number,
+              episode: home_details.data.continue.episode_number,
+            }
+          );
+          $(`.${home_details.id}.${home_details.id}_buttons a p`)
+            .eq(0)
+            .text(text);
+          $(`.${home_details.id}.${home_details.id}_buttons a span`)
+            .eq(0)
+            .width(home_details.data.continue.played + "%");
+        },
+        error: function (error) {
+          loading.end();
+          console.log(error);
+        },
+      });
+    }
+
     $(`#${home.id} .details`).addClass("full");
     $(`body`).addClass(`${home_details.id}`);
 

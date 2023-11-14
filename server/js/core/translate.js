@@ -48,20 +48,18 @@ window.translate = {
   },
 
   getLanguage: function () {
-    var lang = translate.lang;
-
-    try {
-      lang = navigator.language.split("-")[0];
-    } catch (error) {
-      console.log("lang from navigator fail");
+    if (session.storage.language && session.storage.language.includes("-")) {
+      translate.updateLanguage(session.storage.language);
+    } else {
+      translate.updateLanguage("en-US");
     }
 
-    try {
-      lang = session.storage.account.language.split("-")[0];
-    } catch (error) {
-      console.log("lang from session fail");
-    }
+    return translate.lang;
+  },
 
-    return lang;
+  updateLanguage: function (lang) {
+    translate.lang = lang.split("-")[0];
+    session.storage.language = lang;
+    session.update();
   },
 };
