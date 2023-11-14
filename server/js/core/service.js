@@ -93,7 +93,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/content/v2/discover/${storage.id}/home_feed?start=0&n=100&locale=${storage.account.language}`,
+          `${service.api.url}/content/v2/discover/${storage.id}/home_feed?start=0&n=100&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             headers: headers,
           }
@@ -113,7 +113,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/content/v2/discover/up_next/${request.data.ids}?locale=${storage.account.language}`,
+          `${service.api.url}/content/v2/discover/up_next/${request.data.ids}?locale=${storage.language}&preferred_audio_language=${storage.account.audio}`,
           {
             headers: headers,
           }
@@ -133,7 +133,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/content/v2/${storage.id}/playheads?content_ids=${request.data.ids}&locale=${storage.account.language}`,
+          `${service.api.url}/content/v2/${storage.id}/playheads?content_ids=${request.data.ids}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             headers: headers,
           }
@@ -152,7 +152,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/cms/v2${storage.cookies.bucket}/seasons?series_id=${request.data.id}&locale=${storage.account.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+          `${service.api.url}/cms/v2${storage.cookies.bucket}/seasons?series_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
             headers: headers,
           }
@@ -174,7 +174,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&locale=${storage.account.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+          `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
             headers: headers,
           }
@@ -218,7 +218,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         fetch(
-          `${service.api.url}/content/v2/discover/search?q=${request.data.query}&type=series,movie_listing&n=100&locale=${storage.account.language}`,
+          `${service.api.url}/content/v2/discover/search?q=${request.data.query}&type=series,movie_listing&n=100&locale=${storage.language}`,
           {
             headers: headers,
           }
@@ -237,7 +237,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         fetch(
-          `${service.api.url}/content/v2/${storage.id}/watch-history?page_size=100&preferred_audio_language=${storage.account.language}&locale=${storage.account.language}`,
+          `${service.api.url}/content/v2/${storage.id}/watch-history?page_size=100&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             headers: headers,
           }
@@ -256,7 +256,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/json");
         fetch(
-          `${service.api.url}/content/v2/${storage.id}/playheads?preferred_audio_language=${storage.account.language}&locale=${storage.account.language}`,
+          `${service.api.url}/content/v2/${storage.id}/playheads?preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             method: "POST",
             headers: headers,
@@ -293,7 +293,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         fetch(
-          `${service.api.url}/content/v1/tenant_categories?include_subcategories=true&locale=${storage.account.language}`,
+          `${service.api.url}/content/v1/tenant_categories?include_subcategories=true&locale=${storage.language}`,
           {
             headers: headers,
           }

@@ -47,6 +47,9 @@ window.main = {
                 translate.getLanguage()
               );
             },
+            error: function(error) {
+              console.log('load_account', error)
+            }
           });
         },
         error: function (error) {

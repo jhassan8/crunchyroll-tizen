@@ -14,12 +14,14 @@ window.session = {
   },
   storage: {
     version: NaN,
+    language: NaN,
     account: {
       password: NaN,
       username: NaN,
       avatar: "0001-cr-white-orange.png",
       premium: false,
       language: NaN,
+      audio: NaN,
     },
     cookies: {
       bucket: NaN,
@@ -144,13 +146,15 @@ window.session = {
   load_account: function (callback) {
     service.profile({
       success: function (response) {
+        session.storage.account.audio =
+          response.preferred_content_audio_language;
         session.storage.account.language =
           response.preferred_content_subtitle_language;
         session.storage.account.avatar = response.avatar;
         session.update();
         callback.success();
       },
-      error: callback.error
+      error: callback.error,
     });
 
     session.cookies({
