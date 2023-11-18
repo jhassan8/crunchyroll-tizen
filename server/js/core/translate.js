@@ -1,21 +1,12 @@
 window.translate = {
   lang: "en",
 
-  init: function (callback, lang) {
-    translate.lang = lang || translate.lang;
-    fetch(`server/translate/${translate.lang}.json`)
-      .then((response) => response.json())
-      .then((json) => {
-        translate.add(translate.lang, json);
-        callback.success();
-      })
-      .catch((error) => {
-        if (translate.lang !== "en") {
-          translate.init(callback, "en");
-        } else {
-          callback.error(error);
-        }
-      });
+  init: function () {
+    if (session.storage.language && session.storage.language.includes("-")) {
+      translate.updateLanguage(session.storage.language);
+    } else {
+      translate.updateLanguage("en-US");
+    }
   },
 
   refresh: function () {
@@ -29,14 +20,13 @@ window.translate = {
     var keys = key.split(".");
     var text = key;
     try {
-      var text = keys.reduce((obj, i) => obj[i], translate[translate.lang]);
+      var text = keys.reduce(
+        (obj, i) => obj[i],
+        translate.languages[translate.lang]
+      );
       text = params ? translate.withParams(text, params) : text;
     } catch (error) {}
     return text || key;
-  },
-
-  add: function (lang, dictonary) {
-    translate[lang] = translate[lang] || dictonary;
   },
 
   withParams: function (message, params) {
@@ -45,16 +35,6 @@ window.translate = {
         param.replace(new RegExp(`{\s*${key}\s*}`, "g"), params[key]),
       message
     );
-  },
-
-  getLanguage: function () {
-    if (session.storage.language && session.storage.language.includes("-")) {
-      translate.updateLanguage(session.storage.language);
-    } else {
-      translate.updateLanguage("en-US");
-    }
-
-    return translate.lang;
   },
 
   updateLanguage: function (lang) {

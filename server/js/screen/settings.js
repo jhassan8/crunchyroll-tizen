@@ -60,9 +60,11 @@ window.settings = {
       </div>`;
 
     document.body.appendChild(settings_element);
+    settings.details.show(settings.options[0]);
   },
 
   destroy: function () {
+    settings.isDetails = false;
     document.body.removeChild(document.getElementById(settings.id));
   },
 
@@ -115,13 +117,15 @@ window.settings = {
         }
         break;
       case tvKey.KEY_RIGHT:
-        var options = $(`.options li`);
-        var current = options.index($(`.options li.selected`));
-        options.removeClass("selected");
-        options.eq(current).addClass("active");
+        if (!settings.isDetails) {
+          var options = $(`.options li`);
+          var current = options.index($(`.options li.selected`));
+          options.removeClass("selected");
+          options.eq(current).addClass("active");
 
-        settings.isDetails = true;
-        settings.details[settings.options[current].type].move(0);
+          settings.isDetails = true;
+          settings.details[settings.options[current].type].move(0);
+        }
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
@@ -150,17 +154,13 @@ window.settings = {
   },
 
   resetLang: function () {
-    translate.init({
-      success: function () {
-        var options = $(`.options li`);
-        var current = options.index($(`.options li.active`));
+    var options = $(`.options li`);
+    var current = options.index($(`.options li.active`));
 
-        $("#settings-menu").html(settings.generateMenu(current));
+    $("#settings-menu").html(settings.generateMenu(current));
 
-        menu.destroy();
-        menu.init(true);
-      },
-    });
+    menu.destroy();
+    menu.init(true);
   },
 
   details: {
