@@ -44,5 +44,15 @@
       "audios": "Audio",
       "subtitles": "Sarikata"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Bahasa Aplikasi",
+      "audio_lang": "Bahasa Audio",
+      "subtitle_lang": "Bahasa Sarikata",
+      "video_quality": "Kualiti Video",
+      "mature": "Kandungan Dewasa",
+      "about": "Mengenai"
+    }
   }
 }

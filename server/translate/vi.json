@@ -44,5 +44,15 @@
       "audios": "Âm thanh",
       "subtitles": "Phụ đề"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Ngôn ngữ ứng dụng",
+      "audio_lang": "Ngôn ngữ âm thanh",
+      "subtitle_lang": "Ngôn ngữ phụ đề",
+      "video_quality": "Chất lượng video",
+      "mature": "Nội dung dành cho người trưởng thành",
+      "about": "Về ứng dụng"
+    }
   }
 }

@@ -44,5 +44,15 @@
       "audios": "ऑडियो",
       "subtitles": "उपशीर्षक"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "एप्लिकेशन भाषा",
+      "audio_lang": "ऑडियो भाषा",
+      "subtitle_lang": "सबटाइटल भाषा",
+      "video_quality": "वीडियो गुणवत्ता",
+      "mature": "परिपक्व सामग्री",
+      "about": "के बारे में"
+    }
   }
 }

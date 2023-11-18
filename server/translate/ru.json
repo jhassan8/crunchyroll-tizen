@@ -44,5 +44,15 @@
       "audios": "Звук",
       "subtitles": "Субтитры"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Язык приложения",
+      "audio_lang": "Язык аудио",
+      "subtitle_lang": "Язык субтитров",
+      "video_quality": "Качество видео",
+      "mature": "Контент для взрослых",
+      "about": "О приложении"
+    }
   }
 }

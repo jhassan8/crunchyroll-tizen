@@ -44,5 +44,15 @@
       "audios": "Audio",
       "subtitles": "Subtitle"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Bahasa Aplikasi",
+      "audio_lang": "Bahasa Audio",
+      "subtitle_lang": "Bahasa Subjudul",
+      "video_quality": "Kualitas Video",
+      "mature": "Konten Dewasa",
+      "about": "Tentang"
+    }
   }
 }

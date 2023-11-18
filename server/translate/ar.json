@@ -44,5 +44,15 @@
       "audios": "الصوت",
       "subtitles": "الترجمة"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "لغة التطبيق",
+      "audio_lang": "لغة الصوت",
+      "subtitle_lang": "لغة الترجمة",
+      "video_quality": "جودة الفيديو",
+      "mature": "محتوى للبالغين",
+      "about": "حول"
+    }
   }
 }

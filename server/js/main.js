@@ -152,6 +152,9 @@ window.main = {
           case video.id:
             video.keyDown(event);
             break;
+          case settings.id:
+            settings.keyDown(event);
+            break;
           default:
             console.log("keyboard action screen not defined.");
             break;

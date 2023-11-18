@@ -44,5 +44,15 @@
       "audios": "Áudios",
       "subtitles": "Legendas"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Idioma da aplicação",
+      "audio_lang": "Idioma do áudio",
+      "subtitle_lang": "Idioma das legendas",
+      "video_quality": "Qualidade do vídeo",
+      "mature": "Conteúdo adulto",
+      "about": "Sobre"
+    }
   }
 }

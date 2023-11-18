@@ -44,5 +44,15 @@
       "audios": "Àudios",
       "subtitles": "Subtítols"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Idioma de l'aplicació",
+      "audio_lang": "Idioma de l'àudio",
+      "subtitle_lang": "Idioma dels subtítols",
+      "video_quality": "Qualitat del vídeo",
+      "mature": "Contingut per a adults",
+      "about": "Sobre"
+    }
   }
 }

@@ -120,14 +120,14 @@ window.video = {
 
       <div id="skip-intro">
         <i class="fa-solid fa-forward"></i>
-        ${translate.go('video.skip')}
+        ${translate.go("video.skip")}
       </div>
 
       <div class="settings-slide">
         <div id="languages-content">
-          <div class="title">${translate.go('video.languages.audios')}</div>
+          <div class="title">${translate.go("video.languages.audios")}</div>
           <ul id="audios"></ul>
-          <div class="title">${translate.go('video.languages.subtitles')}</div>
+          <div class="title">${translate.go("video.languages.subtitles")}</div>
           <ul id="subtitles"></ul>
         </div>
       </div>
@@ -436,7 +436,7 @@ window.video = {
     video.audios.forEach((element, index) => {
       audios += `<li class="option${
         element.name === video.audio ? " active selected" : ""
-      }">${session.languages[element.name]}</li>`;
+      }">${session.languages.audios[element.name]}</li>`;
     });
 
     document.getElementById("audios").innerHTML = audios;
@@ -461,7 +461,7 @@ window.video = {
     video.subtitles.forEach((element) => {
       subtitles += `<li class="option${
         element.name === video.subtitle ? " active" : ""
-      }">${session.languages[element.name]}</li>`;
+      }">${session.languages.subtitles[element.name]}</li>`;
     });
 
     document.getElementById("subtitles").innerHTML = subtitles;

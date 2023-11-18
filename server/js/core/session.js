@@ -1,20 +1,12 @@
 window.session = {
-  languages: {},
-  info: {
-    id: undefined,
-    device: undefined,
-    password: undefined,
-    username: undefined,
-    expires: undefined,
-    premium: undefined,
-    settings: {
-      quality: "auto",
-      subtitles: "N/A",
-    },
+  languages: {
+    audios: {},
+    subtitles: {},
   },
   storage: {
     version: NaN,
     language: NaN,
+    quality: "-1",
     account: {
       password: NaN,
       username: NaN,
@@ -40,10 +32,21 @@ window.session = {
 
   init: function () {
     service.languages({
+      data: { type: "audio" },
       success: function (response) {
-        session.languages = response;
-        session.languages["ja-JP"] = "Japanese";
-        session.languages[""] = "Disabled";
+        session.languages.audios = response;
+        session.languages.audios["ja-JP"] = "Japanese";
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+
+    service.languages({
+      data: { type: "subtitle" },
+      success: function (response) {
+        session.languages.subtitles = response;
+        session.languages.subtitles[""] = "Disabled";
       },
       error: function (error) {
         console.log(error);
@@ -151,6 +154,8 @@ window.session = {
         session.storage.account.language =
           response.preferred_content_subtitle_language;
         session.storage.account.avatar = response.avatar;
+        session.storage.account.mature = response.maturity_rating;
+        session.storage.account.username = response.username;
         session.update();
         callback.success();
       },
@@ -188,6 +193,7 @@ window.session = {
       account: {
         password: NaN,
         username: NaN,
+        mature: NaN,
         avatar: "0001-cr-white-orange.png",
         premium: false,
         language: NaN,

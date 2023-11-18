@@ -44,5 +44,15 @@
       "audios": "Sesler",
       "subtitles": "Altyazılar"
     }
+  },
+  "settings": {
+    "menu": {
+      "application_lang": "Uygulama Dili",
+      "audio_lang": "Ses Dili",
+      "subtitle_lang": "Altyazı Dili",
+      "video_quality": "Video Kalitesi",
+      "mature": "Olgun İçerik",
+      "about": "Hakkında"
+    }
   }
 }
