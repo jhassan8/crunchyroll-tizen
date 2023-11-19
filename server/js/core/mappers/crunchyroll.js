@@ -120,10 +120,12 @@ window.mapper = {
           ? episode.images.thumbnail[0][1].source
           : "";
       }, episode.id),
-      stream: episode.__links__.streams.href.substr(
-        episode.__links__.streams.href.indexOf("/videos/") + 8,
-        9
-      ),
+      stream: episode.__links__.streams
+        ? episode.__links__.streams.href.substr(
+            episode.__links__.streams.href.indexOf("/videos/") + 8,
+            9
+          )
+        : undefined,
       duration: Math.round(episode.duration_ms / 60000),
       premium: episode.is_premium_only,
     }));

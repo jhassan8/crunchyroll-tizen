@@ -17,14 +17,14 @@
 - [x] Auto next episode
 - [x] History screen and workflow
 - [x] Change audio and subtitles language inside player
+- [x] Settings screen
+- [x] Browse elements by categories
 
 #### In progress
-- [ ] Browse elements by categories
 - [ ] My list screen and workflow
 - [ ] WebOS compatibility
 
 #### Pending
-- [ ] Settings screen
 - [ ] Migrate to react
 
 ## Captures:
