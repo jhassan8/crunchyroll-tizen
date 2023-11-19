@@ -27,8 +27,8 @@ window.player = {
   config: function (timeFunction, endFunction) {
     player.getVideo().addEventListener("timeupdate", timeFunction);
     player.getVideo().addEventListener("ended", endFunction);
-    player.getVideo().addEventListener('waiting', player.onbufferingstart);
-    player.getVideo().addEventListener('playing', player.onbufferingcomplete);
+    player.getVideo().addEventListener("waiting", player.onbufferingstart);
+    player.getVideo().addEventListener("playing", player.onbufferingcomplete);
   },
 
   getPlayed: function () {
@@ -44,6 +44,13 @@ window.player = {
       player.plugin = new Hls();
       player.plugin.loadSource(url);
       player.plugin.attachMedia(player.getVideo());
+
+      player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        var quality = player.getQuality(data);
+        player.plugin.startLevel = quality;
+        player.plugin.currentLevel = quality;
+
+      });
     } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
       player.getVideo().src = url;
     }
@@ -112,6 +119,13 @@ window.player = {
 
   forwardTo: function (seconds) {
     player.getVideo().currentTime = seconds;
+  },
+
+  getQuality: function (data) {
+    var id = Object.keys(data.levels).find(
+      (key) => data.levels[key].height === +session.storage.quality
+    );
+    return id !== undefined ? id : -1;
   },
 
   stop: function () {

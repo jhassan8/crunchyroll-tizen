@@ -15,7 +15,8 @@
     "start-tv": "npm run build && npm run package && npm run install-app --tv=$npm_config_tv && npm run init --tv=$npm_config_tv",
     "start": "npm run start-tv --tv=T-samsung-7.0-x86",
     "start-online": "npm run start-tv-online --tv=T-samsung-7.0-x86",
-    "run": "npm run start-tv --tv=LS27AM500NLXZB"
+    "run": "npm run start-tv --tv=LS27AM500NLXZB",
+    "run2": "npm run start-tv --tv=UN65MU6100"
   },
   "repository": {
     "type": "git",

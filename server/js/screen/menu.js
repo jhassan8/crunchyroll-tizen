@@ -26,7 +26,13 @@ window.menu = {
       icon: "fa-regular fa-rectangle-list",
       action: "browse.init",
     },
-    { id: "settings", label: "menu.settings", icon: "fa-solid fa-gear", tool: true },
+    {
+      id: "settings",
+      label: "menu.settings",
+      icon: "fa-solid fa-gear",
+      tool: true,
+      action: "settings.init",
+    },
     {
       id: "logout",
       label: "menu.logout",
@@ -39,7 +45,7 @@ window.menu = {
   previous: NaN,
   isOpen: false,
 
-  init: function () {
+  init: function (reset) {
     var menu_element = document.createElement("div");
     menu_element.id = this.id;
 
@@ -49,13 +55,21 @@ window.menu = {
     menu.options.forEach((element, index) => {
       if (!!element.tool) {
         tool_options += `
-        <a class="option ${index === menu.selected ? "selected" : ""}">
+        <a class="option ${
+          reset && element.id === "settings"
+            ? "selected"
+            : index === menu.selected
+            ? "selected"
+            : ""
+        }">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
       } else {
         menu_options += `
-        <a class="option ${index === menu.selected ? "selected" : ""}">
+        <a class="option ${
+          !reset && index === menu.selected ? "selected" : ""
+        }">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;

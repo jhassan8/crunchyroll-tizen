@@ -11,6 +11,7 @@ window.main = {
   init: function () {
     loading.init();
     session.init();
+    translate.init();
     main.events.login();
   },
 
@@ -35,37 +36,17 @@ window.main = {
         success: function () {
           session.load_account({
             success: function () {
-              translate.init(
-                {
-                  success: function () {
-                    main.events.home();
-                  },
-                  error: function (error) {
-                    console.log(error);
-                  },
-                },
-                translate.getLanguage()
-              );
+              main.events.home();
             },
-            error: function(error) {
-              console.log('load_account', error)
-            }
+            error: function (error) {
+              console.log("load_account", error);
+            },
           });
         },
         error: function (error) {
           console.log(error);
           loading.destroy();
-          translate.init(
-            {
-              success: function () {
-                login.init();
-              },
-              error: function (error) {
-                console.log(error);
-              },
-            },
-            translate.getLanguage()
-          );
+          login.init();
         },
       });
     },
@@ -151,6 +132,9 @@ window.main = {
             break;
           case video.id:
             video.keyDown(event);
+            break;
+          case settings.id:
+            settings.keyDown(event);
             break;
           default:
             console.log("keyboard action screen not defined.");
