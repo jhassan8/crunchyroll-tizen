@@ -337,6 +337,10 @@ window.video = {
   },
 
   play: function (item, noplay) {
+    if (!item.stream) {
+      video.destroy();
+      return;
+    }
     video.episode = item.id;
     service.video({
       data: {

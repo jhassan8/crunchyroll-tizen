@@ -32,7 +32,11 @@ window.home = {
 
     home_element.innerHTML = `
     <div class="content">
-      ${home.fromCategory.state ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>` : ""}
+      ${
+        home.fromCategory.state
+          ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>`
+          : ""
+      }
       <div class="details full">
         <div class="background">
           <img src="${home.data.main.banner.background}">
@@ -43,8 +47,8 @@ window.home = {
             home.data.main.banner.description
           }</div>
           <div class="buttons">
-            <a class="selected">${translate.go('home.banner.play')}</a>
-            <a>${translate.go('home.banner.info')}</a>
+            <a class="selected">${translate.go("home.banner.play")}</a>
+            <a>${translate.go("home.banner.info")}</a>
           </div>
         </div>
       </div>
@@ -300,18 +304,17 @@ window.home = {
   },
 
   createItem: function (item) {
+    var playhead = item.playhead
+      ? `<div class="progress" style="width: ${
+          (item.playhead * 100) / item.duration
+        }%" value="${item.duration - item.playhead}m"></div>`
+      : "";
     return `
     <div class="item">
       <div class="poster ${item.display}">
         ${
           item.display !== "serie"
-            ? '<img src="' +
-              item.background +
-              '"><div class="progress" style="width: ' +
-              (item.playhead * 100) / item.duration +
-              '%" value="' +
-              (item.duration - item.playhead) +
-              'm"></div>'
+            ? '<img src="' + item.background + '">' + playhead
             : '<img src="' + item.poster + '">'
         }
       </div>
