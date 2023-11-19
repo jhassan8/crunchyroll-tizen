@@ -68,6 +68,25 @@ window.service = {
     });
   },
 
+  setProfile: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+
+        fetch(`${service.api.url}/accounts/v1/me/profile`, {
+          method: "PATCH",
+          headers: headers,
+          body: JSON.stringify(request.data),
+        })
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
   cookies: function (request) {
     return session.refresh({
       success: function (storage) {
@@ -271,7 +290,13 @@ window.service = {
   },
 
   languages: function (request) {
-    fetch("https://static.crunchyroll.com/config/i18n/v3/audio_languages.json")
+    fetch(
+      `https://static.crunchyroll.com/config/i18n/v3/${
+        request.data.type === "subtitle"
+          ? "timed_text_languages.json"
+          : "audio_languages.json"
+      }`
+    )
       .then((response) => response.json())
       .then((json) => request.success(json))
       .catch((error) => request.error(error));

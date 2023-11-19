@@ -36,9 +36,9 @@ window.home_episodes = {
         var seasons_html = "";
         home_episodes.data.seasons.forEach((season, index) => {
           seasons_html += `
-        <div class="season${index === 0 ? " selected active" : ""}">${
-            season.title
-          }</div>`;
+          <div class="season${index === 0 ? " selected active" : ""}">${
+            season.number
+          }. ${season.title}</div>`;
         });
         $(".seasons #seasons-list-offset").eq(0).html(seasons_html);
         home_episodes.load(home_episodes.data.seasons[0]);
@@ -56,7 +56,7 @@ window.home_episodes = {
   },
 
   load: function (season) {
-    $(".episodes .title")[0].innerText = season.title;
+    $(".episodes .title")[0].innerText = `${season.number}. ${season.title}`;
     $(".episodes .episodes-list")[0].slick &&
       $(".episodes .episodes-list")[0].slick.destroy();
     $(".episodes .episodes-list")[0].innerHTML = "";
@@ -79,7 +79,7 @@ window.home_episodes = {
                 ${home_episodes.premium(episode)}
               </div>
               <div class="episode-details">
-                <div class="episode-title">${episode.title}</div>
+                <div class="episode-title">${episode.episode_number}. ${episode.title}</div>
                 <div class="episode-description">${episode.description}</div>
               </div>
             </div>`;
@@ -122,16 +122,14 @@ window.home_episodes = {
           (episode.playhead * 100) / episode.duration
         }%" value="${
           episode.duration === episode.playhead
-            ? translate.go('home.episodes.watched')
+            ? translate.go("home.episodes.watched")
             : episode.duration - episode.playhead + "m"
         }"></div>`
       : "";
   },
 
   premium: function (episode) {
-    return episode.premium
-      ? `<i class="fa-solid fa-crown premium"></i>`
-      : "";
+    return episode.premium ? `<i class="fa-solid fa-crown premium"></i>` : "";
   },
 
   destroy: function () {

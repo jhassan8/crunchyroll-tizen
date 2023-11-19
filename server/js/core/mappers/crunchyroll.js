@@ -83,8 +83,8 @@ window.mapper = {
       ),
       serie: item.panel.episode_metadata.series_title,
       episode: item.panel.title,
-      season_number: item.panel.episode_metadata.season_number,
-      episode_number: item.panel.episode_metadata.episode_number,
+      season_number: item.panel.episode_metadata.season_number || 0,
+      episode_number: item.panel.episode_metadata.episode_number || 0,
       description: item.panel.description,
       background: mapper.preventImageErrorTest(function () {
         return item.panel.images.thumbnail[0][4].source;
@@ -113,8 +113,8 @@ window.mapper = {
       episode: episode.title,
       serie: episode.series_title,
       description: episode.description,
-      number: episode.episode_number,
-      episode_number: episode.episode_number,
+      episode_number: episode.episode_number || 0,
+      season_number: episode.season_number || 0,
       background: mapper.preventImageErrorTest(function () {
         return episode.images.thumbnail
           ? episode.images.thumbnail[0][1].source
