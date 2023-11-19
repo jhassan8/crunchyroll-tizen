@@ -6,7 +6,7 @@ window.session = {
   storage: {
     version: NaN,
     language: NaN,
-    quality: "-1",
+    quality: 'auto',
     account: {
       password: NaN,
       username: NaN,

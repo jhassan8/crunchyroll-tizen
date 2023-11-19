@@ -34,12 +34,12 @@ window.settings = {
     },
   ],
   qualities: {
-    "-1": "Auto",
-    0: "240p",
-    1: "360p",
-    2: "480p",
-    3: "720p HD",
-    4: "1080p HD",
+    auto: "Auto",
+    240: "240p",
+    360: "360p",
+    480: "480p",
+    720: "720p HD",
+    1080: "1080p HD",
   },
   bool: {
     M2: "NO",
@@ -190,7 +190,7 @@ window.settings = {
             break;
           case "videoquality":
             var options = settings.qualities;
-            var active = session.storage.quality || "-1";
+            var active = session.storage.quality || 'auto';
             break;
           case "mature":
             var options = settings.bool;
@@ -234,7 +234,7 @@ window.settings = {
           case "audiolang":
             var options = session.languages.audios;
             var method = function (value) {
-              service.seasons({
+              service.setProfile({
                 data: {
                   preferred_content_audio_language: value,
                 },
@@ -261,7 +261,7 @@ window.settings = {
           case "subtitlelang":
             var options = session.languages.subtitles;
             var method = function (value) {
-              service.seasons({
+              service.setProfile({
                 data: {
                   preferred_content_subtitle_language: value,
                 },
@@ -278,14 +278,14 @@ window.settings = {
           case "videoquality":
             var options = settings.qualities;
             var method = function (value) {
-              session.storage.account.language = value;
+              session.storage.quality = value;
               session.update();
             };
             break;
           case "mature":
             var options = settings.bool;
             var method = function (value) {
-              service.seasons({
+              service.setProfile({
                 data: {
                   maturity_rating: value,
                 },

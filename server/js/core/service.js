@@ -73,10 +73,10 @@ window.service = {
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        headers.append("Content-Type", "application/json");
 
         fetch(`${service.api.url}/accounts/v1/me/profile`, {
-          method: "POST",
+          method: "PATCH",
           headers: headers,
           body: JSON.stringify(request.data),
         })

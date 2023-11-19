@@ -45,6 +45,7 @@ window.main = {
         },
         error: function (error) {
           console.log(error);
+          loading.destroy();
           login.init();
         },
       });
