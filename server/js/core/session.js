@@ -6,7 +6,7 @@ window.session = {
   storage: {
     version: NaN,
     language: NaN,
-    quality: 'auto',
+    quality: "auto",
     account: {
       password: NaN,
       username: NaN,
@@ -190,13 +190,16 @@ window.session = {
 
   clear: function () {
     session.storage = {
+      language: "en-US",
+      quality: "auto",
       account: {
         password: NaN,
         username: NaN,
         mature: NaN,
         avatar: "0001-cr-white-orange.png",
         premium: false,
-        language: NaN,
+        language: "en-US",
+        audio: "",
       },
       cookies: {
         bucket: NaN,

@@ -1,27 +1,27 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.2",
+    version: "v1.1.3",
     changes: [
       {
-        title: "fix: crash when there is a movie in history by @jhassan8",
-        description: "movies in history causing issues when starting the app.",
+        title: "feat: loading icon in video by @jhassan8",
+        description: "loading icon on the video screen.",
       },
       {
-        title: "fix: exit and logout in loading screen by @jhassan8",
-        description: "Logout and exit of the app when it doesn't start.",
+        title: "feat: add keyboard characters by @jhassan8",
+        description: "keyboard adjustments to add missing characters.",
       },
       {
-        title: "fix: exit on the login screen by @hassan22l",
-        description: "option to exit has been added on the login screen.",
+        title: "feat: translate screens by @jhassan8",
+        description: "now the application is multilingual.",
       },
       {
-        title: "fix: remove grid search and styles by @jhassan8",
-        description: "solve search and styles for tizen version.",
+        title: "fix: languages and movies by @jhassan8",
+        description: "language selection adjustments for audio and subtitles.",
       },
       {
-        title: "feat: browse screen by @jhassan8 and @hassan22l",
-        description: "The 'Browse' menu option has been enabled for easier anime discovery.",
+        title: "feat: settings screen by @jhassan8",
+        description: "the settings menu is available to adjust some parameters.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
@@ -35,7 +35,7 @@ window.changelog = {
       changelog_element.innerHTML = `
       <div class="content">
         <div class="header">
-          Crunchyroll ${changelog.data.version}
+          Crunchyroll updated to version ${changelog.data.version}
         </div>
         <div class="body">
           <ul class="changes">

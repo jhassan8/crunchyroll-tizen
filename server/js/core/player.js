@@ -16,6 +16,7 @@ window.player = {
   plugin: NaN,
   video: NaN,
   duration: 0,
+  levelId: -1,
 
   getVideo: function () {
     if (!player.video) {
@@ -29,6 +30,7 @@ window.player = {
     player.getVideo().addEventListener("ended", endFunction);
     player.getVideo().addEventListener("waiting", player.onbufferingstart);
     player.getVideo().addEventListener("playing", player.onbufferingcomplete);
+    //player.getVideo().addEventListener("play", player.onPlay);
   },
 
   getPlayed: function () {
@@ -46,20 +48,25 @@ window.player = {
       player.plugin.attachMedia(player.getVideo());
 
       player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-        var quality = player.getQuality(data);
-        player.plugin.startLevel = quality;
-        player.plugin.currentLevel = quality;
+        player.levelId = player.getQuality(data);
+        player.plugin.startLevel = player.levelId;
+        player.plugin.startLoad();
 
+        player.plugin.currentLevel = player.levelId;
+        if (!noplay) {
+          player.getVideo().play();
+          player.state = player.states.PLAYING;
+        }
       });
     } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
       player.getVideo().src = url;
+      if (!noplay) {
+        player.getVideo().play();
+        player.state = player.states.PLAYING;
+      }
     }
     if (playhead && playhead > 0) {
       player.getVideo().currentTime = playhead * 60;
-    }
-    if (!noplay) {
-      player.getVideo().play();
-      player.state = player.states.PLAYING;
     }
   },
 
