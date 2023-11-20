@@ -22,7 +22,7 @@ window.translate = {
     try {
       var text = keys.reduce(
         (obj, i) => obj[i],
-        translate.languages[translate.lang]
+        languages[translate.lang]
       );
       text = params ? translate.withParams(text, params) : text;
     } catch (error) {}

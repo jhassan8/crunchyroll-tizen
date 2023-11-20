@@ -1,4 +1,4 @@
-window.translate.languages = {
+window.languages = {
   hi: {
     login: {
       username: "उपयोगकर्ता नाम या ईमेल दर्ज करें...",
