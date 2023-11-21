@@ -1,7 +1,7 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.3",
+    version: "v1.1.3a",
     changes: [
       {
         title: "feat: loading icon in video by @jhassan8",
@@ -22,6 +22,10 @@ window.changelog = {
       {
         title: "feat: settings screen by @jhassan8",
         description: "the settings menu is available to adjust some parameters.",
+      },
+      {
+        title: "fix: settings subtitles by @jhassan8",
+        description: "subtitle configuration error resolved.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
