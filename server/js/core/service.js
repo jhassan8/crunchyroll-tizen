@@ -80,7 +80,7 @@ window.service = {
           headers: headers,
           body: JSON.stringify(request.data),
         })
-          .then((response) => response.json())
+          .then((response) => null)
           .then((json) => request.success(json))
           .catch((error) => request.error(error));
       },
