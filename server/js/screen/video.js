@@ -353,11 +353,11 @@ window.video = {
         try {
           video.streams = data.streams.adaptive_hls;
 
-          var audioLang;
-          if (video.streams[session.storage.account.audio]) {
-            audioLang = session.storage.account.audio;
+          var subtitle_lang;
+          if (video.streams[session.storage.account.language]) {
+            subtitle_lang = session.storage.account.language;
           } else {
-            audioLang = "";
+            subtitle_lang = "";
           }
 
           video.audio = data.audio_locale;
@@ -370,13 +370,13 @@ window.video = {
             }));
           }
 
-          video.subtitle = video.streams[audioLang].hardsub_locale;
+          video.subtitle = video.streams[subtitle_lang].hardsub_locale;
           video.subtitles = Object.keys(video.streams).map((element) => ({
             name: element,
           }));
 
           player.play(
-            video.streams[audioLang].url,
+            video.streams[subtitle_lang].url,
             item.playhead === item.duration ? 0 : item.playhead,
             noplay
           );
