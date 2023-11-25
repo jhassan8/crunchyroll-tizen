@@ -1,31 +1,15 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.3a",
+    version: "v1.1.3b",
     changes: [
-      {
-        title: "feat: loading icon in video by @jhassan8",
-        description: "loading icon on the video screen.",
-      },
-      {
-        title: "feat: add keyboard characters by @jhassan8",
-        description: "keyboard adjustments to add missing characters.",
-      },
-      {
-        title: "feat: translate screens by @jhassan8",
-        description: "now the application is multilingual.",
-      },
-      {
-        title: "fix: languages and movies by @jhassan8",
-        description: "language selection adjustments for audio and subtitles.",
-      },
-      {
-        title: "feat: settings screen by @jhassan8",
-        description: "the settings menu is available to adjust some parameters.",
-      },
       {
         title: "fix: settings subtitles by @jhassan8",
         description: "subtitle configuration error resolved.",
+      },
+      {
+        title: "fix: style changes by @jhassan8",
+        description: "longs titles issues and selected item style issue in some devices.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
