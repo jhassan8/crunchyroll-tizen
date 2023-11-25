@@ -306,8 +306,8 @@
 #home-screen .content .row .row-content.selected::after {
   content: "";
   border: 6px solid rgba(244, 130, 33, 0.9);
-  width: 196px;
-  height: 100%;
+  width: 193px;
+  height: 286px;
   position: absolute;
   top: 0;
   margin-left: 8.3vw;
@@ -316,7 +316,8 @@
 }
 
 #home-screen .content .row .row-content.episode.selected::after {
-  width: 395px;
+  width: 396px;
+  height: 218px;
 }
 
 #home-screen .content .row .row-title {

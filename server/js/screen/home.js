@@ -62,6 +62,12 @@ window.home = {
 
     document.body.appendChild(home_element);
 
+    var title = $(".details .info .title")[0];
+    title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
+
+    var description = $(".details .info .description")[0];
+    description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+
     $(`#${home.id} .rows`).slick({
       vertical: true,
       dots: false,
@@ -113,8 +119,13 @@ window.home = {
           ]
         : home.data.main.banner;
     $(".details .background img").attr("src", item.background);
-    $(".details .info .title").text(item.title);
-    $(".details .info .description").text(item.description);
+    var title = $(".details .info .title")[0];
+    title.innerText = item.title;
+    title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
+
+    var description = $(".details .info .description")[0];
+    description.innerText = item.description;
+    description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
   },
 
   keyDown: function (event) {
