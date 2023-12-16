@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="http://yourdomain/Crunchyroll" version="1.0.0" viewmodes="maximized">
+    <access origin="*"></access>
     <tizen:application id="qXuEoRvlCp.Crunchyroll" package="qXuEoRvlCp" required_version="3.0"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
@@ -16,7 +17,6 @@
     <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
     <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
     <tizen:privilege name="http://tizen.org/privilege/tv.audio"/>
-    <tizen:profile name="tv"/>
+    <tizen:profile name="tv-samsung"/>
     <tizen:setting screen-orientation="landscape" context-menu="enable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
-    <access origin="*"></access>
 </widget>
