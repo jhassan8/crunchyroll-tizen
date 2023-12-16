@@ -1,9 +1,12 @@
 window.languages = {
   hi: {
     login: {
-      username: "उपयोगकर्ता नाम या ईमेल दर्ज करें...",
+      username: "ईमेल दर्ज करें...",
       password: "पासवर्ड दर्ज करें...",
       enter: "लॉगिन",
+      error: {
+        invalid: "ईमेल या पासवर्ड अमान्य हैं।",
+      },
     },
     menu: {
       search: "खोजें",
@@ -60,9 +63,12 @@ window.languages = {
   },
   ar: {
     login: {
-      username: "أدخل اسم المستخدم أو البريد الإلكتروني...",
+      username: "أدخل البريد الإلكتروني...",
       password: "أدخل كلمة المرور...",
       enter: "تسجيل الدخول",
+      error: {
+        invalid: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      },
     },
     menu: {
       search: "بحث",
@@ -118,9 +124,12 @@ window.languages = {
   },
   ca: {
     login: {
-      username: "Introduïu l'usuari o email...",
+      username: "Introduïu l'email...",
       password: "Introduïu la contrasenya...",
       enter: "INICIA LA SESSIÓ",
+      error: {
+        invalid: "Email o contrasenya incorrectes.",
+      },
     },
     menu: {
       search: "Cerca",
@@ -176,9 +185,12 @@ window.languages = {
   },
   de: {
     login: {
-      username: "Benutzername oder E-Mail eingeben...",
+      username: "E-Mail eingeben...",
       password: "Passwort eingeben...",
       enter: "ANMELDEN",
+      error: {
+        invalid: "E-Mail oder Passwort ungültig.",
+      },
     },
     menu: {
       search: "Suchen",
@@ -234,9 +246,12 @@ window.languages = {
   },
   en: {
     login: {
-      username: "Enter user or email...",
+      username: "Enter email...",
       password: "Enter password...",
       enter: "LOGIN",
+      error: {
+        invalid: "Invalid email or password.",
+      },
     },
     menu: {
       search: "Search",
@@ -292,9 +307,12 @@ window.languages = {
   },
   es: {
     login: {
-      username: "Ingrese usuario o email...",
+      username: "Ingrese email...",
       password: "Ingrese contraseña...",
       enter: "INGRESAR",
+      error: {
+        invalid: "Email o contraseña incorrectos.",
+      },
     },
     menu: {
       search: "Buscar",
@@ -350,9 +368,12 @@ window.languages = {
   },
   fr: {
     login: {
-      username: "Entrez le nom d'utilisateur ou email...",
+      username: "Entrez l'email...",
       password: "Entrez le mot de passe...",
       enter: "CONNEXION",
+      error: {
+        invalid: "Adresse e-mail ou mot de passe incorrect.",
+      },
     },
     menu: {
       search: "Rechercher",
@@ -408,9 +429,12 @@ window.languages = {
   },
   id: {
     login: {
-      username: "Masukkan nama pengguna atau email...",
+      username: "Masukkan email...",
       password: "Masukkan kata sandi...",
       enter: "MASUK",
+      error: {
+        invalid: "Email atau kata sandi tidak valid.",
+      },
     },
     menu: {
       search: "Cari",
@@ -466,9 +490,12 @@ window.languages = {
   },
   it: {
     login: {
-      username: "Inserisci nome utente o email...",
+      username: "Inserisci email...",
       password: "Inserisci password...",
       enter: "ACCEDI",
+      error: {
+        invalid: "Email o password non validi.",
+      },
     },
     menu: {
       search: "Cerca",
@@ -524,9 +551,12 @@ window.languages = {
   },
   ms: {
     login: {
-      username: "Masukkan nama pengguna atau emel...",
+      username: "Masukkan emel...",
       password: "Masukkan kata laluan...",
       enter: "LOG MASUK",
+      error: {
+        invalid: "Emel atau kata laluan tidak sah.",
+      },
     },
     menu: {
       search: "Cari",
@@ -582,9 +612,12 @@ window.languages = {
   },
   pl: {
     login: {
-      username: "Wprowadź nazwę użytkownika lub email...",
+      username: "Wprowadź email...",
       password: "Wprowadź hasło...",
       enter: "ZALOGUJ SIĘ",
+      error: {
+        invalid: "Nieprawidłowy adres email lub hasło.",
+      },
     },
     menu: {
       search: "Szukaj",
@@ -640,9 +673,12 @@ window.languages = {
   },
   pt: {
     login: {
-      username: "Digite o usuário ou e-mail...",
+      username: "Digite o e-mail...",
       password: "Digite a senha...",
       enter: "ENTRAR",
+      error: {
+        invalid: "E-mail ou senha inválidos.",
+      },
     },
     menu: {
       search: "Buscar",
@@ -698,9 +734,12 @@ window.languages = {
   },
   ru: {
     login: {
-      username: "Введите пользователя или email...",
+      username: "Введите email...",
       password: "Введите пароль...",
       enter: "ВОЙТИ",
+      error: {
+        invalid: "Неверный адрес электронной почты или пароль.",
+      },
     },
     menu: {
       search: "Поиск",
@@ -756,9 +795,12 @@ window.languages = {
   },
   th: {
     login: {
-      username: "กรุณาใส่ชื่อผู้ใช้หรืออีเมล...",
+      username: "กรุณาใส่อีเมล...",
       password: "กรุณาใส่รหัสผ่าน...",
       enter: "เข้าสู่ระบบ",
+      error: {
+        invalid: "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+      },
     },
     menu: {
       search: "ค้นหา",
@@ -814,9 +856,12 @@ window.languages = {
   },
   tr: {
     login: {
-      username: "Kullanıcı adı veya e-posta girin...",
+      username: "E-posta girin...",
       password: "Şifre girin...",
       enter: "GİRİŞ YAP",
+      error: {
+        invalid: "Geçersiz e-posta veya şifre.",
+      },
     },
     menu: {
       search: "Ara",
@@ -872,9 +917,12 @@ window.languages = {
   },
   vi: {
     login: {
-      username: "Nhập tên người dùng hoặc email...",
+      username: "Nhập email...",
       password: "Nhập mật khẩu...",
       enter: "ĐĂNG NHẬP",
+      error: {
+        invalid: "Email hoặc mật khẩu không hợp lệ.",
+      },
     },
     menu: {
       search: "Tìm kiếm",

@@ -16,7 +16,7 @@
     "start": "npm run start-tv --tv=T-samsung-7.0-x86",
     "start-online": "npm run start-tv-online --tv=T-samsung-7.0-x86",
     "run": "npm run start-tv --tv=LS27AM500NLXZB",
-    "run2": "npm run start-tv --tv=UN65MU6100"
+    "run2": "npm run start-tv-online --tv=UN65MU6100"
   },
   "repository": {
     "type": "git",

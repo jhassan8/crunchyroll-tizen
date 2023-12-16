@@ -20,6 +20,7 @@ window.login = {
           <input type="password" placeholder="${translate.go('login.password')}">
         </div>
         <a class="button ${login.id}-option" translate>${translate.go('login.enter')}</a>
+        <span id="login-error-message"></span>
       </div>
     </div>
   </div>`;
@@ -36,9 +37,9 @@ window.login = {
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
-        case tvKey.KEY_ESCAPE:
-          exit.init();
-          break;
+      case tvKey.KEY_ESCAPE:
+        exit.init();
+        break;
       case tvKey.KEY_UP:
         login.move(login.selected == 0 ? 0 : login.selected - 1);
         break;
@@ -63,13 +64,22 @@ window.login = {
     }
   },
 
+  error: function (message) {
+    var element = $('#login-error-message');
+    element.text(message);
+    element.show();
+    setTimeout(function () {
+      element.hide();
+    }, 3000);
+  },
+
   action: function (selected) {
     var options = document.getElementsByClassName(login.id + "-option");
     if (selected == 2) {
       var username = options[0].firstElementChild.value;
       var password = options[1].firstElementChild.value;
-      if (username.length < 3 || password.length < 3) {
-        console.log("Enter valid credentials...");
+      if (!(/\S+@\S+\.\S+/).test(username) || password.length < 5) {
+        login.error(translate.go('login.error.invalid'));
       } else {
         login.destroy();
         loading.init();
