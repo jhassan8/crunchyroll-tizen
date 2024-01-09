@@ -1,15 +1,15 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.3b",
+    version: "v1.1.4",
     changes: [
       {
-        title: "fix: settings subtitles by @jhassan8",
-        description: "subtitle configuration error resolved.",
+        title: "feat: only login with email by @jhassan8",
+        description: "Due to changes in CR, it is now only possible to log in with email.",
       },
       {
-        title: "fix: style changes by @jhassan8",
-        description: "longs titles issues and selected item style issue in some devices.",
+        title: "fix: change auth login api by @jhassan8",
+        description: "problem that occurred when logging in was solved.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",

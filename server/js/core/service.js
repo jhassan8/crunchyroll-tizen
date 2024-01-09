@@ -2,7 +2,7 @@ window.service = {
   api: {
     url: "https://beta-api.crunchyroll.com",
     //url: "http://localhost:3002",
-    auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
+    auth: "Basic b2VkYXJteHN0bGgxanZhd2ltbnE6OWxFaHZIWkpEMzJqdVY1ZFc5Vk9TNTdkb3BkSnBnbzE=",
   },
 
   token: function (request) {
