@@ -1,6 +1,6 @@
 {
-    "id": "com.crunchyroll.webos",
-    "version": "1.0",
+    "id": "com.difix.crunchyroll",
+    "version": "1.0.0",
     "vendor": "Jocs",
     "type": "web",
     "main": "index.html",
