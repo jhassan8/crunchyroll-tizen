@@ -13,6 +13,11 @@ window.main = {
     session.init();
     translate.init();
     main.events.login();
+
+    // TODO: temporal config for LG
+    tvKey.IS_KEY_BACK = function (keyCode) {
+      return [10009, 27, 461].includes(keyCode) ? keyCode : -1;
+    };
   },
 
   events: {
@@ -86,13 +91,14 @@ window.main = {
     //('#console').html($('#console').html() + `code: ${event.keyCode}<br/>`);
     //$('#console').scrollTop(3000000);
     if (loading.active) {
-      if (event.keyCode == tvKey.KEY_BACK || event.keyCode == 27) {
+      if (tvKey.IS_KEY_BACK(event.keyCode)) {
         loading.end();
       }
     } else {
       if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
         exit.init();
       } else {
+        console.log(event.keyCode);
         switch (main.state) {
           case changelog.id:
             changelog.keyDown(event);

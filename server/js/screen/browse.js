@@ -54,7 +54,7 @@ window.browse = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
-      case tvKey.KEY_BACK:
+      case tvKey.IS_KEY_BACK(event.keyCode):
       case 27:
         browse.destroy();
         menu.init();

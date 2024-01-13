@@ -142,8 +142,7 @@ window.menu = {
       case tvKey.KEY_RIGHT:
         menu.close();
         break;
-      case tvKey.KEY_BACK:
-      case tvKey.KEY_ESCAPE:
+      case tvKey.IS_KEY_BACK(event.keyCode):
         exit.init();
         break;
       case tvKey.KEY_UP:

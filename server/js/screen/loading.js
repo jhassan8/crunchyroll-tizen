@@ -50,9 +50,8 @@ window.loading = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
-      case tvKey.KEY_BACK:
+      case tvKey.IS_KEY_BACK(event.keyCode):
       case tvKey.KEY_EXIT:
-      case 27:
         exit.init(true);
         break;
     }

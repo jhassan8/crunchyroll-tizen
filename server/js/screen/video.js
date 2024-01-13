@@ -161,8 +161,7 @@ window.video = {
     var osd = true;
     switch (event.keyCode) {
       case tvKey.KEY_STOP:
-      case tvKey.KEY_BACK:
-      case 27:
+      case tvKey.IS_KEY_BACK(event.keyCode):
         if (video.settings.open) {
           osd = false;
           video.settings.open = false;

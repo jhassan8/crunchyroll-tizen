@@ -1,0 +1,15 @@
+{
+    "id": "com.crunchyroll.webos",
+    "version": "1.0",
+    "vendor": "Jocs",
+    "type": "web",
+    "main": "index.html",
+    "title": "Crunchyroll",
+    "icon": "icon.png",
+    "largeIcon": "icon.png",
+    "splashBackground": "icon.png",
+    "bgImage": "icon.png",
+    "bgColor": "#F37521",
+    "iconColor": "#FFFFFF",
+    "disableBackHistoryAPI": true
+}

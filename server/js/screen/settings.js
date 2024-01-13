@@ -70,8 +70,7 @@ window.settings = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
-      case tvKey.KEY_BACK:
-      case tvKey.KEY_ESCAPE:
+      case tvKey.IS_KEY_BACK(event.keyCode):
         menu.open();
         break;
       case tvKey.KEY_UP:

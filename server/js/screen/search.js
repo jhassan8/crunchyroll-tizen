@@ -103,8 +103,7 @@ window.search = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
-      case tvKey.KEY_BACK:
-      case tvKey.KEY_ESCAPE:
+      case tvKey.IS_KEY_BACK(event.keyCode):
         if (search.position === -1) {
           menu.open();
         } else {
