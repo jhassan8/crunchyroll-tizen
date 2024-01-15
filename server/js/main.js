@@ -112,6 +112,9 @@ window.main = {
           case menu.id:
             menu.keyDown(event);
             break;
+          case mylist.id:
+            mylist.keyDown(event);
+            break;
           case search.id:
             search.keyDown(event);
             break;

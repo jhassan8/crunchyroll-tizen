@@ -1,0 +1,229 @@
+#mylist-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+#mylist-screen .content {
+  height: 100vh;
+  /* transition: margin 0.5s; */
+}
+
+#mylist-screen .content .details {
+  height: 40%;
+  overflow: hidden;
+  position: relative;
+}
+
+#mylist-screen .content .details .background {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  /* transition: all 0.5s; */
+  width: 60%;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 40%,
+    rgba(0, 0, 0, 0.5) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+#mylist-screen .content .details .background::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%);
+  /* transition: background 0.5s; */
+}
+
+#mylist-screen .content .details .background::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 50%);
+  z-index: 1;
+  /* transition: background 0.5s; */
+}
+
+#mylist-screen .content .details .background img {
+  width: 100%;
+  position: absolute;
+}
+
+#mylist-screen .content .details .information {
+  width: 70%;
+  display: block;
+  position: absolute;
+  height: 100%;
+  padding: 60px 400px 60px 8.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+
+#mylist-screen .content .details .information #generic-title {
+  color: #fff;
+  font-size: 5vh;
+  font-weight: bolder;
+  text-transform: uppercase;
+  max-height: 200px;
+}
+
+#mylist-screen .content .details .information #generic-description {
+  color: #fff;
+  font-size: 2.5vh;
+  margin: 30px 0;
+  max-height: 280px;
+  overflow: hidden;
+  /* transition: max-height 1s; */
+}
+
+#mylist-screen .content .lists {
+  position: relative;
+  overflow: hidden;
+  padding-top: 90px;
+  margin-top: -20px;
+}
+
+#mylist-screen .content .lists::before {
+  content: "";
+  background: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+  width: 100%;
+  height: 45px;
+  top: 0;
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+
+#mylist-screen .content .inner-lists {
+  transition: margin-top 0.1s;
+}
+
+#mylist-screen .content .row .row-content .item {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin: 0px 8px;
+  /* transition: 350ms all; */
+  transform-origin: center left;
+}
+
+#mylist-screen .content .row .row-content .item .poster {
+  position: relative;
+  width: 100%;
+  padding-top: 55%;
+}
+
+#mylist-screen .content .row .row-content .item .poster .progress {
+  height: 12px;
+  position: absolute;
+  background: rgba(244, 130, 33, 0.7);
+  bottom: 0;
+}
+
+#mylist-screen .content .row .row-content .item .poster .progress::after {
+  content: attr(value);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  top: -125px;
+  min-width: 25px;
+  text-align: center;
+  position: absolute;
+  left: 15px;
+  border-radius: 15px;
+}
+
+#mylist-screen .content .row .row-content .item .poster img {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+}
+
+#mylist-screen .content .row .row-content {
+  width: calc(100% - 4.5vw);
+  margin: 15px 0 45px 0;
+}
+
+#mylist-screen .content .row .row-content .slick-list {
+  overflow: unset;
+}
+
+#mylist-screen .content .row .row-content .slick-track {
+  padding-left: 8vw;
+}
+
+#mylist-screen .content .row .row-content .slick-slide {
+  opacity: 0.3;
+}
+
+#mylist-screen .content .row.selected .row-content .slick-active {
+  opacity: 0.7;
+}
+
+#mylist-screen .content .row.selected .row-content .slick-slide.slick-current {
+  opacity: 1;
+}
+
+#mylist-screen .content .row.selected .row-content::after {
+  content: "";
+  border: 6px solid rgba(244, 130, 33, 0.9);
+  width: 279px;
+  height: 158px;
+  position: absolute;
+  top: -5px;
+  margin-left: 8.1vw;
+  box-sizing: border-box;
+  box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+}
+
+#mylist-screen .content .row .row-title {
+  color: #fff;
+  font-size: 1.2vw;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0.9;
+  padding-left: 8.5vw;
+}
+
+.row-content .slick-loading,
+.row-content .slick-loading * {
+  background: rgba(100, 100, 100, 0.5);
+  content: url("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+  border: none !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  animation: poster-loading 2s infinite;
+}
+
+@keyframes poster-loading {
+  50% {
+    background: rgba(100, 100, 100, 0.2);
+  }
+}
+
+#mylist-screen .content .list-end {
+  margin: auto;
+  width: 300px;
+  padding-top: 62px;
+  text-align: center;
+  opacity: 0.5;
+}
+
+#mylist-screen .content .list-end .text{
+  color: #fff;
+  font-size: 22px;
+  line-height: 40px;
+}

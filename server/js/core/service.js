@@ -1,7 +1,9 @@
 window.service = {
   api: {
     url: "https://beta-api.crunchyroll.com",
-    //url: "http://localhost:3002",
+    static: "https://static.crunchyroll.com",
+    //url: "http://api.crunchyroll.local",
+    //static: "http://static.crunchyroll.local",
     auth: "Basic b2VkYXJteHN0bGgxanZhd2ltbnE6OWxFaHZIWkpEMzJqdVY1ZFc5Vk9TNTdkb3BkSnBnbzE=",
   },
 
@@ -291,7 +293,7 @@ window.service = {
 
   languages: function (request) {
     fetch(
-      `https://static.crunchyroll.com/config/i18n/v3/${
+      `${service.api.static}/config/i18n/v3/${
         request.data.type === "subtitle"
           ? "timed_text_languages.json"
           : "audio_languages.json"
@@ -303,9 +305,7 @@ window.service = {
   },
 
   intro: function (request) {
-    fetch(
-      `https://static.crunchyroll.com/datalab-intro-v2/${request.data.id}.json`
-    )
+    fetch(`${service.api.static}/datalab-intro-v2/${request.data.id}.json`)
       .then((response) => response.json())
       .then((json) => request.success(json))
       .catch((error) => request.error(error));
@@ -324,6 +324,123 @@ window.service = {
           }
         )
           .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  getCustomLists: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/custom-lists?preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  getCustomListItems: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/custom-lists/${request.data}?ratings=true&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  getWatchList: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/discover/${storage.id}/watchlist?order=desc&n=1000&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  inWatchList: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/watchlist?content_ids=${request.data}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  addWatchlist: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/watchlist?preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(request.data),
+          }
+        )
+          .then((response) => response.text())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  removeWatchlist: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/json");
+        fetch(
+          `${service.api.url}/content/v2/${storage.id}/watchlist/${request.data.content_id}?preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          {
+            method: "DELETE",
+            headers: headers,
+          }
+        )
+          .then((response) => response.text())
           .then((json) => request.success(json))
           .catch((error) => request.error(error));
       },
