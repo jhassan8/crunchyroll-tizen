@@ -147,6 +147,10 @@ window.player = {
     }
   },
 
+  speed: function (rate) {
+    player.getVideo().playbackRate = rate;
+  },
+
   destroy: function () {
     player.stop();
   },
