@@ -25,7 +25,8 @@ window.languages = {
       details: {
         play: "प्ले करें: S{season} E{episode}",
         continue: "जारी रखें: S{season} E{episode}",
-        add: "मेरी सूची में जोड़ें",
+        add: "वॉचलिस्ट में जोड़ें",
+        remove: "वॉचलिस्ट से हटाएं",
         episodes: "एपिसोड",
         related: "संबंधित सामग्री",
       },
@@ -60,6 +61,10 @@ window.languages = {
         about: "के बारे में",
       },
     },
+    lists: {
+      watchlist: "देखने की सूची",
+      empty: "और कोई सूची नहीं है।",
+    },
   },
   ar: {
     login: {
@@ -87,7 +92,8 @@ window.languages = {
       details: {
         play: "تشغيل: S{season} E{episode}",
         continue: "متابعة: S{season} E{episode}",
-        add: "إضافة إلى قائمتي",
+        add: "إضافة إلى المفضلة",
+        remove: "إزالة من المفضلة",
         episodes: "حلقات",
         related: "المحتوى ذو الصلة",
       },
@@ -121,6 +127,10 @@ window.languages = {
         about: "حول",
       },
     },
+    lists: {
+      watchlist: "قائمة المشاهدة",
+      empty: "لا توجد قوائم أخرى لعرضها",
+    },
   },
   ca: {
     login: {
@@ -148,7 +158,8 @@ window.languages = {
       details: {
         play: "Reprodueix: T{season} E{episode}",
         continue: "Continua: T{season} E{episode}",
-        add: "Afegeix a la meva llista",
+        add: "Afegir als Preferits",
+        remove: "Treure dels Preferits",
         episodes: "Episodis",
         related: "Contingut relacionat",
       },
@@ -182,6 +193,10 @@ window.languages = {
         about: "Sobre",
       },
     },
+    lists: {
+      watchlist: "Llista de seguiment",
+      empty: "No hi ha més llistes per mostrar",
+    },
   },
   de: {
     login: {
@@ -209,7 +224,8 @@ window.languages = {
       details: {
         play: "Abspielen: S{season} E{episode}",
         continue: "Fortsetzen: S{season} E{episode}",
-        add: "Zur meiner Liste hinzufügen",
+        add: "Zu Favoriten hinzufügen",
+        remove: "Aus Favoriten entfernen",
         episodes: "Episoden",
         related: "Ähnliche Inhalte",
       },
@@ -243,6 +259,10 @@ window.languages = {
         about: "Über",
       },
     },
+    lists: {
+      watchlist: "Beobachtungsliste",
+      empty: "Keine weiteren Listen vorhanden",
+    },
   },
   en: {
     login: {
@@ -270,7 +290,8 @@ window.languages = {
       details: {
         play: "Play: S{season} E{episode}",
         continue: "Continue: S{season} E{episode}",
-        add: "Add to my list",
+        add: "Add to Watchlist",
+        remove: "Remove from Watchlist",
         episodes: "Episodes",
         related: "Related content",
       },
@@ -304,6 +325,10 @@ window.languages = {
         about: "About",
       },
     },
+    lists: {
+      watchlist: "Favoritos",
+      empty: "No more lists to show",
+    },
   },
   es: {
     login: {
@@ -331,7 +356,8 @@ window.languages = {
       details: {
         play: "Reproducir: T{season} E{episode}",
         continue: "Continuar: T{season} E{episode}",
-        add: "Agregar a mi lista",
+        add: "Agregar a Favoritos",
+        remove: "Quitar de Favoritos",
         episodes: "Episodios",
         related: "Contenido relacionado",
       },
@@ -365,6 +391,10 @@ window.languages = {
         about: "Acerca de",
       },
     },
+    lists: {
+      watchlist: "Favoritos",
+      empty: "No hay más listas para mostrar",
+    },
   },
   fr: {
     login: {
@@ -392,7 +422,8 @@ window.languages = {
       details: {
         play: "Lire : S{saison} E{episode}",
         continue: "Continuer : S{saison} E{episode}",
-        add: "Ajouter à ma liste",
+        add: "Ajouter aux Favoris",
+        remove: "Retirer des Favoris",
         episodes: "Épisodes",
         related: "Contenu connexe",
       },
@@ -426,6 +457,10 @@ window.languages = {
         about: "À propos de",
       },
     },
+    lists: {
+      watchlist: "Liste de suivi",
+      empty: "Aucune autre liste à afficher",
+    },
   },
   id: {
     login: {
@@ -453,7 +488,8 @@ window.languages = {
       details: {
         play: "Putar: S{season} E{episode}",
         continue: "Lanjutkan: S{season} E{episode}",
-        add: "Tambahkan ke daftar saya",
+        add: "Tambahkan ke Favorit",
+        remove: "Hapus dari Favorit",
         episodes: "Episode",
         related: "Konten terkait",
       },
@@ -487,6 +523,10 @@ window.languages = {
         about: "Tentang",
       },
     },
+    lists: {
+      watchlist: "Daftar Pantau",
+      empty: "Tidak ada daftar lain untuk ditampilkan",
+    },
   },
   it: {
     login: {
@@ -514,7 +554,8 @@ window.languages = {
       details: {
         play: "Riproduci: S{season} E{episode}",
         continue: "Continua: S{season} E{episode}",
-        add: "Aggiungi alla mia lista",
+        add: "Aggiungi ai Preferiti",
+        remove: "Rimuovi dai Preferiti",
         episodes: "Episodi",
         related: "Contenuti correlati",
       },
@@ -548,6 +589,10 @@ window.languages = {
         about: "Informazioni",
       },
     },
+    lists: {
+      watchlist: "Daftar Pantau",
+      empty: "Tidak ada daftar lain untuk ditampilkan",
+    },
   },
   ms: {
     login: {
@@ -575,7 +620,8 @@ window.languages = {
       details: {
         play: "Mainkan: S{season} E{episode}",
         continue: "Teruskan: S{season} E{episode}",
-        add: "Tambah ke senarai saya",
+        add: "Tambah ke Kekunci",
+        remove: "Alih dari Kekunci",
         episodes: "Episod",
         related: "Kandungan Berkaitan",
       },
@@ -609,6 +655,10 @@ window.languages = {
         about: "Mengenai",
       },
     },
+    lists: {
+      watchlist: "Senarai Pantau",
+      empty: "Tiada senarai lain untuk dipaparkan",
+    },
   },
   pl: {
     login: {
@@ -636,7 +686,8 @@ window.languages = {
       details: {
         play: "Odtwórz: S{season} E{episode}",
         continue: "Kontynuuj: S{season} E{episode}",
-        add: "Dodaj do mojej listy",
+        add: "Dodaj do Ulubionych",
+        remove: "Usuń z Ulubionych",
         episodes: "Odcinki",
         related: "Powiązane treści",
       },
@@ -670,6 +721,10 @@ window.languages = {
         about: "O nas",
       },
     },
+    lists: {
+      watchlist: "Lista obserwowanych",
+      empty: "Brak kolejnych list do wyświetlenia",
+    },
   },
   pt: {
     login: {
@@ -697,7 +752,8 @@ window.languages = {
       details: {
         play: "Reproduzir: T{season} E{episode}",
         continue: "Continuar: T{season} E{episode}",
-        add: "Adicionar à minha lista",
+        add: "Adicionar aos Favoritos",
+        remove: "Remover dos Favoritos",
         episodes: "Episódios",
         related: "Conteúdo relacionado",
       },
@@ -731,6 +787,10 @@ window.languages = {
         about: "Sobre",
       },
     },
+    lists: {
+      watchlist: "Favoritos",
+      empty: "Não há mais listas para mostrar",
+    },
   },
   ru: {
     login: {
@@ -758,7 +818,8 @@ window.languages = {
       details: {
         play: "Воспроизвести: S{season} E{episode}",
         continue: "Продолжить: S{season} E{episode}",
-        add: "Добавить в мой список",
+        add: "Добавить в Избранное",
+        remove: "Убрать из Избранного",
         episodes: "Эпизоды",
         related: "Связанный контент",
       },
@@ -792,6 +853,10 @@ window.languages = {
         about: "О приложении",
       },
     },
+    lists: {
+      watchlist: "Список отслеживаемого",
+      empty: "Нет больше списков для отображения",
+    },
   },
   th: {
     login: {
@@ -819,7 +884,8 @@ window.languages = {
       details: {
         play: "เล่น: ซีซั่น {season} ตอนที่ {episode}",
         continue: "ดำเนินการ: ซีซั่น {season} ตอนที่ {episode}",
-        add: "เพิ่มลงในรายการของฉัน",
+        add: "เพิ่มลงในรายการโปรด",
+        remove: "ลบออกจากรายการโปรด",
         episodes: "ตอน",
         related: "เนื้อหาที่เกี่ยวข้อง",
       },
@@ -853,6 +919,10 @@ window.languages = {
         about: "เกี่ยวกับ",
       },
     },
+    lists: {
+      watchlist: "รายการดู",
+      empty: "ไม่มีรายการเพิ่มเติมที่จะแสดง",
+    },
   },
   tr: {
     login: {
@@ -880,7 +950,8 @@ window.languages = {
       details: {
         play: "Oynat: S{season} B{episode}",
         continue: "Devam: S{season} B{episode}",
-        add: "Listeme ekle",
+        add: "Favorilere Ekle",
+        remove: "Favorilerden Kaldır",
         episodes: "Bölümler",
         related: "İlgili içerik",
       },
@@ -914,6 +985,10 @@ window.languages = {
         about: "Hakkında",
       },
     },
+    lists: {
+      watchlist: "İzleme Listesi",
+      empty: "Gösterilecek başka liste yok",
+    },
   },
   vi: {
     login: {
@@ -941,7 +1016,8 @@ window.languages = {
       details: {
         play: "Phát: S{season} T{episode}",
         continue: "Tiếp tục: S{season} T{episode}",
-        add: "Thêm vào danh sách của tôi",
+        add: "Thêm vào Watchlist",
+        remove: "Xóa khỏi Watchlist",
         episodes: "Tập phim",
         related: "Nội dung liên quan",
       },
@@ -974,6 +1050,10 @@ window.languages = {
         mature: "Nội dung dành cho người trưởng thành",
         about: "Về ứng dụng",
       },
+    },
+    lists: {
+      watchlist: "Danh sách theo dõi",
+      empty: "Không còn danh sách nào để hiển thị",
     },
   },
 };

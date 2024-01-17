@@ -14,6 +14,24 @@ window.home_details = {
     home_details.callbacks.init = init;
     home_details.callbacks.destroy = destroy;
     home_details.callbacks.init && home_details.callbacks.init(item);
+    service.inWatchList({
+      data: item.id,
+      success: function (response) {
+        home_details.inWatchList = response.data.length > 0;
+        if (!home_details.inWatchList) {
+          var content = `<i class="fa-regular fa-bookmark"></i>
+          <p>${translate.go("home.details.add")}</p>`;
+        } else {
+          var content = `<i class="fa-solid fa-bookmark"></i>
+          <p>${translate.go("home.details.remove")}</p>`;
+        }
+        document.getElementById("watchlist-status").innerHTML = content;
+      },
+      error: function (error) {
+        home_details.inWatchList = false;
+        console.log(error);
+      },
+    });
     var buttons = document.createElement("div");
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
     buttons.innerHTML = `
@@ -22,8 +40,8 @@ window.home_details = {
       <p>${translate.go("home.details.play", { season: 1, episode: 1 })}</p>
       <span></span>
     </a>
-    <a>
-      <i class="fa-solid fa-bookmark"></i>
+    <a id="watchlist-status">
+      <i class="fa-regular fa-bookmark"></i>
       <p>${translate.go("home.details.add")}</p>
     </a>
     <a>
@@ -105,6 +123,7 @@ window.home_details = {
     $(`.${home_details.id}`).remove();
     home_details.data.continue = NaN;
     home_details.data.this = NaN;
+    home_details.inWatchList = false;
 
     main.state = home_details.previous;
     home_details.callbacks.destroy && home_details.callbacks.destroy();
@@ -145,7 +164,29 @@ window.home_details = {
             video.init(home_details.data.continue);
             break;
           case 1:
-            console.log("add list");
+            loading.start();
+            mylist.toggleStatus(
+              home_details.data.this.id,
+              !home_details.inWatchList,
+              {
+                success: function () {
+                  home_details.inWatchList = !home_details.inWatchList;
+                  if (!home_details.inWatchList) {
+                    var content = `<i class="fa-regular fa-bookmark"></i>
+                    <p>${translate.go("home.details.add")}</p>`;
+                  } else {
+                    var content = `<i class="fa-solid fa-bookmark"></i>
+                    <p>${translate.go("home.details.remove")}</p>`;
+                  }
+                  document.getElementById("watchlist-status").innerHTML = content;
+                  loading.end();
+                },
+                error: function (error) {
+                  console.log(error);
+                  loading.end();
+                },
+              }
+            );
             break;
           case 2:
             home_episodes.init(home_details.data.this);

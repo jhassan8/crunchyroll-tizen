@@ -13,7 +13,12 @@ window.menu = {
       icon: "fa-solid fa-house",
       action: "home.restart",
     },
-    { id: "list", label: "menu.list", icon: "fa-solid fa-bookmark" },
+  {
+      id: "mylist",
+      label: "menu.list",
+      icon: "fa-solid fa-bookmark",
+      action: "mylist.init",
+    },
     {
       id: "historyScreen",
       label: "menu.history",
