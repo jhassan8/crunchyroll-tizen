@@ -28,14 +28,15 @@ window.main = {
     close.innerHTML = `
     <div id="no-cursor-alert">
       <i class="fa-solid fa-computer-mouse"></i>
-      <span>${translate.go("Cursor and keyboard is not supported.")}</span>
+      <span></span>
     </div>`;
 
     close.addEventListener("click", function () {
       clearTimeout(main.timer);
-      $("#no-cursor-alert").css('opacity', 1);
+      $("#no-cursor-alert").css("opacity", 1);
+      $("#no-cursor-alert span").text(translate.go("generic.alert.cursor"));
       main.timer = setTimeout(() => {
-        $("#no-cursor-alert").css('opacity', 0);
+        $("#no-cursor-alert").css("opacity", 0);
       }, 2000);
     });
 

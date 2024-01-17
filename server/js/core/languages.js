@@ -1,5 +1,10 @@
 window.languages = {
   hi: {
+    generic: {
+      alert: {
+        cursor: "कर्सर और कीबोर्ड समर्थित नहीं हैं।",
+      },
+    },
     login: {
       username: "ईमेल दर्ज करें...",
       password: "पासवर्ड दर्ज करें...",
@@ -67,6 +72,11 @@ window.languages = {
     },
   },
   ar: {
+    generic: {
+      alert: {
+        cursor: "المؤشر ولوحة المفاتيح غير مدعومين.",
+      },
+    },
     login: {
       username: "أدخل البريد الإلكتروني...",
       password: "أدخل كلمة المرور...",
@@ -133,6 +143,11 @@ window.languages = {
     },
   },
   ca: {
+    generic: {
+      alert: {
+        cursor: "El cursor i el teclat no estan compatibles.",
+      },
+    },
     login: {
       username: "Introduïu l'email...",
       password: "Introduïu la contrasenya...",
@@ -199,6 +214,11 @@ window.languages = {
     },
   },
   de: {
+    generic: {
+      alert: {
+        cursor: "Mauszeiger und Tastatur werden nicht unterstützt.",
+      },
+    },
     login: {
       username: "E-Mail eingeben...",
       password: "Passwort eingeben...",
@@ -265,6 +285,11 @@ window.languages = {
     },
   },
   en: {
+    generic: {
+      alert: {
+        cursor: "Cursor and keyboard is not supported.",
+      },
+    },
     login: {
       username: "Enter email...",
       password: "Enter password...",
@@ -331,6 +356,11 @@ window.languages = {
     },
   },
   es: {
+    generic: {
+      alert: {
+        cursor: "El cursor y el teclado no son compatibles.",
+      },
+    },
     login: {
       username: "Ingrese email...",
       password: "Ingrese contraseña...",
@@ -397,6 +427,11 @@ window.languages = {
     },
   },
   fr: {
+    generic: {
+      alert: {
+        cursor: "Le curseur et le clavier ne sont pas pris en charge.",
+      },
+    },
     login: {
       username: "Entrez l'email...",
       password: "Entrez le mot de passe...",
@@ -463,6 +498,11 @@ window.languages = {
     },
   },
   id: {
+    generic: {
+      alert: {
+        cursor: "Penggunaan kursor dan keyboard tidak didukung.",
+      },
+    },
     login: {
       username: "Masukkan email...",
       password: "Masukkan kata sandi...",
@@ -529,6 +569,11 @@ window.languages = {
     },
   },
   it: {
+    generic: {
+      alert: {
+        cursor: "Cursore e tastiera non sono supportati.",
+      },
+    },
     login: {
       username: "Inserisci email...",
       password: "Inserisci password...",
@@ -595,6 +640,11 @@ window.languages = {
     },
   },
   ms: {
+    generic: {
+      alert: {
+        cursor: "Cursor dan papan kekunci tidak disokong.",
+      },
+    },
     login: {
       username: "Masukkan emel...",
       password: "Masukkan kata laluan...",
@@ -661,6 +711,11 @@ window.languages = {
     },
   },
   pl: {
+    generic: {
+      alert: {
+        cursor: "Kursor i klawiatura nie są obsługiwane.",
+      },
+    },
     login: {
       username: "Wprowadź email...",
       password: "Wprowadź hasło...",
@@ -727,6 +782,11 @@ window.languages = {
     },
   },
   pt: {
+    generic: {
+      alert: {
+        cursor: "O cursor e o teclado não são suportados.",
+      },
+    },
     login: {
       username: "Digite o e-mail...",
       password: "Digite a senha...",
@@ -793,6 +853,11 @@ window.languages = {
     },
   },
   ru: {
+    generic: {
+      alert: {
+        cursor: "Мышь и клавиатура не поддерживаются.",
+      },
+    },
     login: {
       username: "Введите email...",
       password: "Введите пароль...",
@@ -859,6 +924,11 @@ window.languages = {
     },
   },
   th: {
+    generic: {
+      alert: {
+        cursor: "เมาส์และคีย์บอร์ดไม่ได้รับการสนับสนุน",
+      },
+    },
     login: {
       username: "กรุณาใส่อีเมล...",
       password: "กรุณาใส่รหัสผ่าน...",
@@ -925,6 +995,11 @@ window.languages = {
     },
   },
   tr: {
+    generic: {
+      alert: {
+        cursor: "İmleç ve klavye desteklenmemektedir.",
+      },
+    },
     login: {
       username: "E-posta girin...",
       password: "Şifre girin...",
@@ -991,6 +1066,11 @@ window.languages = {
     },
   },
   vi: {
+    generic: {
+      alert: {
+        cursor: "Chuột và bàn phím không được hỗ trợ.",
+      },
+    },
     login: {
       username: "Nhập email...",
       password: "Nhập mật khẩu...",
