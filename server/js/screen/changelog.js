@@ -1,15 +1,15 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.4",
+    version: "v1.1.5",
     changes: [
       {
-        title: "feat: only login with email by @jhassan8",
-        description: "Due to changes in CR, it is now only possible to log in with email.",
+        title: "feat: watchlist workflow by @jhassan8",
+        description: "lists and watchlist  section is enabled.",
       },
       {
-        title: "fix: change auth login api by @jhassan8",
-        description: "problem that occurred when logging in was solved.",
+        title: "feat: video playback speed by @jhassan8",
+        description: "playback speed change option.",
       },
     ],
     extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",

@@ -80,16 +80,89 @@
   padding: 60px;
 }
 
-#video-screen .osd .player-settings i {
+#video-screen .osd .player-settings #setting-options {
+  display: flex;
+  align-items: center;
+}
+
+#video-screen .osd .player-settings #setting-options i {
   color: #fff;
   font-size: 45px;
   opacity: 0.5;
   margin: 0 30px;
-  max-width: 35px;
+  width: 45px;
+  height: 45px;
 }
 
-#video-screen .osd .player-settings i.selected {
+#video-screen .osd .player-settings #setting-options i.playback-speed {
+  font-size: 18px;
+  border-radius: 50px;
+  text-align: center;
+  line-height: 38px;
+  border: 4px solid;
+  border-style: solid solid dashed dashed;
+}
+
+#video-screen .osd .player-settings #setting-options i.selected {
   opacity: 1;
+}
+
+#video-screen .osd .player-settings #speed-menu {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 22px;
+  list-style: none;
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 50px;
+  position: relative;
+}
+
+#video-screen .osd .player-settings #speed-menu span {
+  content: '';
+  background: rgba(244, 130, 33, 0.7);
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border-radius: 50px;
+  margin: auto;
+  right: 0;
+  left: 0;
+  margin-right: 310px;
+}
+
+#video-screen .osd .player-settings #speed-menu.to-rigth span {
+  margin-left: 240px;
+  margin-right: auto;
+}
+
+#video-screen .osd .player-settings #speed-menu.to-rigth span::before {
+  border-right: 5px solid rgba(244, 130, 33, 0.7);
+  right: 0;
+  margin-right: -10px;
+}
+
+#video-screen .osd .player-settings #speed-menu.to-left span::before {
+  border-left: 5px solid rgba(244, 130, 33, 0.7);
+  margin-left: -10px;
+}
+
+#video-screen .osd .player-settings #speed-menu span::before {
+  content: '';
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border-radius: 50px;
+}
+
+#video-screen .osd .player-settings #speed-menu li {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 10px;
+  opacity: 0.5;
+  width: 50px;
+  text-align: center;
 }
 
 #video-screen .settings-slide {

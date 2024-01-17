@@ -129,7 +129,7 @@ window.languages = {
     },
     lists: {
       watchlist: "قائمة المشاهدة",
-      empty: "لا توجد قوائم أخرى لعرضها.",
+      empty: "لا توجد قوائم أخرى لعرضها",
     },
   },
   ca: {
@@ -195,7 +195,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Llista de seguiment",
-      empty: "No hi ha més llistes per mostrar.",
+      empty: "No hi ha més llistes per mostrar",
     },
   },
   de: {
@@ -261,7 +261,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Beobachtungsliste",
-      empty: "Keine weiteren Listen vorhanden.",
+      empty: "Keine weiteren Listen vorhanden",
     },
   },
   en: {
@@ -327,7 +327,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Favoritos",
-      empty: "No hay más listas para mostrar.",
+      empty: "No more lists to show",
     },
   },
   es: {
@@ -393,7 +393,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Favoritos",
-      empty: "No hay más listas para mostrar.",
+      empty: "No hay más listas para mostrar",
     },
   },
   fr: {
@@ -459,7 +459,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Liste de suivi",
-      empty: "Aucune autre liste à afficher.",
+      empty: "Aucune autre liste à afficher",
     },
   },
   id: {
@@ -525,7 +525,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Daftar Pantau",
-      empty: "Tidak ada daftar lain untuk ditampilkan.",
+      empty: "Tidak ada daftar lain untuk ditampilkan",
     },
   },
   it: {
@@ -591,7 +591,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Daftar Pantau",
-      empty: "Tidak ada daftar lain untuk ditampilkan.",
+      empty: "Tidak ada daftar lain untuk ditampilkan",
     },
   },
   ms: {
@@ -657,7 +657,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Senarai Pantau",
-      empty: "Tiada senarai lain untuk dipaparkan.",
+      empty: "Tiada senarai lain untuk dipaparkan",
     },
   },
   pl: {
@@ -723,7 +723,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Lista obserwowanych",
-      empty: "Brak kolejnych list do wyświetlenia.",
+      empty: "Brak kolejnych list do wyświetlenia",
     },
   },
   pt: {
@@ -789,7 +789,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Favoritos",
-      empty: "Não há mais listas para mostrar.",
+      empty: "Não há mais listas para mostrar",
     },
   },
   ru: {
@@ -855,7 +855,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Список отслеживаемого",
-      empty: "Нет больше списков для отображения.",
+      empty: "Нет больше списков для отображения",
     },
   },
   th: {
@@ -987,7 +987,7 @@ window.languages = {
     },
     lists: {
       watchlist: "İzleme Listesi",
-      empty: "Gösterilecek başka liste yok.",
+      empty: "Gösterilecek başka liste yok",
     },
   },
   vi: {
@@ -1053,7 +1053,7 @@ window.languages = {
     },
     lists: {
       watchlist: "Danh sách theo dõi",
-      empty: "Không còn danh sách nào để hiển thị.",
+      empty: "Không còn danh sách nào để hiển thị",
     },
   },
 };

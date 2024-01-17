@@ -2,6 +2,11 @@ window.video = {
   id: "video-screen",
   previous: null,
   episode: null,
+  speed: {
+    options: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
+    active: 1,
+    state: false,
+  },
   next: {
     shown: false,
     state: false,
@@ -13,6 +18,11 @@ window.video = {
     {
       icon: "fa-solid fa-forward-step",
       action: "nextEpisode",
+      param: true,
+    },
+    {
+      icon: "fa-solid fa-play playback-speed",
+      action: "playbackSpeed",
       param: true,
     },
     {
@@ -87,7 +97,9 @@ window.video = {
       <video id="videoplayer" style="width:100%; height:100%;"></video>
       <div class="osd" id="osd">
         <div class="player-settings">
-          ${video.getSettings()}
+          <div id="setting-options">
+            ${video.getSettings()}
+          </div>
         </div>
         <div class="details">
           <div id="title">${item.serie}</div>
@@ -155,6 +167,8 @@ window.video = {
     video.episode = null;
     video.data = null;
     video.streams = [];
+    video.speed.state = false;
+    video.speed.active = 1;
   },
 
   keyDown: function (event) {
@@ -169,12 +183,15 @@ window.video = {
           $(".settings-slide").removeClass("open");
           $("#osd-icon").show();
           video.settings.selected = false;
-          $(".player-settings").removeClass("selected");
+          $("#setting-options").removeClass("selected");
           $(".player-settings").show();
           player.resume();
         } else {
           if (video.next.status) {
             video.stopNext();
+          } else if (video.speed.state) {
+            video.hidePlaySpeed();
+            video.showOSD();
           } else {
             video.destroy();
           }
@@ -220,10 +237,10 @@ window.video = {
               if (!video.option) {
                 player.playPause();
               } else {
-                var selected = $(".player-settings i").index(
-                  $(".player-settings i.selected")
+                var selected = $("#setting-options i").index(
+                  $("#setting-options i.selected")
                 );
-                video[video.options[selected].action](
+                osd = !video[video.options[selected].action](
                   video.options[selected].param
                 );
               }
@@ -234,12 +251,17 @@ window.video = {
       case tvKey.KEY_PREVIOUS:
       case tvKey.KEY_LEFT:
         if (video.option) {
-          var options = $(".player-settings i");
-          var selected = options.index($(".player-settings i.selected"));
-          options.removeClass("selected");
-          options
-            .eq(selected > 0 ? selected - 1 : selected)
-            .addClass("selected");
+          if (video.speed.state) {
+            osd = false;
+            video.setSpeed(-1);
+          } else {
+            var options = $("#setting-options i");
+            var selected = options.index($("#setting-options i.selected"));
+            options.removeClass("selected");
+            options
+              .eq(selected > 0 ? selected - 1 : selected)
+              .addClass("selected");
+          }
         } else {
           !video.settings.open && player.rewind(video.setPlayingTime);
         }
@@ -247,12 +269,17 @@ window.video = {
       case tvKey.KEY_RIGHT:
       case tvKey.KEY_NEXT:
         if (video.option) {
-          var options = $(".player-settings i");
-          var selected = options.index($(".player-settings i.selected"));
-          options.removeClass("selected");
-          options
-            .eq(selected < video.options.length - 1 ? selected + 1 : selected)
-            .addClass("selected");
+          if (video.speed.state) {
+            osd = false;
+            video.setSpeed(1);
+          } else {
+            var options = $("#setting-options i");
+            var selected = options.index($("#setting-options i.selected"));
+            options.removeClass("selected");
+            options
+              .eq(selected < video.options.length - 1 ? selected + 1 : selected)
+              .addClass("selected");
+          }
         } else {
           !video.settings.open && player.forward(video.setPlayingTime);
         }
@@ -288,7 +315,7 @@ window.video = {
             document.getElementById("osd").style.opacity == 1 &&
             !video.option
           ) {
-            $(".player-settings").children().first().addClass("selected");
+            $("#setting-options").children().first().addClass("selected");
             video.option = true;
           }
         }
@@ -319,13 +346,16 @@ window.video = {
           }
 
           listSelected.children().first()[0].style.marginTop = `${marginTop}px`;
+        } else if (video.speed.state) {
+          video.hidePlaySpeed();
+          video.showOSD();
         } else {
           video.option = false;
-          $(".player-settings").children().removeClass("selected");
+          $("#setting-options").children().removeClass("selected");
         }
         break;
     }
-    !video.settings.open && osd && video.showOSD();
+    !video.settings.open && !video.speed.state && osd && video.showOSD();
   },
 
   end: function () {
@@ -535,18 +565,76 @@ window.video = {
     }
   },
 
-  showOSD: function () {
+  playbackSpeed: function () {
+    if (!video.speed.state) {
+      var speedsOptions = `
+        <ul id="speed-menu">
+          <span></span>
+          ${video.speed.options.map((e) => "<li>" + e + "</li>").join("")}
+        </ul>
+      `;
+
+      video.speed.state = true;
+      video.showOSD(true);
+      $("#setting-options").hide();
+      $(".player-settings").append(speedsOptions);
+
+      video.setSpeed(0);
+      return true;
+    }
+    video.hidePlaySpeed();
+    video.showOSD();
+    return false;
+  },
+
+  hidePlaySpeed: function () {
+    $("#speed-menu").remove();
+    $("#setting-options").show();
+    video.speed.state = false;
+  },
+
+  setSpeed: function (increment) {
+    var index = video.speed.options.indexOf(video.speed.active);
+    var newIndex = index + increment;
+    if (newIndex >= 0 && newIndex < video.speed.options.length) {
+      if (newIndex === 3) {
+        var count = 0;
+        var width = 50;
+        $("#speed-menu").removeClass("to-rigth");
+        $("#speed-menu").removeClass("to-left");
+        var classDirection = "";
+      } else if (newIndex > 3) {
+        var count = newIndex - 3;
+        var width = 50 + count * 75;
+        var classDirection = "to-rigth";
+      } else {
+        var count = 3 - newIndex;
+        var width = 50 + count * 75;
+        var classDirection = "to-left";
+      }
+
+      $("#speed-menu").addClass(classDirection);
+      $("#speed-menu span").css("width", width);
+
+      video.speed.active = video.speed.options[newIndex];
+      player.speed(video.speed.options[newIndex]);
+    }
+  },
+
+  showOSD: function (noHide) {
     clearTimeout(video.timers.osd.object);
     var osd = document.getElementById("osd");
     osd.style.opacity = 1;
-    video.timers.osd.object = setTimeout(() => {
-      video.hideOSD();
-    }, video.timers.osd.duration);
+    if (!noHide) {
+      video.timers.osd.object = setTimeout(() => {
+        video.hideOSD();
+      }, video.timers.osd.duration);
+    }
   },
 
   hideOSD: function () {
     video.option = false;
-    $(".player-settings").children().removeClass("selected");
+    $("#setting-options").children().removeClass("selected");
     video.timers.osd.object = null;
     var osd = document.getElementById("osd");
     osd.style.opacity = 0;
