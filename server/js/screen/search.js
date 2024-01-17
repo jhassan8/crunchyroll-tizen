@@ -21,7 +21,7 @@ window.search = {
     search_element.innerHTML = `
       <div class="content">
         <div class="input focus" id="search-screen_input">
-          <input type="text" placeholder="${translate.go('search.placeholder')}">
+          <input type="text" tabindex="-1" placeholder="${translate.go('search.placeholder')}">
         </div>
         <div class="list-container">
           <div class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);"></div>

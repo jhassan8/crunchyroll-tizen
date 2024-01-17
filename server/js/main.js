@@ -6,6 +6,7 @@ window.main = {
   mac: null,
   token: null,
   state: null,
+  timer: null,
 
   /* on init app */
   init: function () {
@@ -13,11 +14,32 @@ window.main = {
     session.init();
     translate.init();
     main.events.login();
+    main.preventClickMessage();
 
     // TODO: temporal config for LG
     tvKey.IS_KEY_BACK = function (keyCode) {
       return [10009, 27, 461].includes(keyCode) ? keyCode : -1;
     };
+  },
+
+  preventClickMessage: function () {
+    var close = document.createElement("div");
+    close.className = "no-cursor";
+    close.innerHTML = `
+    <div id="no-cursor-alert">
+      <i class="fa-solid fa-computer-mouse"></i>
+      <span>${translate.go("Cursor and keyboard is not supported.")}</span>
+    </div>`;
+
+    close.addEventListener("click", function () {
+      clearTimeout(main.timer);
+      $("#no-cursor-alert").css('opacity', 1);
+      main.timer = setTimeout(() => {
+        $("#no-cursor-alert").css('opacity', 0);
+      }, 2000);
+    });
+
+    document.body.appendChild(close);
   },
 
   events: {
