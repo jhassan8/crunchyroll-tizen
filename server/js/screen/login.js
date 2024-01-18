@@ -14,10 +14,10 @@ window.login = {
       </div>
       <div class="form">
         <div class="input ${login.id}-option">
-          <input type="text" placeholder="${translate.go('login.username')}">
+          <input type="text" tabindex="-1" placeholder="${translate.go('login.username')}">
         </div>
         <div class="input ${login.id}-option">
-          <input type="password" placeholder="${translate.go('login.password')}">
+          <input type="password" tabindex="-1" placeholder="${translate.go('login.password')}">
         </div>
         <a class="button ${login.id}-option" translate>${translate.go('login.enter')}</a>
         <span id="login-error-message"></span>
@@ -36,8 +36,7 @@ window.login = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
-      case tvKey.KEY_BACK:
-      case tvKey.KEY_ESCAPE:
+      case tvKey.IS_KEY_BACK(event.keyCode):
         exit.init();
         break;
       case tvKey.KEY_UP:

@@ -130,8 +130,7 @@ window.home = {
 
   keyDown: function (event) {
     switch (event.keyCode) {
-      case tvKey.KEY_BACK:
-      case 27:
+      case tvKey.IS_KEY_BACK(event.keyCode):
         if (!home.fromCategory.state) {
           menu.open();
         } else {
