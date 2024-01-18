@@ -20,12 +20,12 @@ window.translate = {
     var keys = key.split(".");
     var text = key;
     try {
-      var text = keys.reduce(
-        (obj, i) => obj[i],
-        languages[translate.lang]
-      );
+      var text = keys.reduce((obj, i) => obj[i], languages[translate.lang]);
       text = params ? translate.withParams(text, params) : text;
-    } catch (error) {}
+    } catch (error) {
+      var text = keys.reduce((obj, i) => obj[i], languages["en"]);
+      text = params ? translate.withParams(text, params) : text;
+    }
     return text || key;
   },
 

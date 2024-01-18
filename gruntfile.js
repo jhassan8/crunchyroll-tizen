@@ -74,7 +74,7 @@ module.exports = function (grunt) {
             dest: "dist/img",
           },
           {
-            src: ["index.html", "config.xml", "icon.png"],
+            src: ["index.html", "icon.png"],
             dest: "dist/",
           },
         ],
@@ -106,7 +106,23 @@ module.exports = function (grunt) {
             dest: "dist/js",
           },
           {
-            src: ["index.html", "config.xml", "icon.png"],
+            src: ["index.html", "icon.png"],
+            dest: "dist/",
+          },
+        ],
+      },
+      tizen: {
+        files: [
+          {
+            src: ["config.xml"],
+            dest: "dist/",
+          },
+        ],
+      },
+      webos: {
+        files: [
+          {
+            src: ["appinfo.json"],
             dest: "dist/",
           },
         ],
@@ -114,8 +130,8 @@ module.exports = function (grunt) {
     },
     "json-minify": {
       cdn: {
-        files: 'dist/assets/translate/*.json'
-      }
+        files: "dist/assets/translate/*.json",
+      },
     },
     "string-replace": {
       cdn: {
@@ -162,6 +178,19 @@ module.exports = function (grunt) {
           ],
         },
       },
+      tizen: {
+        files: {
+          "dist/": "dist/index.html",
+        },
+        options: {
+          replacements: [
+            {
+              pattern: /<!-- platform imports -->/g,
+              replacement: `<script src="$WEBAPIS/webapis/webapis.js"></script>`,
+            },
+          ],
+        },
+      },
     },
   });
   grunt.registerTask("cdn", [
@@ -172,12 +201,27 @@ module.exports = function (grunt) {
     "json-minify:cdn",
     "string-replace:cdn",
   ]);
-  grunt.registerTask("online", [
+  grunt.registerTask("online-tizen", [
     "clean",
     "uglify:online",
     "cssmin:online",
     "copy:online",
+    "copy:tizen",
     "string-replace:online",
   ]);
-  grunt.registerTask("offline", ["clean", "copy:offline"]);
+  grunt.registerTask("online-webos", [
+    "clean",
+    "uglify:online",
+    "cssmin:online",
+    "copy:online",
+    "copy:webos",
+    "string-replace:online",
+  ]);
+  grunt.registerTask("offline-tizen", [
+    "clean",
+    "copy:offline",
+    "copy:tizen",
+    "string-replace:tizen",
+  ]);
+  grunt.registerTask("offline-webos", ["clean", "copy:offline", "copy:webos"]);
 };

@@ -46,5 +46,5 @@ window.tvKey = {
   "MediaRewind",
   "MediaStop",
 ].forEach((key) => {
-  tizen.tvinputdevice.registerKey(key);
+  typeof tizen != "undefined" && tizen.tvinputdevice.registerKey(key);
 });

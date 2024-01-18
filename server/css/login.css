@@ -98,3 +98,40 @@
   position: absolute;
   display: none;
 }
+
+/* -- NO CURSOR -- */
+
+.no-cursor {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.no-cursor #no-cursor-alert {
+  position: absolute;
+  width: 300px;
+  background: rgba(0, 0, 0, 0.6);
+  right: 0;
+  margin: 35px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.no-cursor #no-cursor-alert i {
+  font-size: 40px;
+  margin-right: 15px;
+}
+
+.no-cursor #no-cursor-alert span {
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
