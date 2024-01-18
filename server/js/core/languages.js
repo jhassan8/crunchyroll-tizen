@@ -351,7 +351,7 @@ window.languages = {
       },
     },
     lists: {
-      watchlist: "Favoritos",
+      watchlist: "Watchlist",
       empty: "No more lists to show",
     },
   },

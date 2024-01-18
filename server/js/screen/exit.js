@@ -67,7 +67,7 @@ window.exit = {
       if (exit.logout) {
         session.clear();
       }
-      tizen.application.getCurrentApplication().exit();
+      typeof tizen != "undefined" && tizen.application.getCurrentApplication().exit();
     } else {
       exit.destroy();
     }

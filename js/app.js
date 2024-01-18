@@ -27,7 +27,7 @@ app.keyDown = function (e) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_EXIT:
       case 27:
-        tizen.application.getCurrentApplication().hide();
+        typeof tizen != "undefined" && tizen.application.getCurrentApplication().hide();
         break;
     }
   }
