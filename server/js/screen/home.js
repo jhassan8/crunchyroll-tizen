@@ -75,28 +75,25 @@ window.home = {
       infinite: false,
       slidesToShow: 1.5,
       slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
+      speed: 150,
     });
 
     $(`#${home.id} .rows .row-content`).not(".episode").slick({
       dots: false,
       arrows: false,
       infinite: false,
-      slidesToShow: 9,
+      slidesToShow: 10,
       slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
+      speed: 150,
     });
 
     $(`#${home.id} .rows .row-content.episode`).slick({
       dots: false,
       arrows: false,
       infinite: false,
-      slidesToShow: 4.5,
+      slidesToShow: 5.5,
       slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
+      speed: 150,
     });
 
     $(`#${home.id} .rows`)[0].slick.slickGoTo(0);

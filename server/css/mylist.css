@@ -106,7 +106,7 @@
 }
 
 #mylist-screen .content .inner-lists {
-  transition: margin-top 0.1s;
+  transition: margin-top 150ms ease 0s;
 }
 
 #mylist-screen .content .row .row-content .item {
@@ -115,7 +115,6 @@
   cursor: pointer;
   margin: 0px 8px;
   /* transition: 350ms all; */
-  transform-origin: center left;
 }
 
 #mylist-screen .content .row .row-content .item .poster {
@@ -153,7 +152,6 @@
 }
 
 #mylist-screen .content .row .row-content {
-  width: calc(100% - 4.5vw);
   margin: 15px 0 45px 0;
 }
 
@@ -180,13 +178,25 @@
 #mylist-screen .content .row.selected .row-content::after {
   content: "";
   border: 6px solid rgba(244, 130, 33, 0.9);
-  width: 279px;
-  height: 158px;
+  width: 292px;
+  height: 166px;
   position: absolute;
-  top: -5px;
-  margin-left: 8.1vw;
+  top: -6px;
+  margin-left: 156px;
   box-sizing: border-box;
   box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset;
+}
+
+#mylist-screen .content .row .row-content.fixed-error {
+  height: 228px;
+  overflow: hidden;
+  padding: 40px 0;
+  margin-top: -25px;
+  margin-bottom: 0;
+}
+
+#mylist-screen .content .row .row-content.fixed-error::after {
+  margin-top: 40px;
 }
 
 #mylist-screen .content .row .row-title {
@@ -222,7 +232,7 @@
   opacity: 0.5;
 }
 
-#mylist-screen .content .list-end .text{
+#mylist-screen .content .list-end .text {
   color: #fff;
   font-size: 22px;
   line-height: 40px;

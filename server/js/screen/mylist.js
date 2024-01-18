@@ -91,7 +91,7 @@ window.mylist = {
         var marginTop = 0;
         var max = 1;
         if (options.length > max && newCurrent > max - 1) {
-          marginTop = -((newCurrent - (max - 1)) * 235);
+          marginTop = -((newCurrent - (max - 1)) * 231);
         }
 
         $(".inner-lists")[0].style.marginTop = `${marginTop}px`;
@@ -110,7 +110,7 @@ window.mylist = {
         var marginTop = 0;
         var max = 1;
         if (options.length > max && newCurrent > max - 1) {
-          marginTop = -((newCurrent - (max - 1)) * 235);
+          marginTop = -((newCurrent - (max - 1)) * 231);
         }
 
         $(".inner-lists")[0].style.marginTop = `${marginTop}px`;
@@ -239,7 +239,7 @@ window.mylist = {
         poster_items += `
       <div class="row ${index === mylist.selectedRow ? "selected" : ""}">
         <div class="row-title">${translate.go(element.title)}</div>
-        <div class="row-content">`;
+        <div class="row-content fixed-error">`;
         element.items.forEach((item) => {
           poster_items += mylist.createItem(item);
         });

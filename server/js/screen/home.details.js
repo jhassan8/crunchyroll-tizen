@@ -47,10 +47,6 @@ window.home_details = {
     <a>
       <i class="fa-solid fa-list"></i>
       <p>${translate.go("home.details.episodes")}</p>
-    </a>
-    <a>
-      <i class="fa-solid fa-clone"></i>
-      <p>${translate.go("home.details.related")}</p>
     </a>`;
 
     home_details.data.this = item;
