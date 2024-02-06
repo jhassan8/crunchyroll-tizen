@@ -20,14 +20,9 @@
 - [x] History screen and workflow
 - [x] Change audio and subtitles language inside player
 - [x] Settings screen
-- [x] Browse elements by categories
-
-#### In progress
-- [ ] My list screen and workflow
-- [ ] WebOS compatibility
-
-#### Pending
-- [ ] Migrate to react
+- [x] Browse elements by categories\
+- [x] My list screen and workflow
+- [x] WebOS compatibility
 
 ## Captures:
 ![layouts.gif](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/layouts.gif)
