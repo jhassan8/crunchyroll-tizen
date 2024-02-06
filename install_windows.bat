@@ -18,10 +18,10 @@ if "%device_ip%"=="" (
   exit /b 1
 )
 
-cd %tizen_directory%/tools
+cd "%tizen_directory%/tools"
 sdb connect %device_ip%
 for /f "tokens=3" %%a in ('sdb devices ^| findstr /c:"device"') do set "device_name=%%a"
 cd ide/bin
-tizen install -t %device_name% --name %app_directory%
+tizen install -t "%device_name%" -n "%app_directory%"
 
 pause

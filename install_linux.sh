@@ -22,6 +22,6 @@ cd "$tizen_directory/tools"
 ./sdb connect "$device_ip"
 device_name=$(./sdb devices | awk '/device/ && NR>1 {print $3}')
 cd "$tizen_directory/tools/ide/bin"
-./tizen install -t $device_name -n $app_directory
+./tizen install -t "$device_name" -n "$app_directory"
 
 read -p "Press [Enter] to exit."

@@ -2,48 +2,30 @@ window.changelog = {
   id: "changelog-modal",
   data: {
     version: "v1.1.5",
-    changes: [
-      {
-        title: "feat: watchlist workflow by @jhassan8",
-        description: "lists and watchlist  section is enabled.",
-      },
-      {
-        title: "feat: video playback speed by @jhassan8",
-        description: "playback speed change option.",
-      },
-    ],
-    extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
+    changes: [],
   },
 
   init: function () {
-    if (session.storage.version !== changelog.data.version) {
-      var changelog_element = document.createElement("div");
-      changelog_element.id = changelog.id;
+    var changelog_element = document.createElement("div");
+    changelog_element.id = changelog.id;
 
-      changelog_element.innerHTML = `
+    changelog_element.innerHTML = `
       <div class="content">
-        <div class="header">
-          Crunchyroll updated to version ${changelog.data.version}
-        </div>
+        <div class="header">v1.1.5 important announcement</div>
         <div class="body">
-          <ul class="changes">
-            ${changelog.getChanges()}
-          </ul>
-          <div class="extra">
-            ${changelog.data.extra}
-          </div>
+          <div class="text-big">The Crunchyroll OFFICIAL APP is now available for install in the TV STORE.</div>
+          <div class="text-small">Thanks.</div>
         </div>
         <div class="footer">
           <a class="button ${login.id}-option">OK</a>
         </div>
       </div>`;
 
-      session.storage.version = changelog.data.version;
-      session.update();
+    session.storage.version = changelog.data.version;
+    session.update();
 
-      document.body.appendChild(changelog_element);
-      main.state = changelog.id;
-    }
+    document.body.appendChild(changelog_element);
+    main.state = changelog.id;
   },
 
   destroy: function () {

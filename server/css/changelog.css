@@ -32,6 +32,18 @@
 #changelog-modal .content .body {
   position: relative;
   flex: 1;
+  padding-top: 45px;
+}
+
+#changelog-modal .content .body .text-big {
+  font-size: 54px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+#changelog-modal .content .body .text-small {
+  font-size: 43px;
+  padding-top: 50px;
 }
 
 #changelog-modal .content .extra {
