@@ -1,3 +1,5 @@
+# The application is now officially available in the Tizen store
+
 # Crunchyroll for TIZEN [![PayPal donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate/?hosted_button_id=SLLWEKD6QD5UJ)
 
 ## Description:
