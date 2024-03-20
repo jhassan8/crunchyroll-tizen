@@ -1,7 +1,7 @@
 window.changelog = {
   id: "changelog-modal",
   data: {
-    version: "v1.1.5",
+    version: "v1.1.6",
     changes: [],
   },
 
