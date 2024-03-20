@@ -2,6 +2,7 @@ window.service = {
   api: {
     url: "https://beta-api.crunchyroll.com",
     static: "https://static.crunchyroll.com",
+    drm: "https://cr-play-service.prd.crunchyrollsvc.com",
     //url: "http://api.crunchyroll.local",
     //static: "http://static.crunchyroll.local",
     auth: "Basic b2VkYXJteHN0bGgxanZhd2ltbnE6OWxFaHZIWkpEMzJqdVY1ZFc5Vk9TNTdkb3BkSnBnbzE=",
@@ -206,6 +207,25 @@ window.service = {
       },
       error: function (error) {
         request.error(error);
+      },
+    });
+  },
+
+  video_v2: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        fetch(
+          `${service.api.drm}/v1/${request.data.id}/web/firefox/play`,
+          {
+            headers: headers,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
       },
     });
   },

@@ -46,7 +46,7 @@ window.session = {
       data: { type: "subtitle" },
       success: function (response) {
         session.languages.subtitles = response;
-        session.languages.subtitles[""] = "Disabled";
+        session.languages.subtitles["Disabled"] = "Disabled";
       },
       error: function (error) {
         console.log(error);

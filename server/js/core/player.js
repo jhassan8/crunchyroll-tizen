@@ -1,4 +1,5 @@
 window.player = {
+  drmLock: false,
   states: {
     STOPPED: 0,
     PLAYING: 1,
@@ -17,15 +18,29 @@ window.player = {
   video: NaN,
   duration: 0,
   levelId: -1,
+  playhead: null,
 
   getVideo: function () {
+    player.video = document.getElementById("videoplayer");
     if (!player.video) {
-      player.video = document.getElementById("videoplayer");
+      var newVideo = document.createElement("video");
+      newVideo.id = "videoplayer";
+      newVideo.style.height = "100%";
+      newVideo.style.width = "100%";
+
+      $("#video-screen .content").prepend(newVideo);
+      player.video = newVideo;
     }
     return player.video;
   },
 
+  deleteVideo: function () {
+    player.video = document.getElementById("videoplayer");
+    player.video.parentNode.removeChild(player.video);
+  },
+
   config: function (timeFunction, endFunction) {
+    player.deleteVideo();
     player.getVideo().addEventListener("timeupdate", timeFunction);
     player.getVideo().addEventListener("ended", endFunction);
     player.getVideo().addEventListener("waiting", player.onbufferingstart);
@@ -41,33 +56,111 @@ window.player = {
     return player.getVideo().duration;
   },
 
-  play: function (url, playhead, noplay) {
-    if (Hls.isSupported()) {
-      player.plugin = new Hls();
-      player.plugin.loadSource(url);
-      player.plugin.attachMedia(player.getVideo());
+  // esto debe ejecutarse despues de el video_v2
+  deleteSession: function (callback) {
+    session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        fetch(
+          `${service.api.drm}/v1/token/${callback.data.id}/${callback.data.token}`,
+          {
+            method: "DELETE",
+            headers: headers,
+          }
+        )
+          .then((response) => {
+            return true;
+          })
+          .then((json) => {
+            player.drmLock = false;
+            callback.success && callback.success();
+          })
+          .catch((error) => callback.error && callback.error(error));
+      },
+    });
+  },
 
-      player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-        player.levelId = player.getQuality(data);
-        player.plugin.startLevel = player.levelId;
-        player.plugin.startLoad();
+  play: function (drm, url, playhead, noplay) {
+    player.config(video.setPlayingTime, video.end);
+    session.refresh({
+      success: function (storage) {
+        player.plugin = dashjs.MediaPlayer().create();
+        player.plugin.extend(
+          "RequestModifier",
+          () => {
+            return {
+              modifyRequestHeader: (xhr) => {
+                xhr.setRequestHeader(
+                  "Authorization",
+                  "Bearer " + storage.access_token
+                );
+                return xhr;
+              },
+            };
+          },
+          true
+        );
 
-        player.plugin.currentLevel = player.levelId;
-        if (!noplay) {
-          player.getVideo().play();
-          player.state = player.states.PLAYING;
+        if (session.storage.quality !== "auto") {
+          player.plugin.updateSettings({
+            streaming: {
+              abr: { autoSwitchBitrate: { video: false } },
+            },
+          });
         }
-      });
-    } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
-      player.getVideo().src = url;
-      if (!noplay) {
-        player.getVideo().play();
-        player.state = player.states.PLAYING;
-      }
-    }
-    if (playhead && playhead > 0) {
-      player.getVideo().currentTime = playhead * 60;
-    }
+
+        player.plugin.initialize(player.getVideo(), url, true);
+
+        var drmConfig = {
+          "com.widevine.alpha": {
+            priority: 1,
+            serverURL:
+              "https://cr-license-proxy.prd.crunchyrollsvc.com/v1/license/widevine",
+            httpRequestHeaders: {
+              "X-Cr-Content-Id": drm.id,
+              "X-Cr-Video-Token": drm.token,
+            },
+            serverCertificate:
+              "CrsCCAMSEKDc0WAwLAQT1SB2ogyBJEwYv4Tx7gUijgIwggEKAoIBAQC8Xc/GTRwZDtlnBThq8V382D1oJAM0F/YgCQtNDLz7vTWJ+QskNGi5Dd2qzO4s48Cnx5BLvL4H0xCRSw2Ed6ekHSdrRUwyoYOE+M/t1oIbccwlTQ7o+BpV1X6TB7fxFyx1jsBtRsBWphU65w121zqmSiwzZzJ4xsXVQCJpQnNI61gzHO42XZOMuxytMm0F6puNHTTqhyY3Z290YqvSDdOB+UY5QJuXJgjhvOUD9+oaLlvT+vwmV2/NJWxKqHBKdL9JqvOnNiQUF0hDI7Wf8Wb63RYSXKE27Ky31hKgx1wuq7TTWkA+kHnJTUrTEfQxfPR4dJTquE+IDLAi5yeVVxzbAgMBAAE6DGNhc3RsYWJzLmNvbUABEoADMmGXpXg/0qxUuwokpsqVIHZrJfu62ar+BF8UVUKdK5oYQoiTZd9OzK3kr29kqGGk3lSgM0/p499p/FUL8oHHzgsJ7Hajdsyzn0Vs3+VysAgaJAkXZ+k+N6Ka0WBiZlCtcunVJDiHQbz1sF9GvcePUUi2fM/h7hyskG5ZLAyJMzTvgnV3D8/I5Y6mCFBPb/+/Ri+9bEvquPF3Ff9ip3yEHu9mcQeEYCeGe9zR/27eI5MATX39gYtCnn7dDXVxo4/rCYK0A4VemC3HRai2X3pSGcsKY7+6we7h4IycjqtuGtYg8AbaigovcoURAZcr1d/G0rpREjLdVLG0Gjqk63Gx688W5gh3TKemsK3R1jV0dOfj3e6uV/kTpsNRL9KsD0v7ysBQVdUXEbJotcFz71tI5qc3jwr6GjYIPA3VzusD17PN6AGQniMwxJV12z/EgnUopcFB13osydpD2AaDsgWo5RWJcNf+fzCgtUQx/0Au9+xVm5LQBdv8Ja4f2oiHN3dw",
+            audioRobustness: "SW_SECURE_CRYPTO",
+            videoRobustness: "SW_SECURE_CRYPTO",
+            sessionType: "temporary",
+          },
+        };
+
+        player.plugin.setProtectionData(drmConfig);
+
+        player.plugin.registerLicenseRequestFilter(function (request) {
+          request.headers["Content-Type"] = "application/octet-stream";
+          request.headers["Authorization"] = "Bearer " + storage.access_token;
+        });
+
+        player.plugin.registerLicenseResponseFilter(function (response) {
+          var responseDataUint8Array = new Uint8Array(response.data);
+          var decodedString = new TextDecoder("utf-8").decode(
+            responseDataUint8Array
+          );
+          var licenseObject = JSON.parse(decodedString);
+          var binaryLicenseString = atob(licenseObject.license);
+          var binaryLicenseUint8Array = new Uint8Array(
+            binaryLicenseString.length
+          );
+          for (var i = 0; i < binaryLicenseString.length; i++) {
+            binaryLicenseUint8Array[i] = binaryLicenseString.charCodeAt(i);
+          }
+          response.data = binaryLicenseUint8Array.buffer;
+          player.drmLock = true;
+        });
+
+        player.noplay = noplay;
+
+        if (playhead && playhead > 0) {
+          player.playhead = playhead * 60;
+        }
+      },
+    });
   },
 
   pause: function () {
@@ -128,18 +221,17 @@ window.player = {
     player.getVideo().currentTime = seconds;
   },
 
-  getQuality: function (data) {
-    var id = Object.keys(data.levels).find(
-      (key) => data.levels[key].height === +session.storage.quality
+  getQuality: function () {
+    var qualities = player.plugin.getBitrateInfoListFor("video");
+    var id = Object.keys(qualities).find(
+      (key) => qualities[key].height === +session.storage.quality
     );
     return id !== undefined ? id : -1;
   },
 
   stop: function () {
     if (player.state != player.states.STOPPED) {
-      player.plugin.stopLoad();
-      player.pause();
-      player.plugin.destroy();
+      player.getVideo().pause();
       player.plugin = NaN;
       player.video = NaN;
       player.STOP_CALLBACK && player.STOP_CALLBACK();
@@ -160,6 +252,23 @@ window.player = {
   },
 
   onbufferingcomplete: function () {
+    if (session.storage.quality !== "auto") {
+      player.plugin.setQualityFor("video", player.getQuality());
+    }
+
+    if (player.playhead) {
+      player.getVideo().currentTime = player.playhead;
+      player.playhead = null;
+    }
+
+    if (player.noplay) {
+      player.noplay = null;
+      player.pause();
+    } else {
+      player.getVideo().play();
+      player.state = player.states.PLAYING;
+    }
+
     video.hideBTN();
   },
 

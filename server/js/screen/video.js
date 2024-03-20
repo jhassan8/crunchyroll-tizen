@@ -2,6 +2,7 @@ window.video = {
   id: "video-screen",
   previous: null,
   episode: null,
+  token: null,
   speed: {
     options: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
     active: 1,
@@ -146,7 +147,6 @@ window.video = {
     </div>`;
     document.body.appendChild(video_element);
 
-    player.config(video.setPlayingTime, video.end);
     $(`#${home.id}`).hide();
     video.previous = main.state;
     main.state = video.id;
@@ -365,47 +365,54 @@ window.video = {
     }
   },
 
-  play: function (item, noplay) {
-    if (!item.stream) {
-      video.destroy();
-      return;
-    }
+  play: function (item, noplay, forceSubtitle) {
     video.episode = item.id;
-    service.video({
+    service.video_v2({
       data: {
-        id: item.stream,
+        id: item.id,
       },
       success: function (data) {
+        video.token = data.token;
         video.stopNext();
         video.setSkipIntro(item.id);
         video.next.shown = false;
         try {
-          video.streams = data.streams.adaptive_hls;
-
-          var subtitle_lang;
-          if (video.streams[session.storage.account.language]) {
-            subtitle_lang = session.storage.account.language;
-          } else {
-            subtitle_lang = "";
-          }
-
-          video.audio = data.audio_locale;
-          video.audios = [{ name: video.audio, id: 0 }];
-
+          video.audio = data.audioLocale;
+          video.audios = [{ name: video.audio, id: item.id }];
           if (data.versions) {
             video.audios = data.versions.map((element) => ({
               name: element.audio_locale,
-              id: element.media_guid,
+              id: element.guid,
             }));
           }
 
-          video.subtitle = video.streams[subtitle_lang].hardsub_locale;
-          video.subtitles = Object.keys(video.streams).map((element) => ({
-            name: element,
-          }));
+          if (!forceSubtitle) {
+            video.subtitle = data.hardSubs[session.storage.account.language]
+              ? session.storage.account.language
+              : "Disabled";
+            video.subtitle =
+              video.subtitle === "Disabled" &&
+              data.hardSubs[session.storage.account.audio]
+                ? session.storage.account.audio
+                : video.subtitle;
+          } else {
+            video.subtitle = forceSubtitle;
+          }
+          video.subtitles = data.hardSubs
+            ? Object.keys(data.hardSubs).map((element) => ({
+                name: element,
+                url: data.hardSubs[element].url,
+              }))
+            : [];
+
+          video.subtitles.unshift({ name: "Disabled", url: data.url });
+          var subtitleIndex = video.subtitles.findIndex(
+            (e) => e.name === video.subtitle
+          );
 
           player.play(
-            video.streams[subtitle_lang].url,
+            { token: data.token, id: item.id },
+            video.subtitles[subtitleIndex].url,
             item.playhead === item.duration ? 0 : item.playhead,
             noplay
           );
@@ -415,6 +422,15 @@ window.video = {
         } catch (error) {
           console.log(error);
         }
+
+        setTimeout(() => {
+          player.deleteSession({
+            data: {
+              id: video.episode,
+              token: video.token,
+            },
+          });
+        }, 3000);
         video.showOSD();
       },
       error: function (error) {
@@ -478,8 +494,7 @@ window.video = {
   changeAudio: function (index) {
     video.play(
       {
-        id: video.episode,
-        stream: video.audios[index].id,
+        id: video.audios[index].id,
         playhead: player.getPlayed() / 60,
         duration: player.getDuration(),
       },
@@ -501,10 +516,14 @@ window.video = {
   },
 
   changeSubtitle: function (index) {
-    player.play(
-      video.streams[video.subtitles[index].name].url,
-      player.getPlayed() / 60,
-      true
+    video.play(
+      {
+        id: video.episode,
+        playhead: player.getPlayed() / 60,
+        duration: player.getDuration(),
+      },
+      true,
+      video.subtitles[index].name
     );
   },
 
@@ -641,8 +660,10 @@ window.video = {
 
   showBTN: function (state, data) {
     var button = document.getElementById("osd-icon");
-    button.style.opacity = 1;
-    button.className = `icon-status ${state}`;
+    if (button) {
+      button.style.opacity = 1;
+      button.className = `icon-status ${state}`;
+    }
   },
 
   hideBTN: function () {
