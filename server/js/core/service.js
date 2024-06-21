@@ -5,7 +5,7 @@ window.service = {
     drm: "https://cr-play-service.prd.crunchyrollsvc.com",
     //url: "http://api.crunchyroll.local",
     //static: "http://static.crunchyroll.local",
-    auth: "Basic bm12anNoZmtueW14eGtnN2ZiaDk6WllJVnJCV1VQYmNYRHRiRDIyVlNMYTZiNFdRb3Mzelg=",
+    auth: "Basic d2piMV90YThta3Y3X2t4aHF6djc6MnlSWlg0Y0psX28yMzRqa2FNaXRTbXNLUVlGaUpQXzU=",
   },
 
   token: function (request) {
