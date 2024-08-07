@@ -6,6 +6,8 @@
   "scripts": {
     "build-cdn": "grunt cdn",
     "deploy": "npm run build-cdn && gh-pages -d dist -b cdn",
+    "electron-run": "sh ./electron_build.sh && cd electron && npm install && npm run start",
+    "electron-build": "sh ./electron_build.sh && cd electron && npm install && npm run build",
     "run": "npm run tizen-start --tv=LS27AM500NLXZB --tv2=UN65MU6100",
     "tizen-build": "grunt offline-tizen",
     "tizen-build-online": "grunt online-tizen",

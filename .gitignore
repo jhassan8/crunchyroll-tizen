@@ -6,5 +6,6 @@
 .mockoon
 
 dist
+electron/static/build/
 node_modules/
 package-lock.json

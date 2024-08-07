@@ -1,0 +1,34 @@
+{
+  "name": "Crunchyroll",
+  "version": "1.0.0",
+  "description": "Crunchyroll client that uses the TV interface",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.crunchyroll",
+    "electronDownload": {
+      "mirror": "https://github.com/castlabs/electron-releases/releases/download/v"
+    },
+    "productName": "Crunchyroll",
+    "files": [
+      "index.js",
+      "package.json",
+      "static/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "artifactName": "${productName}_v${version}_linux.${ext}",
+      "category": "Utility"
+    }
+  },
+  "keywords": [],
+  "devDependencies": {
+    "electron": "github:castlabs/electron-releases#v31.3.0+wvcus",
+    "electron-builder": "^24.13.3"
+  }
+}
