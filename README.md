@@ -10,6 +10,7 @@
 
 #### Complete
 - [x] Auth workflow
+- [x] Profiles screen
 - [x] Home screen
 - [x] Details screen
 - [x] Episodes screen
@@ -59,3 +60,15 @@
 3. In project folder run:
     - online: ```npm run start-tv-online --tv=<name_of_tv_device_manager>```
     - offline: ```npm run start-tv --tv=<name_of_tv_device_manager>```
+
+## Linux App (experimental)
+
+required: npm
+
+## Development
+
+run `npm run electron-run`. Note that there is no hot reloading, so the command must be rerun to see updated changes
+
+## Build
+
+run `npm run electron-build`. This will create an AppImage in the `electron/dist` directory.
