@@ -1,0 +1,80 @@
+#profiles-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#profiles-screen .content {
+  display: flex;
+  justify-content: center;
+  height: 65vh;
+  min-width: 70vw;
+}
+
+#profiles-screen .content .container {
+  padding: 0 70px;
+  flex: 1;
+  position: relative;
+}
+
+#profiles-screen .content .container-mid {
+  padding: 0 50px;
+  width: 40%;
+  position: relative;
+}
+
+#profiles-screen .content .container-mid ul,
+#profiles-screen .content .container ul {
+  padding: 0;
+}
+
+#profiles-screen .content .container-mid ul li,
+#profiles-screen .content .container ul li {
+  color: #fff;
+  font-size: 3vh;
+  padding: 15px 25px;
+  opacity: 0.5;
+  margin: 30px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 74px;
+  border: 2px solid transparent;
+}
+
+#profiles-screen .content .container-mid ul li.selected,
+#profiles-screen .content .container ul li.selected {
+  border: 2px solid rgba(244, 130, 33, 0.9);
+  opacity: 1;
+}
+
+#profiles-screen .content .container-mid ul li.active,
+#profiles-screen .content .container ul li.active {
+  opacity: 1;
+  position: relative;
+  padding-left: 50px;
+}
+
+#profiles-screen .content .container-mid ul li.active::after,
+#profiles-screen .content .container ul li.active::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  top: 24px;
+  border-left: 10px solid white;
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
+}
+
+#profiles-screen .content #settings-details {
+  overflow: hidden;
+}
+
+#profiles-screen .content .container .list-active {
+  height: 100%;
+  margin: 0;
+}

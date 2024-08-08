@@ -71,6 +71,23 @@ window.service = {
     });
   },
 
+  profiles: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", `Bearer ${storage.access_token}`);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+        fetch(`${service.api.url}/accounts/v1/me/multiprofile`, {
+          headers: headers,
+        })
+          .then((response) => response.json())
+          .then((json) => request?.success(json))
+          .catch((error) => request?.error(error));
+      },
+    });
+  },
+
   setProfile: function (request) {
     return session.refresh({
       success: function (storage) {
@@ -86,6 +103,34 @@ window.service = {
           .then((response) => null)
           .then((json) => request.success(json))
           .catch((error) => request.error(error));
+      },
+    });
+  },
+
+  switchProfile: function (request, profile_id) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", service.api.auth);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+        const params = service.format({
+          refresh_token: storage.refresh_token,
+          grant_type: "refresh_token_profile_id",
+          profile_id,
+          scope: "offline_access",
+        });
+
+        fetch(`${service.api.url}/auth/v1/token`, {
+          method: "POST",
+          headers: headers,
+          body: params,
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            return request?.success(json);
+          })
+          .catch((error) => request?.error(error));
       },
     });
   },
@@ -217,12 +262,9 @@ window.service = {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-        fetch(
-          `${service.api.drm}/v1/${request.data.id}/web/firefox/play`,
-          {
-            headers: headers,
-          }
-        )
+        fetch(`${service.api.drm}/v1/${request.data.id}/web/firefox/play`, {
+          headers: headers,
+        })
           .then((response) => response.json())
           .then((json) => request.success(json))
           .catch((error) => request.error(error));

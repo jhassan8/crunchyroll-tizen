@@ -149,6 +149,9 @@ window.main = {
           case historyScreen.id:
             historyScreen.keyDown(event);
             break;
+          case profilesScreen.id:
+            profilesScreen.keyDown(event);
+            break;
           case browse.id:
             browse.keyDown(event);
             break;
@@ -168,7 +171,11 @@ window.main = {
             settings.keyDown(event);
             break;
           default:
-            console.log("keyboard action screen not defined.");
+            console.log(
+              "keyboard action screen not defined.",
+              main.state,
+              event
+            );
             break;
         }
       }

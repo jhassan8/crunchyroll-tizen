@@ -15,6 +15,7 @@ window.session = {
       language: NaN,
       audio: NaN,
     },
+    profiles: [],
     cookies: {
       bucket: NaN,
       policy: NaN,
@@ -22,6 +23,7 @@ window.session = {
       key_pair_id: NaN,
       expires: NaN,
     },
+    profile_id: NaN,
     id: NaN,
     country: NaN,
     token_type: NaN,
@@ -157,6 +159,8 @@ window.session = {
         session.storage.account.mature = response.maturity_rating;
         session.storage.account.username = response.username;
         session.update();
+        // load additional profiles
+        session.load_profiles();
         callback.success();
       },
       error: callback.error,
@@ -166,6 +170,75 @@ window.session = {
       success: function (response) {},
       error: function (error) {},
     });
+  },
+
+  load_profiles: function (callback) {
+    try {
+      service.profiles({
+        success: function (response) {
+          session.storage.profiles = response.profiles;
+
+          session.update();
+          callback?.success();
+        },
+        error: callback?.error,
+      });
+
+      session.cookies({
+        success: function (response) {},
+        error: function (error) {},
+      });
+    } catch (e) {
+      console.error("load_profiles", e);
+    }
+  },
+
+  switch_profile: function (callback, profile_id) {
+    return service.switchProfile(
+      {
+        success: (json) => {
+          session.storage.expires_in = new Date().setSeconds(
+            new Date().getSeconds() + json.expires_in
+          );
+          session.storage.id = json.account_id;
+          session.storage.profile_id = json.profile_id;
+          session.storage.country = json.country;
+          session.storage.token_type = json.token_type;
+          session.storage.access_token = json.access_token;
+          session.storage.refresh_token = json.refresh_token;
+          session.update();
+
+          // refresh profiles to set correct is_selected status
+          service.profiles({
+            success: (response) => {
+              session.storage.profiles = response.profiles;
+
+              session.storage.profiles.forEach((profile) => {
+                if (profile.is_selected) {
+                  session.storage.account.audio =
+                    profile.preferred_content_audio_language;
+                  session.storage.account.language =
+                    profile.preferred_content_subtitle_language;
+                }
+              });
+
+              session.update();
+
+              // manually update profile label
+              const profileName = document.getElementById(
+                "active-profile-name"
+              );
+              profileName.innerHTML = session.get_active_profile_name();
+
+              return callback?.success(json);
+            },
+            error: console.error,
+          });
+        },
+        error: callback?.error,
+      },
+      profile_id
+    );
   },
 
   // return session token, if expires refresh, if doesn't exist returns undefined
@@ -188,6 +261,20 @@ window.session = {
     return session.storage;
   },
 
+  get_active_profile_name() {
+    const profiles = session.storage.profiles;
+
+    for (let i = 0; i < profiles.length; i++) {
+      const { is_selected, username, profile_name } = profiles[i];
+
+      if (is_selected) {
+        return username ? username : profile_name;
+      }
+    }
+
+    return session.storage.account.username;
+  },
+
   clear: function () {
     session.storage = {
       language: "en-US",
@@ -201,6 +288,7 @@ window.session = {
         language: "en-US",
         audio: "",
       },
+      profiles: [],
       cookies: {
         bucket: NaN,
         policy: NaN,
@@ -208,6 +296,7 @@ window.session = {
         key_pair_id: NaN,
         expires: NaN,
       },
+      profile_id: NaN,
       id: NaN,
       country: NaN,
       token_type: NaN,
