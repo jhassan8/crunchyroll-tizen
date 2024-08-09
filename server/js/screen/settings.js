@@ -189,7 +189,7 @@ window.settings = {
             break;
           case "videoquality":
             var options = settings.qualities;
-            var active = session.storage.quality || 'auto';
+            var active = session.storage.quality || "auto";
             break;
           case "mature":
             var options = settings.bool;

@@ -13,7 +13,7 @@ window.menu = {
       icon: "fa-solid fa-house",
       action: "home.restart",
     },
-  {
+    {
       id: "mylist",
       label: "menu.list",
       icon: "fa-solid fa-bookmark",
@@ -30,6 +30,13 @@ window.menu = {
       label: "menu.browse",
       icon: "fa-regular fa-rectangle-list",
       action: "browse.init",
+    },
+    {
+      id: "profilesScreen",
+      label: "menu.profiles",
+      icon: "fa-solid fa-user",
+      tool: true,
+      action: "profilesScreen.init",
     },
     {
       id: "settings",
@@ -89,7 +96,7 @@ window.menu = {
             session.storage.account.avatar
           }">
         </div>
-        <p>${session.storage.account.username}</p>
+        <p id="active-profile-name">${session.get_active_profile_name()}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options">
