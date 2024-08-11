@@ -16,48 +16,6 @@
   justify-content: space-between;
 }
 
-#menu-screen .content .profile {
-  display: flex;
-  align-items: center;
-}
-
-#menu-screen .content .profile .avatar {
-  border-radius: 50%;
-  overflow: hidden;
-  opacity: 0.6;
-  width: 50px;
-  height: 50px;
-  margin-left: -10px;
-  opacity: 1;
-  float: left;
-}
-
-#menu-screen .content .profile .avatar img {
-  float: left;
-  width: 100%;
-}
-
-#menu-screen .content .profile p {
-  float: left;
-  width: 0;
-  overflow: hidden;
-  height: 0;
-  margin: 0;
-  line-height: 22px;
-  text-transform: uppercase;
-  /* transition: width 0.3s; */
-  white-space: nowrap;
-  color: #fff;
-  font-size: 18px;
-}
-
-#menu-screen .content .profile i {
-  color: #f47521;
-  font-size: 15px;
-  margin-left: 10px;
-  display: none;
-}
-
 #menu-screen .content .options,
 #menu-screen .content .tools {
   display: flex;
@@ -135,12 +93,77 @@
   height: unset;
 }
 
-.open-menu #menu-screen .content .profile p {
-  width: auto;
-  height: unset;
+.open-menu #menu-screen .content .profile.premium i {
+  display: block;
+}
+
+#menu-screen .content .options .profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 125px;
+  opacity: 1;
+}
+
+#menu-screen .content .options .profile .profile-text {
+  width: 0;
+  overflow: hidden;
+  height: 0;
+  margin: 0;
+  text-transform: uppercase;
   margin-left: 20px;
 }
 
-.open-menu #menu-screen .content .profile.premium i {
-  display: block;
+#menu-screen .content .options .profile .profile-text .profile-change {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+#menu-screen .content .options .profile .avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.6;
+  width: 60px;
+  height: 60px;
+  margin-left: -10px;
+  opacity: 1;
+  float: left;
+  border: 5px solid transparent;
+}
+
+#menu-screen .content .options .profile .avatar img {
+  float: left;
+  width: 100%;
+}
+
+#menu-screen .content .options .profile .profile-name {
+  float: left;
+  line-height: 22px;
+  /* transition: width 0.3s; */
+  white-space: nowrap;
+  color: #fff;
+  font-size: 18px;
+}
+
+#menu-screen .content .options .profile .profile-name span {
+  float: left;
+}
+
+#menu-screen .content .options .profile i {
+  color: #f47521;
+  font-size: 15px;
+  line-height: 20px;
+  display: none;
+}
+
+.open-menu #menu-screen .content .options .profile .profile-text {
+  width: auto;
+  height: unset;
+}
+
+#menu-screen .content .options .profile.option.focus::after {
+  display: none;
+}
+
+#menu-screen .content .options .profile.option.focus .avatar {
+  border: 5px solid #f47521;
 }

@@ -5,6 +5,7 @@
 
 window.profilesScreen = {
   id: "profiles-screen",
+
   init: function () {
     var profiles_element = document.createElement("div");
 
@@ -12,37 +13,42 @@ window.profilesScreen = {
 
     profiles_element.innerHTML = `
     <div class="content">
-      <div class="container-mid">
+      <div class="container">
+        <div class="legend">${translate.go("profiles.label")}</div>
         <ul class="options" id="settings-menu">${profilesScreen.getOptions()}</ul>
       </div>
     </div>
     `;
 
+    menu.destroy();
     document.body.appendChild(profiles_element);
+    main.state = profilesScreen.id;
   },
+
   destroy() {
     document.body.removeChild(document.getElementById(profilesScreen.id));
   },
+
   getOptions: function () {
     const profiles = session.storage.profiles;
 
-    return profiles.map((profile, idx) => {
-      const { is_selected, profile_name, profile_id } = profile;
+    return profiles.map((profile) => {
+      const { is_selected, profile_name, profile_id, avatar } = profile;
 
       return `<li class="${
         is_selected ? "selected active" : ""
       }" id="${profile_id}">
-        ${profile_name?.trim().toUpperCase()}
-        </li>`;
+        <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
+          avatar || "0001-cr-white-orange.png"
+        }"/>
+        <span>${profile_name.trim().toUpperCase()}</span>
+      </li>`;
     });
   },
 
   keyDown(event) {
     switch (event.keyCode) {
-      case tvKey.KEY_LEFT:
-        menu.open();
-        break;
-      case tvKey.KEY_DOWN:
+      case tvKey.KEY_RIGHT:
         var options = $(".options li");
         var current = options.index($(`.options li.selected`));
         options.removeClass("selected");
@@ -50,7 +56,7 @@ window.profilesScreen = {
         var newCurrent = current < options.length - 1 ? current + 1 : current;
         options.eq(newCurrent).addClass("selected");
         break;
-      case tvKey.KEY_UP:
+      case tvKey.KEY_LEFT:
         var options = $(`.options li`);
         var current = options.index($(`.options li.selected`));
         options.removeClass("selected");
@@ -68,13 +74,9 @@ window.profilesScreen = {
         session.switch_profile(
           {
             success: (responseJson) => {
-              const { profile_id } = responseJson;
-              options.removeClass("active");
-
-              var option = $(`#${profile_id}`);
-
-              option.addClass("active");
-              menu.open();
+              profilesScreen.destroy();
+              menu.init();
+              home.restart();
             },
             error: console.error,
           },

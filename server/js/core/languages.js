@@ -72,6 +72,10 @@ window.languages = {
       watchlist: "देखने की सूची",
       empty: "और कोई सूची नहीं है।",
     },
+    profiles: {
+      label: "कौन देख रहा है?",
+      change: "बदलें",
+    },
   },
   ar: {
     generic: {
@@ -144,6 +148,10 @@ window.languages = {
     lists: {
       watchlist: "قائمة المشاهدة",
       empty: "لا توجد قوائم أخرى لعرضها",
+    },
+    profiles: {
+      label: "من يشاهد؟",
+      change: "تغيير",
     },
   },
   ca: {
@@ -218,6 +226,10 @@ window.languages = {
       watchlist: "Llista de seguiment",
       empty: "No hi ha més llistes per mostrar",
     },
+    profiles: {
+      label: "Qui està mirant?",
+      change: "canvi",
+    },
   },
   de: {
     generic: {
@@ -290,6 +302,10 @@ window.languages = {
     lists: {
       watchlist: "Beobachtungsliste",
       empty: "Keine weiteren Listen vorhanden",
+    },
+    profiles: {
+      label: "Wer schaut gerade?",
+      change: "Ändern",
     },
   },
   en: {
@@ -364,6 +380,10 @@ window.languages = {
       watchlist: "Watchlist",
       empty: "No more lists to show",
     },
+    profiles: {
+      label: "Who's watching?",
+      change: "change",
+    },
   },
   es: {
     generic: {
@@ -436,6 +456,10 @@ window.languages = {
     lists: {
       watchlist: "Favoritos",
       empty: "No hay más listas para mostrar",
+    },
+    profiles: {
+      label: "¿Quién está viendo?",
+      change: "cambiar",
     },
   },
   fr: {
@@ -510,6 +534,10 @@ window.languages = {
       watchlist: "Liste de suivi",
       empty: "Aucune autre liste à afficher",
     },
+    profiles: {
+      label: "Qui regarde?",
+      change: "changer",
+    },
   },
   id: {
     generic: {
@@ -582,6 +610,10 @@ window.languages = {
     lists: {
       watchlist: "Daftar Pantau",
       empty: "Tidak ada daftar lain untuk ditampilkan",
+    },
+    profiles: {
+      label: "Siapa yang menonton?",
+      change: "ubah",
     },
   },
   it: {
@@ -656,6 +688,10 @@ window.languages = {
       watchlist: "Daftar Pantau",
       empty: "Tidak ada daftar lain untuk ditampilkan",
     },
+    profiles: {
+      label: "Chi sta guardando?",
+      change: "cambia",
+    },
   },
   ms: {
     generic: {
@@ -728,6 +764,10 @@ window.languages = {
     lists: {
       watchlist: "Senarai Pantau",
       empty: "Tiada senarai lain untuk dipaparkan",
+    },
+    profiles: {
+      label: "Siapa yang menonton?",
+      change: "ubah",
     },
   },
   pl: {
@@ -802,6 +842,10 @@ window.languages = {
       watchlist: "Lista obserwowanych",
       empty: "Brak kolejnych list do wyświetlenia",
     },
+    profiles: {
+      label: "Kto ogląda?",
+      change: "zmienić",
+    },
   },
   pt: {
     generic: {
@@ -874,6 +918,10 @@ window.languages = {
     lists: {
       watchlist: "Favoritos",
       empty: "Não há mais listas para mostrar",
+    },
+    profiles: {
+      label: "Quem está assistindo?",
+      change: "mudar",
     },
   },
   ru: {
@@ -948,6 +996,10 @@ window.languages = {
       watchlist: "Список отслеживаемого",
       empty: "Нет больше списков для отображения",
     },
+    profiles: {
+      label: "Кто смотрит?",
+      change: "изменить",
+    },
   },
   th: {
     generic: {
@@ -1020,6 +1072,10 @@ window.languages = {
     lists: {
       watchlist: "รายการดู",
       empty: "ไม่มีรายการเพิ่มเติมที่จะแสดง",
+    },
+    profiles: {
+      label: "ใครกำลังดูอยู่?",
+      change: "เปลี่ยน",
     },
   },
   tr: {
@@ -1094,6 +1150,10 @@ window.languages = {
       watchlist: "İzleme Listesi",
       empty: "Gösterilecek başka liste yok",
     },
+    profiles: {
+      label: "Kim izliyor?",
+      change: "değiştir",
+    },
   },
   vi: {
     generic: {
@@ -1166,6 +1226,10 @@ window.languages = {
     lists: {
       watchlist: "Danh sách theo dõi",
       empty: "Không còn danh sách nào để hiển thị",
+    },
+    profiles: {
+      label: "Ai đang xem?",
+      change: "thay đổi",
     },
   },
 };

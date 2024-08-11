@@ -172,16 +172,13 @@ window.session = {
     });
   },
 
-  load_profiles: function (callback) {
+  load_profiles: function () {
     try {
       service.profiles({
         success: function (response) {
           session.storage.profiles = response.profiles;
-
           session.update();
-          callback?.success();
-        },
-        error: callback?.error,
+        }
       });
 
       session.cookies({
@@ -219,23 +216,18 @@ window.session = {
                     profile.preferred_content_audio_language;
                   session.storage.account.language =
                     profile.preferred_content_subtitle_language;
+                  session.storage.account.avatar = profile.avatar;
                 }
               });
 
               session.update();
 
-              // manually update profile label
-              const profileName = document.getElementById(
-                "active-profile-name"
-              );
-              profileName.innerHTML = session.get_active_profile_name();
-
-              return callback?.success(json);
+              return callback.success(json);
             },
             error: console.error,
           });
         },
-        error: callback?.error,
+        error: callback.error,
       },
       profile_id
     );
@@ -261,14 +253,14 @@ window.session = {
     return session.storage;
   },
 
-  get_active_profile_name() {
-    const profiles = session.storage.profiles;
+  get_active_profile_name: function () {
+    var profiles = session.storage.profiles;
 
-    for (let i = 0; i < profiles.length; i++) {
-      const { is_selected, username, profile_name } = profiles[i];
+    for (var i = 0; i < profiles.length; i++) {
+      var { is_selected, username, profile_name } = profiles[i];
 
       if (is_selected) {
-        return username ? username : profile_name;
+        return profile_name ? profile_name : username;
       }
     }
 

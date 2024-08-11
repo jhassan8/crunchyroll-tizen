@@ -64,7 +64,7 @@ window.main = {
         success: function () {
           session.load_account({
             success: function () {
-              main.events.home();
+              main.events.profiles();
             },
             error: function (error) {
               console.log("load_account", error);
@@ -79,24 +79,10 @@ window.main = {
       });
     },
 
-    home: function () {
-      service.home({
-        success: function (response) {
-          mapper.home(response, {
-            success: function () {
-              loading.destroy();
-              home.init();
-              menu.init();
-            },
-          });
-        },
-        error: function (error) {
-          console.log(error);
-          loading.destroy();
-          login.init();
-        },
-      });
-    },
+    profiles: function () {
+      loading.destroy();
+      profilesScreen.init();
+    }
   },
 
   /* on exit app */

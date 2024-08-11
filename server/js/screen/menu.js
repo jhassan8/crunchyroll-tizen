@@ -2,6 +2,14 @@ window.menu = {
   id: "menu-screen",
   options: [
     {
+      id: "profilesScreen",
+      label: "menu.profiles",
+      icon: "fa-solid fa-user",
+      tool: true,
+      action: "profilesScreen.init",
+      hidden: true
+    },
+    {
       id: "search",
       label: "menu.search",
       icon: "fa-solid fa-magnifying-glass",
@@ -32,13 +40,6 @@ window.menu = {
       action: "browse.init",
     },
     {
-      id: "profilesScreen",
-      label: "menu.profiles",
-      icon: "fa-solid fa-user",
-      tool: true,
-      action: "profilesScreen.init",
-    },
-    {
       id: "settings",
       label: "menu.settings",
       icon: "fa-solid fa-gear",
@@ -53,7 +54,7 @@ window.menu = {
       event: "logout",
     },
   ],
-  selected: 1,
+  selected: 2,
   previous: NaN,
   isOpen: false,
 
@@ -65,41 +66,48 @@ window.menu = {
     var menu_options = "";
 
     menu.options.forEach((element, index) => {
-      if (!!element.tool) {
-        tool_options += `
-        <a class="option ${
-          reset && element.id === "settings"
-            ? "selected"
-            : index === menu.selected
-            ? "selected"
-            : ""
-        }">
-          <i class="${element.icon}"></i>
-          <p>${translate.go(element.label)}</p>
-        </a>`;
-      } else {
-        menu_options += `
-        <a class="option ${
-          !reset && index === menu.selected ? "selected" : ""
-        }">
-          <i class="${element.icon}"></i>
-          <p>${translate.go(element.label)}</p>
-        </a>`;
+      if (!element.hidden) {
+        if (!!element.tool) {
+          tool_options += `
+          <a class="option ${
+            reset && element.id === "settings"
+              ? "selected"
+              : index === menu.selected
+              ? "selected"
+              : ""
+          }">
+            <i class="${element.icon}"></i>
+            <p>${translate.go(element.label)}</p>
+          </a>`;
+        } else {
+          menu_options += `
+          <a class="option ${
+            !reset && index === menu.selected ? "selected" : ""
+          }">
+            <i class="${element.icon}"></i>
+            <p>${translate.go(element.label)}</p>
+          </a>`;
+        }
       }
     });
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${session.storage.account.premium ? "premium" : ""}">
-        <div class="avatar">
-          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
-            session.storage.account.avatar
-          }">
-        </div>
-        <p id="active-profile-name">${session.get_active_profile_name()}</p>
-        <i class="fa-solid fa-crown"></i>
-      </div>
       <div class="options">
+        <div class="option profile ${session.storage.account.premium ? "premium" : ""}">
+          <div class="avatar">
+            <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
+              session.storage.account.avatar
+            }">
+          </div>
+          <div class="profile-text">
+            <div class="profile-name">
+              <span id="active-profile-name">${session.get_active_profile_name()}</span>
+              <i class="fa-solid fa-crown"></i>
+            </div>
+            <div class="profile-change">${translate.go('profiles.change')}</div>
+          </div>
+        </div>
         ${menu_options}
       </div>
       <div class="tools">
@@ -107,7 +115,7 @@ window.menu = {
       </div>
     </div>`;
 
-    document.body.appendChild(menu_element);
+    !document.getElementById(this.id) && document.body.appendChild(menu_element);
   },
 
   destroy: function () {

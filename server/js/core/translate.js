@@ -23,8 +23,12 @@ window.translate = {
       var text = keys.reduce((obj, i) => obj[i], languages[translate.lang]);
       text = params ? translate.withParams(text, params) : text;
     } catch (error) {
-      var text = keys.reduce((obj, i) => obj[i], languages["en"]);
-      text = params ? translate.withParams(text, params) : text;
+      try {
+        var text = keys.reduce((obj, i) => obj[i], languages["en"]);
+        text = params ? translate.withParams(text, params) : text;
+      } catch (error) {
+        console.log('no translate for ' + key)
+      }
     }
     return text || key;
   },

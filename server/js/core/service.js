@@ -5,7 +5,7 @@ window.service = {
     drm: "https://cr-play-service.prd.crunchyrollsvc.com",
     //url: "http://api.crunchyroll.local",
     //static: "http://static.crunchyroll.local",
-    auth: "Basic d2piMV90YThta3Y3X2t4aHF6djc6MnlSWlg0Y0psX28yMzRqa2FNaXRTbXNLUVlGaUpQXzU=",
+    auth: "Basic eHVuaWh2ZWRidDNtYmlzdWhldnQ6MWtJUzVkeVR2akUwX3JxYUEzWWVBaDBiVVhVbXhXMTE=",
   },
 
   token: function (request) {
@@ -82,8 +82,8 @@ window.service = {
           headers: headers,
         })
           .then((response) => response.json())
-          .then((json) => request?.success(json))
-          .catch((error) => request?.error(error));
+          .then((json) => request.success(json))
+          .catch((error) => request.error(error));
       },
     });
   },
@@ -128,9 +128,9 @@ window.service = {
         })
           .then((response) => response.json())
           .then((json) => {
-            return request?.success(json);
+            return request.success(json);
           })
-          .catch((error) => request?.error(error));
+          .catch((error) => request.error(error));
       },
     });
   },
