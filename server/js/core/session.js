@@ -160,8 +160,7 @@ window.session = {
         session.storage.account.username = response.username;
         session.update();
         // load additional profiles
-        session.load_profiles();
-        callback.success();
+        session.load_profiles(callback);
       },
       error: callback.error,
     });
@@ -172,12 +171,13 @@ window.session = {
     });
   },
 
-  load_profiles: function () {
+  load_profiles: function (callback) {
     try {
       service.profiles({
         success: function (response) {
           session.storage.profiles = response.profiles;
           session.update();
+          callback && callback.success();
         }
       });
 
