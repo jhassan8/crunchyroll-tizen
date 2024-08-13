@@ -1,4 +1,5 @@
-const { app, components, BrowserWindow } = require("electron");
+const { app, components, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -8,6 +9,7 @@ function createWindow() {
       nodeIntegration: false,
       webSecurity: false,
       contextIsolation: true,
+      preload: path.join(__dirname, "./preload.js"),
     },
   });
   // disable alt for menu bar
@@ -21,6 +23,10 @@ function createWindow() {
   win.loadFile("./static/build/index.html", {
     userAgent:
       "Mozilla/5.0 (SMART-TV; LINUX; Tizen 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/5.0 TV Safari/537.36",
+  });
+
+  ipcMain.on("exitApp", () => {
+    app.quit();
   });
 }
 
