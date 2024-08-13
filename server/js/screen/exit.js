@@ -67,9 +67,11 @@ window.exit = {
       if (exit.logout) {
         session.clear();
       }
+      typeof electronUtilsRender != "undefined" && electronUtilsRender.exitApp();
       typeof tizen != "undefined" && tizen.application.getCurrentApplication().exit();
     } else {
       exit.destroy();
     }
   },
 };
+ 
