@@ -38,6 +38,10 @@ window.tvKey = {
   KEY_ESCAPE: 27,
 };
 
+window.keyboardKey = {
+  KEY_BACKSPACE: 8,
+};
+
 [
   "MediaPause",
   "MediaPlay",
