@@ -58,7 +58,7 @@ window.keyboard = {
   number: false,
 
   init: function (element, send) {
-    keyboard.selected = [0, 0];
+    keyboard.selected = [3, 2];
     keyboard.input = element;
     keyboard.send = send;
     keyboard.alpha = false;
@@ -116,7 +116,7 @@ window.keyboard = {
     }
   },
 
-  keyDown: function (event) {
+  keyDown: function (event) {  
     switch (event.keyCode) {
       case tvKey.IS_KEY_BACK(event.keyCode):
         keyboard.destroy();
@@ -164,6 +164,13 @@ window.keyboard = {
       case tvKey.KEY_ENTER:
         keyboard.action(keyboard.selected);
         break;
+      case keyboardKey.KEY_BACKSPACE:
+        keyboard.action([2,9]);
+        break;
+    }
+    
+    if(event.key.length == 1) {
+      keyboard.input.value = keyboard.input.value + event.key;
     }
   },
 
