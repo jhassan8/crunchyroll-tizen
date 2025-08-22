@@ -262,7 +262,7 @@ window.service = {
         var headers = new Headers();
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-        fetch(`${service.api.drm}/v1/${request.data.id}/web/firefox/play`, {
+        fetch(`${service.api.drm}/v1/${request.data.id}/tv/samsung/play`, {
           headers: headers,
         })
           .then((response) => response.json())
