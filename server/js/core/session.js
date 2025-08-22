@@ -257,7 +257,9 @@ window.session = {
     var profiles = session.storage.profiles;
 
     for (var i = 0; i < profiles.length; i++) {
-      var { is_selected, username, profile_name } = profiles[i];
+      var is_selected = profiles[i].is_selected;
+      var profile_name = profiles[i].profile_name;
+      var username = profiles[i].username;
 
       if (is_selected) {
         return profile_name ? profile_name : username;

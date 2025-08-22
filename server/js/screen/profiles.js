@@ -25,7 +25,7 @@ window.profilesScreen = {
     main.state = profilesScreen.id;
   },
 
-  destroy() {
+  destroy: function() {
     document.body.removeChild(document.getElementById(profilesScreen.id));
   },
 
@@ -33,20 +33,21 @@ window.profilesScreen = {
     const profiles = session.storage.profiles;
 
     return profiles.map((profile) => {
-      const { is_selected, profile_name, profile_id, avatar } = profile;
+      var is_selected = profile.is_selected;
+      var profile_name = profile.profile_name;
+      var profile_id = profile.profile_id;
+      var avatar = profile.avatar || "0001-cr-white-orange.png";
 
       return `<li class="${
         is_selected ? "selected active" : ""
       }" id="${profile_id}">
-        <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
-          avatar || "0001-cr-white-orange.png"
-        }"/>
+        <img src="https://static.crunchyroll.com/assets/avatar/170x170/${avatar}"/>
         <span>${profile_name.trim().toUpperCase()}</span>
       </li>`;
     });
   },
 
-  keyDown(event) {
+  keyDown: function(event) {
     switch (event.keyCode) {
       case tvKey.KEY_RIGHT:
         var options = $(".options li");
