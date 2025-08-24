@@ -367,7 +367,7 @@ window.service = {
   },
 
   intro: function (request) {
-    fetch(`${service.api.static}/datalab-intro-v2/${request.data.id}.json`)
+    fetch(`${service.api.static}/skip-events/production/${request.data.id}.json`)
       .then((response) => response.json())
       .then((json) => request.success(json))
       .catch((error) => request.error(error));

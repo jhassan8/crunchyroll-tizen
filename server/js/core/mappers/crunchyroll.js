@@ -283,11 +283,13 @@ window.mapper = {
           title = item.episode_metadata.series_title;
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
+          var categories = item.episode_metadata.tenant_categories;
         } else if (item.type == "movie") {
           var duration = Math.round(item.movie_metadata.duration_ms / 60000);
           display = "episode";
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
+          var categories = item.movie_metadata.tenant_categories ? item.movie_metadata.tenant_categories : [];
         } else {
           var background = item.images.poster_wide[0][4].source;
           var poster = item.images.poster_tall[0][2].source;
@@ -303,6 +305,7 @@ window.mapper = {
           title,
           description: item.description,
           type: item.type,
+          categories: categories,
         };
       });
     } catch (error) {

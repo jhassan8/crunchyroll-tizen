@@ -42,6 +42,7 @@ window.video = {
   audios: [],
   audio: null,
   intro: null,
+  credits: null,
   streams: [],
   timers: {
     history: {
@@ -127,7 +128,7 @@ window.video = {
       <div class="next-episode">
         <div class="next-episode-image">
           <img id="next-episode-image">
-          <div id="next-episode-count">${video.next.time}</div>
+          <div id="next-episode-count"></div>
         </div>
       </div>
 
@@ -447,14 +448,25 @@ window.video = {
         id,
       },
       success: function (data) {
-        if (data.duration && data.duration > 10) {
+        if (data.intro && data.intro.end) {
           video.intro = {
-            start: data.startTime + 2,
-            end: data.endTime - 2,
+            start: data.intro.start,
+            end: data.intro.end,
             state: false,
           };
         } else {
           video.intro = null;
+        }
+
+        if (data.credits && data.credits.end) {
+          video.credits = {
+            start: data.credits.start,
+            end: data.credits.end,
+            state: false,
+          };
+          document.getElementById("next-episode-count").innerText = video.credits.end - video.credits.start;
+        } else {
+          video.credits = null;
         }
       },
       error: function (error) {
@@ -531,7 +543,6 @@ window.video = {
     clearInterval(video.timers.next);
     video.next.status = false;
     video.next.episode = null;
-    document.getElementById("next-episode-count").innerText = video.next.time;
     $(".next-episode").hide();
   },
 
@@ -702,7 +713,7 @@ window.video = {
     if (
       !video.next.shown &&
       player.state === player.states.PLAYING &&
-      time >= totalTime - (video.next.time + 2)
+      time >= video.credits.start
     ) {
       video.nextEpisode();
     }
