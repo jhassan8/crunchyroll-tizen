@@ -136,6 +136,10 @@ window.video = {
         <i class="fa-solid fa-forward"></i>
         ${translate.go("video.skip")}
       </div>
+      <div id="subtitle-overlay">
+        <div id="subtitle-overlay-en"></div>
+        <div id="subtitle-overlay-ja"></div>
+      </div>
 
       <div class="settings-slide">
         <div id="languages-content">
@@ -170,6 +174,9 @@ window.video = {
     video.streams = [];
     video.speed.state = false;
     video.speed.active = 1;
+    if (window.subtitleTranslate) {
+      subtitleTranslate.stop();
+    }
   },
 
   keyDown: function (event) {
@@ -388,14 +395,19 @@ window.video = {
           }
 
           if (!forceSubtitle) {
-            video.subtitle = data.hardSubs[session.storage.account.language]
-              ? session.storage.account.language
-              : "Disabled";
-            video.subtitle =
-              video.subtitle === "Disabled" &&
-              data.hardSubs[session.storage.account.audio]
-                ? session.storage.account.audio
-                : video.subtitle;
+            var isDub = video.audio && String(video.audio).indexOf("ja") !== 0;
+            if (isDub) {
+              video.subtitle = "CR-EN";
+            } else {
+              video.subtitle = data.hardSubs[session.storage.account.language]
+                ? session.storage.account.language
+                : "Disabled";
+              video.subtitle =
+                video.subtitle === "Disabled" &&
+                data.hardSubs[session.storage.account.audio]
+                  ? session.storage.account.audio
+                  : video.subtitle;
+            }
           } else {
             video.subtitle = forceSubtitle;
           }
@@ -407,13 +419,33 @@ window.video = {
             : [];
 
           video.subtitles.unshift({ name: "Disabled", url: data.url });
+          video.subtitles.push({
+            name: "CR-EN",
+            url: data.url,
+            overlay: "official-en",
+          });
           var subtitleIndex = video.subtitles.findIndex(
             (e) => e.name === video.subtitle
           );
+          if (subtitleIndex < 0) {
+            subtitleIndex = 0;
+          }
+
+          var selectedSub = video.subtitles[subtitleIndex];
+          if (selectedSub.overlay) {
+            subtitleTranslate.start({
+              mode: selectedSub.overlay,
+              playData: data,
+              versions: video.audios,
+              episodeId: item.id,
+            });
+          } else {
+            subtitleTranslate.stop();
+          }
 
           player.play(
             { token: data.token, id: item.id },
-            video.subtitles[subtitleIndex].url,
+            selectedSub.url,
             item.playhead === item.duration ? 0 : item.playhead,
             noplay
           );
@@ -521,7 +553,7 @@ window.video = {
     video.subtitles.forEach((element) => {
       subtitles += `<li class="option${
         element.name === video.subtitle ? " active" : ""
-      }">${session.languages.subtitles[element.name]}</li>`;
+      }">${session.languages.subtitles[element.name] || element.name}</li>`;
     });
 
     document.getElementById("subtitles").innerHTML = subtitles;
@@ -709,6 +741,9 @@ window.video = {
     var timePercent = (100 * time) / totalTime;
 
     video.intro && video.showSkip(time);
+    if (window.subtitleTranslate && subtitleTranslate.enabled) {
+      subtitleTranslate.sync(time);
+    }
 
     if (
       !video.next.shown &&
