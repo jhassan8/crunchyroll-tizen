@@ -395,14 +395,19 @@ window.video = {
           }
 
           if (!forceSubtitle) {
-            video.subtitle = data.hardSubs[session.storage.account.language]
-              ? session.storage.account.language
-              : "Disabled";
-            video.subtitle =
-              video.subtitle === "Disabled" &&
-              data.hardSubs[session.storage.account.audio]
-                ? session.storage.account.audio
-                : video.subtitle;
+            var isDub = video.audio && String(video.audio).indexOf("ja") !== 0;
+            if (isDub) {
+              video.subtitle = "CR-EN";
+            } else {
+              video.subtitle = data.hardSubs[session.storage.account.language]
+                ? session.storage.account.language
+                : "Disabled";
+              video.subtitle =
+                video.subtitle === "Disabled" &&
+                data.hardSubs[session.storage.account.audio]
+                  ? session.storage.account.audio
+                  : video.subtitle;
+            }
           } else {
             video.subtitle = forceSubtitle;
           }
@@ -418,11 +423,6 @@ window.video = {
             name: "CR-EN",
             url: data.url,
             overlay: "official-en",
-          });
-          video.subtitles.push({
-            name: "Signs",
-            url: data.url,
-            overlay: "signs",
           });
           var subtitleIndex = video.subtitles.findIndex(
             (e) => e.name === video.subtitle

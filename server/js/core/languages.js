@@ -364,7 +364,6 @@ window.languages = {
         audios: "Audios",
         subtitles: "Subtitles",
         cr_en: "English (sub track on this audio)",
-        signs: "On-screen text",
       },
     },
     settings: {

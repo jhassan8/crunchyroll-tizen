@@ -1,16 +1,6 @@
 window.subtitleTranslate = {
   enabled: false,
   mode: "off",
-  sourceLang: "ja",
-  targetLang: "en",
-  /**
-   * Used only for OCR'd on-screen Japanese, not for official CR cues.
-   * "mymemory" needs no key. "deepl" / "google" need apiKey.
-   */
-  provider: "mymemory",
-  apiKey: "YOUR_API_KEY_HERE",
-  ocrApiKey: "YOUR_OCR_API_KEY_HERE",
-  cache: {},
   cues: [],
   cueIndex: 0,
   lastText: "",
@@ -19,9 +9,6 @@ window.subtitleTranslate = {
   translatedEl: null,
   nativeTracks: [],
   onCueChange: null,
-  ocrBlocked: false,
-  ocrTimer: NaN,
-  lastOcrText: "",
 
   interceptSubtitleText: function (originalText) {
     var text = subtitleTranslate.cleanText(originalText);
@@ -30,97 +17,11 @@ window.subtitleTranslate = {
       return Promise.resolve("");
     }
     if (text === subtitleTranslate.lastText) {
-      return Promise.resolve(subtitleTranslate.cache[text] || text);
-    }
-    subtitleTranslate.lastText = text;
-    if (subtitleTranslate.mode === "official-en") {
-      subtitleTranslate.show(text, "");
       return Promise.resolve(text);
     }
-    return subtitleTranslate.fetchTranslation(text).then(function (translated) {
-      subtitleTranslate.show(translated, text);
-      return translated;
-    });
-  },
-
-  fetchTranslation: function (text) {
-    if (subtitleTranslate.cache[text]) {
-      return Promise.resolve(subtitleTranslate.cache[text]);
-    }
-
-    var request;
-    if (subtitleTranslate.provider === "deepl") {
-      request = fetch("https://api-free.deepl.com/v2/translate", {
-        method: "POST",
-        headers: {
-          Authorization: "DeepL-Auth-Key " + subtitleTranslate.apiKey,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: [text],
-          source_lang: subtitleTranslate.sourceLang.toUpperCase(),
-          target_lang: subtitleTranslate.targetLang.toUpperCase(),
-        }),
-      })
-        .then(function (res) {
-          return res.json();
-        })
-        .then(function (json) {
-          return json.translations && json.translations[0]
-            ? json.translations[0].text
-            : text;
-        });
-    } else if (subtitleTranslate.provider === "google") {
-      request = fetch(
-        "https://translation.googleapis.com/language/translate/v2?key=" +
-          encodeURIComponent(subtitleTranslate.apiKey),
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            q: text,
-            source: subtitleTranslate.sourceLang,
-            target: subtitleTranslate.targetLang,
-            format: "text",
-          }),
-        }
-      )
-        .then(function (res) {
-          return res.json();
-        })
-        .then(function (json) {
-          return json.data && json.data.translations && json.data.translations[0]
-            ? json.data.translations[0].translatedText
-            : text;
-        });
-    } else {
-      request = fetch(
-        "https://api.mymemory.translated.net/get?langpair=" +
-          encodeURIComponent(
-            subtitleTranslate.sourceLang + "|" + subtitleTranslate.targetLang
-          ) +
-          "&q=" +
-          encodeURIComponent(text)
-      )
-        .then(function (res) {
-          return res.json();
-        })
-        .then(function (json) {
-          return json.responseData && json.responseData.translatedText
-            ? json.responseData.translatedText
-            : text;
-        });
-    }
-
-    return request
-      .then(function (translated) {
-        subtitleTranslate.cache[text] = translated;
-        return translated;
-      })
-      .catch(function (error) {
-        console.log("subtitle translate failed", error);
-        return text;
-      });
+    subtitleTranslate.lastText = text;
+    subtitleTranslate.show(text, "");
+    return Promise.resolve(text);
   },
 
   ensureOverlay: function () {
@@ -162,16 +63,12 @@ window.subtitleTranslate = {
     subtitleTranslate.stop();
     subtitleTranslate.enabled = true;
     subtitleTranslate.mode = options.mode || "official-en";
-    subtitleTranslate.ocrBlocked = false;
     subtitleTranslate.ensureOverlay();
     subtitleTranslate.resolveSoftUrl(options, function (url) {
       if (url) {
         subtitleTranslate.loadSoftTrack(url);
       }
     });
-    if (subtitleTranslate.mode === "signs") {
-      subtitleTranslate.startOcrWatch();
-    }
   },
 
   stop: function () {
@@ -179,8 +76,6 @@ window.subtitleTranslate = {
     subtitleTranslate.mode = "off";
     subtitleTranslate.cues = [];
     subtitleTranslate.cueIndex = 0;
-    subtitleTranslate.lastOcrText = "";
-    clearInterval(subtitleTranslate.ocrTimer);
     subtitleTranslate.detachNativeTracks();
     subtitleTranslate.hide();
   },
@@ -268,16 +163,15 @@ window.subtitleTranslate = {
         })
         .join("\n");
       var cleaned = subtitleTranslate.cleanText(text);
-      cues.push({
-        start: subtitleTranslate.parseTimestamp(times[0]),
-        end: subtitleTranslate.parseTimestamp(times[1]),
-        text: cleaned,
-        isSign: subtitleTranslate.isSignCue("", cleaned),
-      });
+      if (cleaned) {
+        cues.push({
+          start: subtitleTranslate.parseTimestamp(times[0]),
+          end: subtitleTranslate.parseTimestamp(times[1]),
+          text: cleaned,
+        });
+      }
     }
-    return cues.filter(function (cue) {
-      return cue.text;
-    });
+    return cues;
   },
 
   parseSrt: function (body) {
@@ -296,27 +190,13 @@ window.subtitleTranslate = {
       if (parts.length < 10) {
         continue;
       }
-      var style = parts[3] || "";
-      var text = subtitleTranslate.cleanText(parts.slice(9).join(","));
       cues.push({
         start: subtitleTranslate.parseTimestamp(parts[1]),
         end: subtitleTranslate.parseTimestamp(parts[2]),
-        style: style,
-        text: text,
-        isSign: subtitleTranslate.isSignCue(style, text),
+        text: subtitleTranslate.cleanText(parts.slice(9).join(",")),
       });
     }
     return cues;
-  },
-
-  isSignCue: function (style, text) {
-    var styleName = String(style || "").toLowerCase();
-    if (
-      /sign|caption|screen|title|onscreen|overlap|note|song/.test(styleName)
-    ) {
-      return true;
-    }
-    return /[\u3040-\u30ff\u4e00-\u9faf]/.test(text || "");
   },
 
   parseTimestamp: function (value) {
@@ -353,114 +233,24 @@ window.subtitleTranslate = {
     var active = subtitleTranslate.activeCue(time);
     if (active) {
       subtitleTranslate.interceptSubtitleText(active.text);
-    } else if (subtitleTranslate.mode !== "signs" && subtitleTranslate.lastText) {
+    } else if (subtitleTranslate.lastText) {
       subtitleTranslate.hide();
     }
   },
 
   activeCue: function (time) {
     var cues = subtitleTranslate.cues;
-    var matchMode = function (cue) {
-      return subtitleTranslate.mode === "signs" ? cue.isSign : true;
-    };
     var index = subtitleTranslate.cueIndex;
-    if (
-      cues[index] &&
-      matchMode(cues[index]) &&
-      time >= cues[index].start &&
-      time <= cues[index].end
-    ) {
+    if (cues[index] && time >= cues[index].start && time <= cues[index].end) {
       return cues[index];
     }
     for (var i = 0; i < cues.length; i++) {
-      if (matchMode(cues[i]) && time >= cues[i].start && time <= cues[i].end) {
+      if (time >= cues[i].start && time <= cues[i].end) {
         subtitleTranslate.cueIndex = i;
         return cues[i];
       }
     }
     return null;
-  },
-
-  startOcrWatch: function () {
-    clearInterval(subtitleTranslate.ocrTimer);
-    subtitleTranslate.ocrTimer = setInterval(function () {
-      if (!subtitleTranslate.enabled || subtitleTranslate.mode !== "signs") {
-        return;
-      }
-      if (subtitleTranslate.ocrBlocked) {
-        return;
-      }
-      var time = player.getPlayed && player.getPlayed();
-      if (subtitleTranslate.activeCue(time)) {
-        return;
-      }
-      subtitleTranslate.captureOnscreenText();
-    }, 2500);
-  },
-
-  captureOnscreenText: function () {
-    var videoEl = player.getVideo && player.getVideo();
-    if (!videoEl || videoEl.readyState < 2) {
-      return;
-    }
-    var canvas = document.createElement("canvas");
-    canvas.width = 640;
-    canvas.height = 360;
-    try {
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
-      var dataUrl = canvas.toDataURL("image/jpeg", 0.6);
-      subtitleTranslate.sendOcr(dataUrl);
-    } catch (error) {
-      subtitleTranslate.ocrBlocked = true;
-      console.log(
-        "On-screen OCR cannot read this Widevine video frame (canvas is tainted)."
-      );
-    }
-  },
-
-  sendOcr: function (dataUrl) {
-    if (
-      !subtitleTranslate.ocrApiKey ||
-      subtitleTranslate.ocrApiKey.indexOf("YOUR_") === 0
-    ) {
-      return;
-    }
-    var payload = new FormData();
-    payload.append("base64Image", dataUrl);
-    payload.append("language", "jpn");
-    payload.append("isOverlayRequired", "false");
-    payload.append("OCREngine", "2");
-    payload.append("apikey", subtitleTranslate.ocrApiKey);
-
-    fetch("https://api.ocr.space/parse/image", {
-      method: "POST",
-      body: payload,
-    })
-      .then(function (res) {
-        return res.json();
-      })
-      .then(function (json) {
-        var parsed =
-          json.ParsedResults &&
-          json.ParsedResults[0] &&
-          json.ParsedResults[0].ParsedText;
-        var text = subtitleTranslate.cleanText(parsed);
-        if (!text || !/[\u3040-\u30ff\u4e00-\u9faf]/.test(text)) {
-          if (!subtitleTranslate.activeCue(player.getPlayed())) {
-            subtitleTranslate.hide();
-          }
-          return;
-        }
-        if (text === subtitleTranslate.lastOcrText) {
-          return;
-        }
-        subtitleTranslate.lastOcrText = text;
-        subtitleTranslate.interceptSubtitleText(text);
-      })
-      .catch(function (error) {
-        console.log("ocr failed", error);
-      });
   },
 
   attachPlayer: function (mediaPlayer, videoEl) {
@@ -543,27 +333,6 @@ window.subtitleTranslate = {
       var keys = Object.keys(group);
       for (var i = 0; i < keys.length; i++) {
         if (keys[i].indexOf("en") === 0 && group[keys[i]].url) {
-          return group[keys[i]].url;
-        }
-      }
-    }
-    return null;
-  },
-
-  pickJapaneseSoftUrl: function (data) {
-    var groups = [data.subtitles, data.captions, data.softSubs];
-    for (var g = 0; g < groups.length; g++) {
-      var group = groups[g];
-      if (!group) {
-        continue;
-      }
-      var preferred = group["ja-JP"] || group["ja"] || group.jaJP;
-      if (preferred && preferred.url) {
-        return preferred.url;
-      }
-      var keys = Object.keys(group);
-      for (var i = 0; i < keys.length; i++) {
-        if (keys[i].indexOf("ja") === 0 && group[keys[i]].url) {
           return group[keys[i]].url;
         }
       }
