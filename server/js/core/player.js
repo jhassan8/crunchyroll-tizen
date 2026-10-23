@@ -112,6 +112,9 @@ window.player = {
         }
 
         player.plugin.initialize(player.getVideo(), url, true);
+        if (window.subtitleTranslate && subtitleTranslate.enabled) {
+          subtitleTranslate.attachPlayer(player.plugin, player.getVideo());
+        }
 
         var drmConfig = {
           "com.widevine.alpha": {
@@ -294,6 +297,8 @@ window.player = {
   },
 
   onsubtitlechange: function (duration, text, type, attriCount, attributes) {
-    console.log("onsubtitlechange");
+    if (window.subtitleTranslate && subtitleTranslate.enabled) {
+      subtitleTranslate.interceptSubtitleText(text);
+    }
   },
 };

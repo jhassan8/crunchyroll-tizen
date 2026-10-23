@@ -49,6 +49,9 @@ window.session = {
       success: function (response) {
         session.languages.subtitles = response;
         session.languages.subtitles["Disabled"] = "Disabled";
+        session.languages.subtitles["CR-EN"] =
+          "English (sub track on this audio)";
+        session.languages.subtitles["Signs"] = "On-screen text";
       },
       error: function (error) {
         console.log(error);
